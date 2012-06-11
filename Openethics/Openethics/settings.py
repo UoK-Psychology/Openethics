@@ -105,15 +105,21 @@ ROOT_URLCONF = 'Openethics.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'Openethics.wsgi.application'
 
+
+# Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+# Always use forward slashes, even on Windows.
+# Don't forget to use absolute paths, not relative paths.
+# Added global addressing folder
+    
+import os
+dirname = os.path.dirname(globals()["__file__"])
 TEMPLATE_DIRS = (
+     
+     os.path.join(dirname, '../registration/'),            
+     #'/Users/pp239/GitHub/Openethics/Openethics/Openethics/',          
                  
-     '/Users/mzd2/GitHub/Openethics/Openethics/Openethics/',          
-                 
-                 
-                 
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+                            
+    
 )
 
 INSTALLED_APPS = (
@@ -130,6 +136,7 @@ INSTALLED_APPS = (
     
     #import registration module n setup jmtest_registration for the apps!
     'registration',
+    'profile',
     
     
     
