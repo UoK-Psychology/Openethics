@@ -1,4 +1,4 @@
-# Django settings for Openethics project.
+# Django settings for jmtest project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -11,8 +11,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'C:\\sqlite\\Openethics\\sqlite.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -81,7 +81,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'hiw9*)c8@k&amp;%=1r)t#rs@uc073j3hyop5nyi_r!8lpvnqndq2n'
+SECRET_KEY = 'v1znj^p-t!2f1l_%4^$8zwhuty7@m=*2i88c)(4vnnxztcm3a)'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -106,6 +106,11 @@ ROOT_URLCONF = 'Openethics.urls'
 WSGI_APPLICATION = 'Openethics.wsgi.application'
 
 TEMPLATE_DIRS = (
+                 
+     '/Users/mzd2/GitHub/Openethics/Openethics/Openethics/',          
+                 
+                 
+                 
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -119,10 +124,24 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    
+    #import registration module n setup jmtest_registration for the apps!
+    'registration',
+    
+    
+    
+    
+    
+    
 )
+
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
+
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -152,3 +171,17 @@ LOGGING = {
         },
     }
 }
+
+
+
+
+#THIS IS FOR EMAIL SETTING
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'testing@example.com'
+
+
