@@ -115,11 +115,10 @@ import os
 dirname = os.path.dirname(globals()["__file__"])
 TEMPLATE_DIRS = (
      
-     os.path.join(dirname, '../registration/'),            
+     #os.path.join(dirname, './registration/'),
+     os.path.join(dirname),            
      #'/Users/pp239/GitHub/Openethics/Openethics/Openethics/',          
                  
-                            
-    
 )
 
 INSTALLED_APPS = (
@@ -136,7 +135,6 @@ INSTALLED_APPS = (
     
     #import registration module n setup jmtest_registration for the apps!
     'registration',
-    'profile',
     
     
     
