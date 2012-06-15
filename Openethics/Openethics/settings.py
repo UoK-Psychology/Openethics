@@ -27,7 +27,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Europe/London'#'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -115,12 +115,12 @@ import os
 dirname = os.path.dirname(globals()["__file__"])
 TEMPLATE_DIRS = (
      
-     os.path.join(dirname, '../registration/'),            
-     #'/Users/pp239/GitHub/Openethics/Openethics/Openethics/',          
-                 
-                            
-    
+     os.path.join(dirname),            
+               
 )
+
+# provide get_profile()
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -134,21 +134,16 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     
+    #'account',
+    #'Openethics',
+    
     #import registration module n setup jmtest_registration for the apps!
     'registration',
-    'profile',
-    
-    
-    
-    
-    
+    'basic.profiles',
     
 )
 
-
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
-
-
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -184,11 +179,11 @@ LOGGING = {
 
 #THIS IS FOR EMAIL SETTING
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
+DEFAULT_FROM_EMAIL = 'pandu.purbasany@gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'pandu.purbasany@gmail.com'
 EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'testing@example.com'
+EMAIL_USE_TLS = True 
+EMAIL_PORT = "587"
 
 
