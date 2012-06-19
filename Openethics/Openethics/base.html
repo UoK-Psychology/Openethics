@@ -23,10 +23,17 @@
         <hr />
         {% endblock %}
     </div>
-
-    <div id="content">
+    
+ <div id="body">
+    {% block body %}
+      <div class="content_title">
+        {% block content_title %}{% endblock %}
+      </div>
+      <div class="content">
         {% block content %}{% endblock %}
-    </div>
+      </div>
+    {% endblock %}
+  </div>
 
     <div id="footer">
         {% block footer %}
