@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     #import registration module n setup jmtest_registration for the apps!
     'registration',
     
-    
+    'basic.profiles',
     
     
     

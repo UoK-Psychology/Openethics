@@ -2,6 +2,9 @@
 Created on 15 Jun 2012
 
 @author: pp239
+
+
+THIS IS THE SAMPLE CODE THAT SHOWS HOW TO OVERRIDE Django-registration!
 '''
 
 from django.conf import settings
