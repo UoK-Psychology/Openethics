@@ -2,5 +2,18 @@
 
 {% load i18n %}
 
-{% block title %}Welcome {{ object.user.get_full_name }} , below are the list of features available for you!{% endblock %}
+{% block title %}Page for {{ object.user.get_full_name }} {% endblock %}
 
+
+
+{% block content %}
+<h1>Dashboard</h1>
+<ul>
+
+<li><a href={% url profile_edit %}>Profile Edit</a></li>
+<li><a href={{ user.username }}>Profile Detail</a></li>
+</ul>
+
+
+
+{% endblock %}
