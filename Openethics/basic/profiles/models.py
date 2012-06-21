@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import permalink
 from django.contrib.auth.models import User
 from django.contrib.localflavor.us.models import PhoneNumberField
-
+from registration.signals import *
 
 class Profile(models.Model):
     """Profile model"""
@@ -33,7 +33,15 @@ class Profile(models.Model):
         db_table = 'user_profiles'
 
     def __unicode__(self):
-        return u"%s" % self.user.get_full_name()
+        #return u"%s" % self.user.get_full_name()
+        return self.user.username
+    
+    #to allow auto create profile
+    def createProfile(sender, user, request, **kwargs):
+        print "creating profile"
+        Profile.objects.get_or_create(user=user)
+        
+    user_registered.connect(createProfile)
 
     @property
     def age(self):
