@@ -41,6 +41,10 @@ class Profile(models.Model):
         print "creating profile"
         Profile.objects.get_or_create(user=user)
         
+     '''
+     This is the signals that gets activated
+     its imported from Python/Lib/site-packages/registration/signals.py
+     '''   
     user_registered.connect(createProfile)
 
     @property
