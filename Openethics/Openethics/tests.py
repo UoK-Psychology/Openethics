@@ -16,4 +16,13 @@ class index_test(TestCase):
         #self.assertEqual(resp.templates[0].name, '404.html', 'The standard 404 template should be used')
 
 
-   
+    def test_profile_index(self):
+        resp = self.client.get('/accounts/profile/')
+        self.assertEqual(resp.status_code, 200, 'Index page should be shown')
+        #self.assertEqual(resp.templates[0].name, '404.html', 'The standard 404 template should be used')
+        
+    def test_login_page(self):
+        resp = self.client.get('/accounts/login/')
+        self.assertEqual(resp.status_code, 200, 'Index page should be shown')
+        
+    
