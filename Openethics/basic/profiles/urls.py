@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 
 
 urlpatterns = patterns('basic.profiles.views',
@@ -11,7 +12,9 @@ urlpatterns = patterns('basic.profiles.views',
         name='profile_detail',
     ),
     url (r'^$',
-        view='profile_list',
-        name='profile_list',
+         direct_to_template,
+          { 'template': 'profile_index.html' }, 'profileindex'
+         #view='profile_list',
+         #name='profile_list',
     ),
 )
