@@ -17,7 +17,7 @@ urlpatterns = patterns('',
       url(r'^admin/', include(admin.site.urls)),
       
     # This is for overiding from outside apps  
-      url(r'^accounts/', include('Openethics.my_registration_urls')),
+      #url(r'^accounts/', include('Openethics.my_registration_urls')),
       
     # This url redirect to registration default backend    
       (r'^accounts/', include('registration.backends.default.urls')),

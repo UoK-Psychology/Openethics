@@ -5,9 +5,9 @@
 
 
 {% block content_title %}
-  <h2 id="user_name">{{ object.user.get_full_name }}
-    <em id="user_city">{{ object.city }}, {{ object.state }}</em></h2>
-  <h3 id="user_age_and_gender">{{ object.get_gender_display }}{% if object.age %}, {{ object.age }}{% endif %}</h3>
+  <h2 id="user_name">My name is what : {{ object.user.get_full_name }}
+    <em id="user_city">City : {{ object.city }}, {{ object.state }}</em></h2>
+  <h3 id="user_age_and_gender">Sex : {{ object.get_gender_display }} Age : {% if object.age %}, {{ object.age }}{% endif %}</h3>
 {% endblock %}
 
 
