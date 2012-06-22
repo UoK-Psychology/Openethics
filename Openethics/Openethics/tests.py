@@ -24,3 +24,5 @@ class index_test(TestCase):
     def test_login_page(self):
         resp = self.client.get('/accounts/login/')
         self.assertEqual(resp.status_code, 200, 'Index page should be shown')
+        
+    
