@@ -116,7 +116,7 @@ dirname = os.path.dirname(globals()["__file__"])
 TEMPLATE_DIRS = (
      
      
-     os.path.join(dirname),                    
+     os.path.join(dirname,'templates'),                    
     #TODO add a template path for the registration templates        
 )
 
