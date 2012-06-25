@@ -115,11 +115,9 @@ import os
 dirname = os.path.dirname(globals()["__file__"])
 TEMPLATE_DIRS = (
      
-     #os.path.join(dirname, './registration/'),
-     os.path.join(dirname),            
-     #'/Users/pp239/GitHub/Openethics/Openethics/Openethics/',
-     #'/Users/mzd2/GitHub/Openethics/Openethics/basic/profiles/templates/profiles/',          
-                 
+     
+     os.path.join(dirname),                    
+    #TODO add a template path for the registration templates        
 )
 
 INSTALLED_APPS = (
@@ -129,17 +127,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
     
-    #import registration module n setup jmtest_registration for the apps!
     'registration',
-    
     'basic.profiles',
-    
-    'Openethics',
     
     
 )
