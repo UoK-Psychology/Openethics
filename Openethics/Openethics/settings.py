@@ -1,5 +1,6 @@
 # Django settings for jmtest project.
 
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
