@@ -14,7 +14,5 @@ urlpatterns = patterns('basic.profiles.views',
     url (r'^$',
          direct_to_template,
           { 'template': 'profile_index.html' }, 'profileindex'
-         #view='profile_list',
-         #name='profile_list',
     ),
 )
