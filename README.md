@@ -35,4 +35,4 @@ There are two types of standardisation to be considered with respect to ethical 
 The second standardisation facet is the application. The system will come pre-configured to conform to the ESRC ethical review guidelines, allowing projects that must conform to these standards to do so. In addition individual schools can configure pre-application filters to the ESRC question set, tailoring their individual applications for their needs, so that researchers are not confused by questions that do not apply to them. 
 Finally, we will be engaging with the Association of the Research Ethics Committees, with the view of implementing a standardised application template, which can be used to facilitate simplified inter-institutional collaborations with those institutions using the Open Ethics system. 
 
-For more information, checkout our "project page":http://uok-psychology.github.com/Openethics/
+For more information, checkout our "Project Page":http://uok-psychology.github.com/Openethics/
