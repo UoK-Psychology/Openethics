@@ -1,3 +1,5 @@
+[!My image](http://uok-psychology.github.com/Openethics/images/OE4.png)
+
 Vision
 ============
 
