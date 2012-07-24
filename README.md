@@ -1,5 +1,6 @@
 ![My image](http://uok-psychology.github.com/Openethics/images/OE4.png)
 
+
 Vision
 ============
 
@@ -33,3 +34,5 @@ We understand that individual Schools have different needs when it comes to ethi
 There are two types of standardisation to be considered with respect to ethical review: process and application standardisation. Process standardisation will be inherently achieved within the institution if all Schools use the Open Ethics system. This has the major benefit of making collaborations between Schools simple, allowing a single application to be reviewed individually or jointly by multiple committees. An additional benefit of this standardisation is the enhanced reporting that will be made possible, allowing reports to be generated at the institutional as well as the local School level.
 The second standardisation facet is the application. The system will come pre-configured to conform to the ESRC ethical review guidelines, allowing projects that must conform to these standards to do so. In addition individual schools can configure pre-application filters to the ESRC question set, tailoring their individual applications for their needs, so that researchers are not confused by questions that do not apply to them. 
 Finally, we will be engaging with the Association of the Research Ethics Committees, with the view of implementing a standardised application template, which can be used to facilitate simplified inter-institutional collaborations with those institutions using the Open Ethics system. 
+
+For more information, checkout our "project page":http://uok-psychology.github.com/Openethics/
