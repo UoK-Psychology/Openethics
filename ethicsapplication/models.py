@@ -14,7 +14,7 @@ class EthicsApplication(models.Model):
     
     title = models.CharField(max_length=255)
     principle_investigator = models.ForeignKey(User ,related_name='pi')
-    application_form = models.ForeignKey(AnswerSet, related_name='application_form', blank=True, null=True)
+    application_form = models.ForeignKey(AnswerSet, related_name='application_form', blank=True)
     
     def __unicode__(self):
         return '%s, PI:%s' % (self.title, self.principle_investigator.username)

@@ -1,9 +1,6 @@
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from ethicsapplication.forms import EthicsApplicationForm
-from django.shortcuts import render_to_response
-from django.template.context import RequestContext
 
 
 #@login_required
@@ -16,13 +13,4 @@ def create_application(request):
         
         All valid users of the system should be able to create ethics applications.
     '''
-    
-    if request.method == 'POST':
-        pass
-    
-    else:
-        
-        form = EthicsApplicationForm()
-        
-    return render_to_response('ethicsapplication/create.html', {'form':form},
-                              context_instance=RequestContext(request))
+    return HttpResponse('create_application')
