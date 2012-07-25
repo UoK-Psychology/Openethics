@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 
 
-#@login_required
+@login_required
 def create_application(request):
     
     '''
