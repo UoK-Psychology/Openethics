@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     
     'registration',
     'basic.profiles',
+    'ethicsapplication',
     
     
 )
