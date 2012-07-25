@@ -1,1 +1,1 @@
-from registration import signals
+#from registrationsignals import signals

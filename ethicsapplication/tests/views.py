@@ -8,7 +8,7 @@ Created on Jul 25, 2012
 
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-from Openethics.ethicsapplication.forms import EthicsApplicationForm
+from ethicsapplication.forms import EthicsApplicationForm
 
 
 class ViewsTest(TestCase):
