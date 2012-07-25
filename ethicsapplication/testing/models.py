@@ -8,6 +8,9 @@ Created on Jul 25, 2012
 
 
 from django.test import TestCase
+from ethicsapplication.models import EthicsApplication
+from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 
 class ModelsTest(TestCase):
     
@@ -21,17 +24,22 @@ class ModelsTest(TestCase):
             3. No application
         
         '''
-        self.assert_(False, 'NOt yet implemented')
+        
+        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        ethicsApplication = EthicsApplication(title='test application', principle_investigator=a_user)
+        ethicsApplication.save()
+        
+        self.assertTrue(ethicsApplication.title == 'test application')
+        self.assertTrue(ethicsApplication.principle_investigator == a_user)
+        self.assertTrue(ethicsApplication.application_form == None)
 
-    def test_invalid_EthicsApplication_creation_no_title(self):
-        '''
-            If you don't supply a title then you will get an exception
-        '''
-        self.assert_(False, 'NOt yet implemented')
         
     def test_invalid_EthicsApplication_creation_no_pi(self):
         '''
             If you don't supply a principle investigator then you will get an exception
         '''
-        self.assert_(False, 'Not yet implemented')
+        ethicsApplication = EthicsApplication(title='test application')
+
+        self.assertRaises(IntegrityError, ethicsApplication.save)
+
         
