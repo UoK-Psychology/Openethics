@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from ethicsapplication.forms import EthicsApplicationForm
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 
 @login_required
@@ -16,7 +18,14 @@ def create_application(request):
         All valid users of the system should be able to create ethics applications.
     '''
     if request.method == 'POST':
-        pass
+        form  = EthicsApplicationForm(request.POST)
+        
+        if (form.is_valid()):
+            
+            new_application = form.save()
+            
+            return HttpResponseRedirect(reverse('application-view', {'application_id':new_application.id}))
+            
     
     else:
         

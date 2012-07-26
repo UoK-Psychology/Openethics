@@ -60,7 +60,7 @@ class ViewsTest(TestCase):
         applications = EthicsApplication.objects.all()
         
         self.assertTrue(len(applications) ==1)
-        self.assertRedirects(response, reverse('application-view', application=applications[0].id))
+        self.assertRedirects(response, reverse('application-view', {'application_id':applications[0].id}))
         
         
     def test_create_application_invalid_post(self):
