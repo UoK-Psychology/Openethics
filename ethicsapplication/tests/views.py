@@ -102,9 +102,50 @@ class ViewApplictionTestCase(TestCase):
     '''
     fixtures = ['ethics_application_tests_fixture.json']
     
+    
+        
+      
+    def test_valid_application_id_no_user(self):
+        '''
+            You must be logged in to use this view, if you aren't then you should be redirected to the
+            login page
+        '''
+        
+        url = reverse('application_view', kwargs={'application_id':1})
+        response = self.client.get(url)
+        self.assertRedirects(response, '/accounts/login/?next=%s' % url )
+        
     def test_invalid_application_id(self):
         '''
-            
+            If the object does not exist you should get a 404 response
         '''
-        self.assertTrue(False, 'Not yet implemented')
+        
+        self.client.login(username='test_user_1', password='password')   
+        response = self.client.get(reverse('application_view', kwargs={'application_id':10}))
+        self.assertEqual(response.status_code, 404)
+        
+    def test_valid_application_user_no_view_permission(self):
+        '''
+            You must be logged in and have the 'view' permission for the application that you are trying to view
+            if you don't have permission you will get a 403 error
+        '''
+        self.client.login(username='test_user_1', password='password')   
+        response = self.client.get(reverse('application_view', kwargs={'application_id':2}))
+        self.assertEqual(response.status_code, 403)
+        
+    def test_valid_application_user_with_view_permission(self):
+        '''
+            You must be logged in and have the 'view' permission for the application that you are trying to view.
+            With the correct user logged in you should:
+            1. get 200 http response
+            2. the remplate should be "view_ethics_application.html'
+            3. the context should contain a field called application containing the EthicsApplication object.
+        '''
+        
+        self.client.login(username='test_user_1', password='password')   
+        response = self.client.get(reverse('application_view', kwargs={'application_id':1}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed('view_ethics_application.html') 
+        self.assertTrue('application' in response.context)
+        self.assertIsInstance(response.context['application'], EthicsApplication)
     
