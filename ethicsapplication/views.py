@@ -1,10 +1,16 @@
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from ethicsapplication.forms import EthicsApplicationForm
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from ethicsapplication.models import EthicsApplication
+from permissions.utils import has_permission, add_local_role
+from django.core.exceptions import PermissionDenied
+from permissions.models import Role
+from workflows.utils import set_workflow
+from workflows.models import Workflow
 
 
 
@@ -28,6 +34,11 @@ def create_application(request):
             new_application.principle_investigator = request.user
             new_application.save()
             
+            principle_investigator_role = Role.objects.get(name='Principle_Investigator')
+            add_local_role(new_application, request.user, principle_investigator_role)
+            approval_workflow = Workflow.objects.get(name='Ethics_Application_Approval')
+            set_workflow(new_application, approval_workflow)
+            
             return HttpResponseRedirect(reverse('application_view', kwargs={'application_id':new_application.id}))
             
     
@@ -37,7 +48,16 @@ def create_application(request):
         
     return render_to_response('ethicsapplication/create.html', {'form':form},
                               context_instance=RequestContext(request))
-    
+
+@login_required
 def view_application(request, application_id):
+    
+    ethics_application = get_object_or_404(EthicsApplication,pk=application_id)
+    
+    if has_permission(ethics_application, request.user, 'view'):
+        return render_to_response('ethicsapplication/view_ethics_application.html', {'application':ethics_application},
+                              context_instance=RequestContext(request))
+    else:
+        raise PermissionDenied()
     
     return HttpResponse('view application')
