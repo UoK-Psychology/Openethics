@@ -45,5 +45,70 @@
       },
     "model" : "ethicsapplication.ethicsapplication",
     "pk" : 2
+  },
+  
+  { "fields" : { "content_id" : 1,
+        "content_type" : 16,
+        "state" : 1
+      },
+    "model" : "workflows.stateobjectrelation",
+    "pk" : 1
+  },
+  { "fields" : { "content_id" : 1,
+        "content_type" : 16,
+        "workflow" : 1
+      },
+    "model" : "workflows.workflowobjectrelation",
+    "pk" : 1
+  },
+  { "fields" : { "content_id" : 1,
+        "content_type" : 16,
+        "permission" : 1,
+        "role" : 1
+      },
+    "model" : "permissions.objectpermission",
+    "pk" : 1
+  },
+  { "fields" : { "content_id" : 1,
+        "content_type" : 16,
+        "permission" : 2,
+        "role" : 1
+      },
+    "model" : "permissions.objectpermission",
+    "pk" : 2
+  },
+  { "fields" : { "content_id" : 1,
+        "content_type" : 16,
+        "permission" : 3,
+        "role" : 1
+      },
+    "model" : "permissions.objectpermission",
+    "pk" : 3
+  },
+  { "fields" : { "content_id" : 1,
+        "content_type" : 16,
+        "permission" : 5,
+        "role" : 1
+      },
+    "model" : "permissions.objectpermission",
+    "pk" : 4
+  },
+  { "fields" : { "content_id" : 1,
+        "content_type" : 16,
+        "permission" : 3,
+        "role" : 2
+      },
+    "model" : "permissions.objectpermission",
+    "pk" : 5
+  },
+  
+  { "fields" : { "content_id" : 1,
+        "content_type" : 16,
+        "group" : null,
+        "role" : 1,
+        "user" : 2
+      },
+    "model" : "permissions.principalrolerelation",
+    "pk" : 1
   }
 ]
