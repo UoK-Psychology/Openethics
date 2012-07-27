@@ -6,6 +6,6 @@ urlpatterns = patterns('ethicsapplication.views',
           view ='create_application', 
           name='create_application_view'), #creation view
       url(r'^view/(?P<application_id>\d+)$',
-          view ='create_application', 
+          view ='view_application', 
           name='application_view'), #view
 )

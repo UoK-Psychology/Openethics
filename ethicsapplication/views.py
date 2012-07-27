@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from ethicsapplication.forms import EthicsApplicationForm
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+
 
 
 @login_required
@@ -22,9 +23,12 @@ def create_application(request):
         
         if (form.is_valid()):
             
-            new_application = form.save()
+            new_application = form.instance
             
-            return HttpResponseRedirect(reverse('application-view', {'application_id':new_application.id}))
+            new_application.principle_investigator = request.user
+            new_application.save()
+            
+            return HttpResponseRedirect(reverse('application_view', kwargs={'application_id':new_application.id}))
             
     
     else:
@@ -33,3 +37,7 @@ def create_application(request):
         
     return render_to_response('ethicsapplication/create.html', {'form':form},
                               context_instance=RequestContext(request))
+    
+def view_application(request, application_id):
+    
+    return HttpResponse('view application')

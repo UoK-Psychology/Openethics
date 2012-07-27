@@ -1,0 +1,49 @@
+[
+{ "fields" : { "date_joined" : "2012-07-27T10:37:05.201Z",
+        "email" : "",
+        "first_name" : "",
+        "groups" : [  ],
+        "is_active" : true,
+        "is_staff" : false,
+        "is_superuser" : false,
+        "last_login" : "2012-07-27T10:37:05.201Z",
+        "last_name" : "",
+        "password" : "pbkdf2_sha256$10000$lwOlGm7mDqP9$LMqoekOvrsKfCgpvFfLt8U+6S6l+w8//TklvRmOCIf4=",
+        "user_permissions" : [  ],
+        "username" : "test_user_1"
+      },
+    "model" : "auth.user",
+    "pk" : 2
+  },
+  { "fields" : { "date_joined" : "2012-07-27T10:37:21.717Z",
+        "email" : "",
+        "first_name" : "",
+        "groups" : [  ],
+        "is_active" : true,
+        "is_staff" : false,
+        "is_superuser" : false,
+        "last_login" : "2012-07-27T10:37:21.717Z",
+        "last_name" : "",
+        "password" : "pbkdf2_sha256$10000$cT3VdHBBcmHy$a46oJRT3Qw5uG5mUQ02WHvnJdMim0gAmaRKvNsm2Ojo=",
+        "user_permissions" : [  ],
+        "username" : "test_user_2"
+      },
+    "model" : "auth.user",
+    "pk" : 3
+  },
+
+  { "fields" : { "application_form" : null,
+        "principle_investigator" : 2,
+        "title" : "Test application 1"
+      },
+    "model" : "ethicsapplication.ethicsapplication",
+    "pk" : 1
+  },
+  { "fields" : { "application_form" : null,
+        "principle_investigator" : 3,
+        "title" : "test application 2"
+      },
+    "model" : "ethicsapplication.ethicsapplication",
+    "pk" : 2
+  }
+]

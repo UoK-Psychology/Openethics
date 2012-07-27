@@ -13,11 +13,11 @@ from django.contrib.auth.models import User
 from ethicsapplication.models import EthicsApplication
 
 
-class ViewsTest(TestCase):
+class CreateViewsTest(TestCase):
     
     def setUp(self):
-        user = User.objects.create_user('test', 'test@home.com', 'testpass')
-        user.save()
+        self.user = User.objects.create_user('test', 'test@home.com', 'testpass')
+        self.user.save()
         
     
     def test_create_Application_not_logged_in(self):
@@ -53,14 +53,18 @@ class ViewsTest(TestCase):
             1. Create a new Ethics Application in the databse
             2. return http 302 (redirect)
             3. should redirect to the view application page for the new application
+            4. The PI for the newly created EthicsApplication should be the user that was logged in.
         '''
-        post_data = {}
+        post_data = {'title':'test application'}
         self.client.login(username='test', password='testpass')   
         response = self.client.post(reverse('create_application_view'),post_data)
         applications = EthicsApplication.objects.all()
         
         self.assertTrue(len(applications) ==1)
-        self.assertRedirects(response, reverse('application-view', {'application_id':applications[0].id}))
+        the_application = EthicsApplication.objects.get(pk=1)
+        self.assertEqual(the_application.title, 'test application')
+        self.assertEqual(the_application.principle_investigator, self.user)
+        self.assertRedirects(response, reverse('application_view', kwargs={'application_id':applications[0].id}))
         
         
     def test_create_application_invalid_post(self):
@@ -74,7 +78,33 @@ class ViewsTest(TestCase):
             2. render the form bound to the previous answers
             3. have an error in the form for not supplying a title
         '''
-        self.assert_(False, 'Not yet implemented')
         
+        post_data = {}
+        self.client.login(username='test', password='testpass')   
+        response = self.client.post(reverse('create_application_view'),post_data)
+        applications = EthicsApplication.objects.all()
         
+        self.assertTrue(len(applications) ==0)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response,
+                                'ethicsapplication/create.html')
+        self.failUnless(isinstance(response.context['form'],
+                                   EthicsApplicationForm))
+        
+        self.assertEquals(response.context['form']['title'].errors[0], 'This field is required.')
+
+
+class ViewApplictionTestCase(TestCase):
+    '''
+        Test case to test the view ethics applications functions
+        Inlcudes a test fixture called 'ethics_application_tests_fixture.json which
+        defines two users and two test ethics application one registered to each user
+    '''
+    fixtures = ['ethics_application_tests_fixture.json']
+    
+    def test_invalid_application_id(self):
+        '''
+            
+        '''
+        self.assertTrue(False, 'Not yet implemented')
     
