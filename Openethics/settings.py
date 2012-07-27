@@ -132,6 +132,8 @@ INSTALLED_APPS = (
     'questionnaire',
     'registration',
     'ethicsapplication',
+    'workflows',
+    'permissions',
     
     
     
