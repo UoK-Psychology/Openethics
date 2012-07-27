@@ -138,14 +138,14 @@ class ViewApplictionTestCase(TestCase):
             You must be logged in and have the 'view' permission for the application that you are trying to view.
             With the correct user logged in you should:
             1. get 200 http response
-            2. the remplate should be "view_ethics_application.html'
+            2. the remplate should be "ethicsapplication/view_ethics_application.html'
             3. the context should contain a field called application containing the EthicsApplication object.
         '''
         
         self.client.login(username='test_user_1', password='password')   
         response = self.client.get(reverse('application_view', kwargs={'application_id':1}))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed('view_ethics_application.html') 
+        self.assertTemplateUsed('ethicsapplication/view_ethics_application.html') 
         self.assertTrue('application' in response.context)
         self.assertIsInstance(response.context['application'], EthicsApplication)
     
