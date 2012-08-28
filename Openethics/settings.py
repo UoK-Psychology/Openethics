@@ -129,9 +129,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    
+    'questionnaire',
     'registration',
-    'basic.profiles',
+    'ethicsapplication',
+    'workflows',
+    'permissions',
+    
     
     
 )

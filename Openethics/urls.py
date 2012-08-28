@@ -11,14 +11,5 @@ urlpatterns = patterns('',
       
       # This is for overiding from outside apps   
       (r'^accounts/', include('registration.backends.default.urls')),# This url redirect to registration default backend  
-      ('^accounts/profile/', include('Openethics.profiles.urls')),# This url redirect to our custom profile urls
-      
-
-
-
-
-
-
-
-
+      (r'^application/', include('ethicsapplication.urls')),
 )
