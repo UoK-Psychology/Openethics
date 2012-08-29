@@ -142,7 +142,7 @@ class ViewApplictionTestCase(TestCase):
             3. the context should contain a field called application containing the EthicsApplication object.
         '''
         
-        self.client.login(username='test_user_1', password='password')   
+        self.client.login(username='test_user_2', password='password')   
         response = self.client.get(reverse('application_view', kwargs={'application_id':1}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed('ethicsapplication/view_ethics_application.html') 
