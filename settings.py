@@ -101,7 +101,7 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Openethics.urls'
+ROOT_URLCONF = 'root.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'Openethics.wsgi.application'
@@ -117,8 +117,8 @@ dirname = os.path.dirname(globals()["__file__"])
 TEMPLATE_DIRS = (
      
      
-     os.path.join(dirname,'templates'),                    
-    #TODO add a template path for the registration templates        
+    os.path.join(dirname,'root/templates'),                    
+    os.path.join(dirname,'ethicsapplication/templates'),              
 )
 
 INSTALLED_APPS = (
@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'ethicsapplication',
     'workflows',
     'permissions',
+    'root'
     
     
     
