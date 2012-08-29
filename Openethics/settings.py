@@ -130,7 +130,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'questionnaire',
-    'registration',
     'ethicsapplication',
     'workflows',
     'permissions',

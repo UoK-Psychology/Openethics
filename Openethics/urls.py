@@ -10,6 +10,5 @@ urlpatterns = patterns('',
       (r'^$', direct_to_template, { 'template': 'index.html' }, 'index'), #basic index page
       
       # This is for overiding from outside apps   
-      (r'^accounts/', include('registration.backends.default.urls')),# This url redirect to registration default backend  
       (r'^application/', include('ethicsapplication.urls')),
 )
