@@ -13,7 +13,7 @@
         "username" : "test_user_1"
       },
     "model" : "auth.user",
-    "pk" : 2
+    "pk" : 1
   },
   { "fields" : { "date_joined" : "2012-07-27T10:37:21.717Z",
         "email" : "",
@@ -29,18 +29,18 @@
         "username" : "test_user_2"
       },
     "model" : "auth.user",
-    "pk" : 3
+    "pk" : 2
   },
 
   { "fields" : { "application_form" : null,
-        "principle_investigator" : 2,
+        "principle_investigator" : 1,
         "title" : "Test application 1"
       },
     "model" : "ethicsapplication.ethicsapplication",
     "pk" : 1
   },
   { "fields" : { "application_form" : null,
-        "principle_investigator" : 3,
+        "principle_investigator" : 2,
         "title" : "test application 2"
       },
     "model" : "ethicsapplication.ethicsapplication",
@@ -48,21 +48,30 @@
   },
   
   { "fields" : { "content_id" : 1,
-        "content_type" : 16,
+        "content_type" : [
+                "ethicsapplication", 
+                "ethicsapplication"
+            ],
         "state" : 1
       },
     "model" : "workflows.stateobjectrelation",
     "pk" : 1
   },
   { "fields" : { "content_id" : 1,
-        "content_type" : 16,
+        "content_type" : [
+                "ethicsapplication", 
+                "ethicsapplication"
+            ],
         "workflow" : 1
       },
     "model" : "workflows.workflowobjectrelation",
     "pk" : 1
   },
   { "fields" : { "content_id" : 1,
-        "content_type" : 16,
+        "content_type" : [
+                "ethicsapplication", 
+                "ethicsapplication"
+            ],
         "permission" : 1,
         "role" : 1
       },
@@ -70,7 +79,10 @@
     "pk" : 1
   },
   { "fields" : { "content_id" : 1,
-        "content_type" : 16,
+        "content_type" : [
+                "ethicsapplication", 
+                "ethicsapplication"
+            ],
         "permission" : 2,
         "role" : 1
       },
@@ -78,7 +90,10 @@
     "pk" : 2
   },
   { "fields" : { "content_id" : 1,
-        "content_type" : 16,
+        "content_type" : [
+                "ethicsapplication", 
+                "ethicsapplication"
+            ],
         "permission" : 3,
         "role" : 1
       },
@@ -86,7 +101,10 @@
     "pk" : 3
   },
   { "fields" : { "content_id" : 1,
-        "content_type" : 16,
+        "content_type" : [
+                "ethicsapplication", 
+                "ethicsapplication"
+            ],
         "permission" : 5,
         "role" : 1
       },
@@ -94,7 +112,10 @@
     "pk" : 4
   },
   { "fields" : { "content_id" : 1,
-        "content_type" : 16,
+        "content_type" : [
+                "ethicsapplication", 
+                "ethicsapplication"
+            ],
         "permission" : 3,
         "role" : 2
       },
@@ -103,7 +124,10 @@
   },
   
   { "fields" : { "content_id" : 1,
-        "content_type" : 16,
+        "content_type" : [
+                "ethicsapplication", 
+                "ethicsapplication"
+            ],
         "group" : null,
         "role" : 1,
         "user" : 2
