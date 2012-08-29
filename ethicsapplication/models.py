@@ -7,13 +7,14 @@ from django.db.models.manager import Manager
 
 class EthicsApplicationManager(Manager):
     
-    def get_active_applications(self, user):
+    def get_active_applications(self, the_user):
         '''
             Returns the active applications for a user, will return an empty list if there
             aren't any active users.
         
         '''
-        return []
+        
+        return [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user).filter(active=True)]
 
 class EthicsApplication(models.Model):
     '''
