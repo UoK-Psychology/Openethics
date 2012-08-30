@@ -32,7 +32,7 @@ class IndexViewTestCase(TestCase):
         with patch('ethicsapplication.models.EthicsApplicationManager.get_active_applications') as manager_mock:
             
            
-            manager_mock.return_value = [1,2,3]
+            manager_mock.return_value = []
             
             #have a user, and be logged in
             #get request to the index page
@@ -46,7 +46,7 @@ class IndexViewTestCase(TestCase):
                                 'index.html')
             #assert context
             self.assertTrue('active_applications' in response.context)
-            self.assertEqual(response.context['active_applications'], [1,2,3])
+            self.assertEqual(response.context['active_applications'], [])
             #assert that manager_mock is called
             manager_mock.assert_called_with(self.user)
 
