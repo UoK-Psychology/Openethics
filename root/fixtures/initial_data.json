@@ -211,5 +211,21 @@
   { "fields" : { "name" : "Principle_Investigator" },
     "model" : "permissions.role",
     "pk" : 1
+  },
+  { "fields" : { "date_joined" : "2012-08-30T10:03:43.125Z",
+        "email" : "me@home.com",
+        "first_name" : "",
+        "groups" : [  ],
+        "is_active" : true,
+        "is_staff" : true,
+        "is_superuser" : true,
+        "last_login" : "2012-08-30T10:03:43.125Z",
+        "last_name" : "",
+        "password" : "pbkdf2_sha256$10000$nBMqKauQl6Ok$f/NVu8W802SeYLKv848ZThzAxV/eE5bXiob3oAce8n8=",
+        "user_permissions" : [  ],
+        "username" : "jjm20"
+      },
+    "model" : "auth.user",
+    "pk" : 1
   }
 ]
