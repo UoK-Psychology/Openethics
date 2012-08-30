@@ -60,4 +60,4 @@ def view_application(request, application_id):
     else:
         raise PermissionDenied()
     
-    return HttpResponse('view application')
+
