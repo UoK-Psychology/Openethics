@@ -1,5 +1,6 @@
 # Django settings for jmtest project.
-
+import os
+dirname = os.path.dirname(globals()["__file__"])
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -13,7 +14,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'C:\\sqlite\\Openethics\\sqlite.db',                      # Or path to database file if using sqlite3.
+        'NAME': dirname +'/sqlite.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -101,10 +102,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Openethics.urls'
+ROOT_URLCONF = 'root.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'Openethics.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 
 # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -112,13 +113,12 @@ WSGI_APPLICATION = 'Openethics.wsgi.application'
 # Don't forget to use absolute paths, not relative paths.
 # Added global addressing folder
     
-import os
-dirname = os.path.dirname(globals()["__file__"])
+
 TEMPLATE_DIRS = (
      
      
-     os.path.join(dirname,'templates'),                    
-    #TODO add a template path for the registration templates        
+    os.path.join(dirname,'root/templates'),                    
+    os.path.join(dirname,'ethicsapplication/templates'),              
 )
 
 INSTALLED_APPS = (
@@ -133,12 +133,13 @@ INSTALLED_APPS = (
     'ethicsapplication',
     'workflows',
     'permissions',
+    'root'
     
     
     
 )
 
-
+LOGIN_REDIRECT_URL = '/'
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
 
 

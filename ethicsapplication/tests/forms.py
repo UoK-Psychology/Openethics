@@ -21,11 +21,12 @@ class FormsTest(TestCase):
     def test_EthicsApplication_form_ignored_fields(self):
         '''
             Check that the form does not display a field for either 
-            Principle investigator, nor application.
+            Principle investigator, nor application nor the active flag.
         '''
         form = EthicsApplicationForm()
         self.assertFalse('principle_investigator' in form.fields)
         self.assertFalse('application_form' in form.fields)
+        self.assertFalse('active' in form.fields)
 
     def test_EthicsApplication_form_title_must_be_present(self):
         '''
