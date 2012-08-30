@@ -12,7 +12,7 @@
 		
 		{% for application in active_applications %}
 		
-			<li>{{application.title}}</li>
+			<li><a href="{% url application_view application_id=application.id%}">{{application.title}}</a></li>
 		{% endfor %}
 		
 	</ul>
