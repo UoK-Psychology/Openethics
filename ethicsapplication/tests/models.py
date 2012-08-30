@@ -52,6 +52,92 @@ class EthicsApplicationModelTestCase(TestCase):
         '''
         self.assertIsInstance(EthicsApplication.objects, EthicsApplicationManager)  
         
+    def test_workflow_add_on_new_ethicsapplications(self):
+        '''
+            If this is a new EthicsApplication object then it should be added to the 
+            workflow using the _add_to_workflow_function
+        
+        ''' 
+        self.assertTrue(False)
+        
+    def test_workflow_add_on_existing_ethicsapplications(self):
+        '''
+            If this is an existing EthicsApplication object then it should not be added to the workflow (as we can assume that this has 
+            been done already)
+        
+        ''' 
+        self.assertTrue(False)
+        
+    def test_adding_new_applications_to_workflow_setting_absent(self):
+        '''
+            If this is a new EthicsApplication object then it should be added to the 
+            workflow defined in the settings.APPLICATION_WORKFLOW setting. In this case
+            the setting is not present so an ImproperlyConfigured exception is raised
+        
+        ''' 
+        self.assertTrue(False)
+        
+    def test_add_to_workflow_setting_absent(self):
+        '''
+            If this is a new EthicsApplication object then it should be added to the 
+            workflow defined in the settings.APPLICATION_WORKFLOW setting. In this case
+            the setting is not present so an ImproperlyConfigured exception is raised
+        
+        ''' 
+        self.assertTrue(False)
+    def test_add_to_workflow_setting_invalid(self):
+        '''
+            If this is a new EthicsApplication object then it should be added to the 
+            workflow defined in the settings.APPLICATION_WORKFLOW setting. In this case
+            the setting is not present so an ImproperlyConfigured exception is raised
+        
+        ''' 
+        self.assertTrue(False)
+    
+    def test_add_to_workflow_setting_present(self):
+        '''
+            If this is a new EthicsApplication object then it should be added to the 
+            workflow defined in the settings.APPLICATION_WORKFLOW setting. In this case
+            the setting is not present so an ImproperlyConfigured exception is raised
+        
+        ''' 
+        self.assertTrue(False)
+        
+    def test_update_principle_investigator(self):
+        '''
+            When the principle investigator setter is called succesfully the 
+            _add_to_principle_investigator_role function should be called to update the 
+            membership of this group
+        '''
+        self.assertTrue(False)
+    
+    def test_absent_PI_role_in_settings(self):
+        '''
+            test that if there settings.PRINCIPLE_INVESTIGATOR_ROLE is not present
+            or doesn't exist in the db then a ImproperlyCOnfigured exception should be raised.
+        '''
+        self.assertTrue(False)
+        
+    def test_add_to_principle_investigator_role_new_user_with_previous(self):
+        '''
+            If there is already a user in the PI role and the new user is not this user then
+            the existing user should be removed, and the new user added in her place.
+        '''
+        self.assertTrue(False)
+    def test_add_to_principle_investigator_role_new_user_no_previous(self):
+        '''
+            If there is no previous user in the PI role then the new user should be added into
+            the PI role for this instance of ethics application
+        '''
+        self.assertTrue(False)
+        
+    def test_add_to_principle_investigator_role_existing_user(self):
+        '''
+            If the current user in the PI role is the same as the existing one then nothing should 
+            happen.
+        '''
+        self.assertTrue(False)
+        
         
         
 class EthicsApplicationManagerTestCase(TestCase):
