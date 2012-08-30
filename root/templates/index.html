@@ -16,11 +16,14 @@
 		{% endfor %}
 		
 	</ul>
+	
+	<p>
+		<a href="{% url auth_logout %}?next=/">logout</a>
+	</p>
 {% else %}
 
 	{% url auth_login as login_url %}
-	{% url index_view as index_url %}
-	<a href="{{login_url}}?next={{index_view}}">login</a>
+	<a href="{{login_url}}">login</a>
 {% endif %}
 
 </body>
