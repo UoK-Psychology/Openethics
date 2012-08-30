@@ -1,5 +1,7 @@
 from django.http import HttpResponse
-
+from django.shortcuts import render_to_response
+from django.template.context import RequestContext
+from ethicsapplication.models import EthicsApplication
 
 def index_view(request):
     '''
@@ -9,5 +11,10 @@ def index_view(request):
     
     '''
     
+    context = {}
     
-    return HttpResponse('indexio')
+    if request.user.is_authenticated():
+        #get their active applications
+        context['active_applications'] = EthicsApplication.objects.get_active_applications(request.user)
+    return render_to_response('index.html', context,
+                              context_instance=RequestContext(request))

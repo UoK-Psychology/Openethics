@@ -3,5 +3,24 @@
 <h2>Welcome to the index page!</h2>
 
 <body>
-Index
+
+
+{% if user.is_authenticated %}
+
+	<p><h1> Your Active Applications:</h1></p>
+	<ul>
+		
+		{% for application in active_applications %}
+		
+			<li>{{application.title}}</li>
+		{% endfor %}
+		
+	</ul>
+{% else %}
+
+	{% url auth_login as login_url %}
+	{% url index_view as index_url %}
+	<a href="{{login_url}}?next={{index_view}}">login</a>
+{% endif %}
+
 </body>
