@@ -11,6 +11,7 @@ from django.test import TestCase
 from ethicsapplication.models import EthicsApplication, EthicsApplicationManager
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
+from django.conf import settings
 
 class EthicsApplicationModelTestCase(TestCase):
     
@@ -55,7 +56,7 @@ class EthicsApplicationModelTestCase(TestCase):
     def test_workflow_add_on_new_ethicsapplications(self):
         '''
             If this is a new EthicsApplication object then it should be added to the 
-            workflow using the _add_to_workflow_function
+            workflow using the _add_to_workflow function
         
         ''' 
         self.assertTrue(False)
@@ -136,6 +137,11 @@ class EthicsApplicationModelTestCase(TestCase):
             If the current user in the PI role is the same as the existing one then nothing should 
             happen.
         '''
+        settings.PRINCIPLE_INVESTIGATOR_ROLE = 'pi'
+        #the fixture defines ethics application 3 that has user 3 as the only member of the PI group
+        #get application 3
+        #get user 3
+        
         self.assertTrue(False)
         
         

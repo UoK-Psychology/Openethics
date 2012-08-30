@@ -32,3 +32,21 @@ class EthicsApplication(models.Model):
     def __unicode__(self):
         return '%s, PI:%s' % (self.title, self.principle_investigator.username)
     
+
+
+    def _add_to_workflow(self):
+        '''
+            Adds the EthicsApplication to the workflow that is defined in Settings.APPLICATION_WORKFLOW
+            Will raise an ImproperlConfigured exception if this setting is not set, or the workflow defined
+            doesn't exist.
+        '''
+        pass
+    
+    def _add_to_principle_investigator_role(self, the_user):
+        '''
+            Adds the user the principle investigator role that is defined in setting.PRINCIPLE_INVESTIGATOR_ROLE 
+            (if this setting is not set, or the role doesn't exist then an ImproperlyConfigured exception will
+            be raised). This will replace any other user that is already in this role.
+        '''
+        pass
+        
