@@ -1,5 +1,6 @@
 # Django settings for jmtest project.
-
+import os
+dirname = os.path.dirname(globals()["__file__"])
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -13,7 +14,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'C:\\sqlite\\Openethics\\sqlite.db',                      # Or path to database file if using sqlite3.
+        'NAME': dirname +'/sqlite.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -112,8 +113,7 @@ WSGI_APPLICATION = 'wsgi.application'
 # Don't forget to use absolute paths, not relative paths.
 # Added global addressing folder
     
-import os
-dirname = os.path.dirname(globals()["__file__"])
+
 TEMPLATE_DIRS = (
      
      
