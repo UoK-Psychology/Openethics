@@ -140,8 +140,8 @@ INSTALLED_APPS = (
 )
 
 LOGIN_REDIRECT_URL = '/'
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
 
+APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
 
 
 # A sample logging configuration. The only tangible logging
@@ -176,13 +176,6 @@ LOGGING = {
 
 
 
-#THIS IS FOR EMAIL SETTING
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'testing@example.com'
 
 
