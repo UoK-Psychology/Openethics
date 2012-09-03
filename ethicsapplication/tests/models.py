@@ -12,6 +12,7 @@ from ethicsapplication.models import EthicsApplication, EthicsApplicationManager
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from django.conf import settings
+from mock import patch
 
 class EthicsApplicationModelTestCase(TestCase):
     
@@ -52,22 +53,34 @@ class EthicsApplicationModelTestCase(TestCase):
             which is a custom manager that adds some table level functionality.
         '''
         self.assertIsInstance(EthicsApplication.objects, EthicsApplicationManager)  
-        
-    def test_workflow_add_on_new_ethicsapplications(self):
+     
+    @patch('ethicsapplication.models.EthicsApplication._add_to_workflow') 
+    def test_workflow_add_on_new_ethicsapplications(self, patched_function):
         '''
             If this is a new EthicsApplication object then it should be added to the 
-            workflow using the _add_to_workflow function
+            workflow using the _add_to_workflow function, if it is an existing entity then
+            the _add_to_wokrflow function should not be called
         
         ''' 
+
+            
+        #create a new ethicsapplication object and save it
+        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        my_Application = EthicsApplication(title='test', principle_investigator=a_user)
+        my_Application.save()
+        #assert that it was called once
+        patched_function.assert_called_once_with()
+        
+        #make a change and save, the patch should not be called again!
+        my_Application.title = 'changed'
+        my_Application.save()
+        
+        patched_function.assert_called_once_with()
+        
+        
         self.assertTrue(False)
         
-    def test_workflow_add_on_existing_ethicsapplications(self):
-        '''
-            If this is an existing EthicsApplication object then it should not be added to the workflow (as we can assume that this has 
-            been done already)
-        
-        ''' 
-        self.assertTrue(False)
+    
         
     def test_adding_new_applications_to_workflow_setting_absent(self):
         '''

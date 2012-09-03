@@ -29,6 +29,17 @@ class EthicsApplication(models.Model):
     active = models.BooleanField(default=True)
     
     objects = EthicsApplicationManager()
+    
+    def save(self):
+        
+        starting_id = self.id
+        
+        super(EthicsApplication, self).save()
+        
+        if(starting_id != self.id): #not entirely fool proof as you could create an instance with an explicit id, but you shouldn't do that
+            self._add_to_workflow()
+            
+            
     def __unicode__(self):
         return '%s, PI:%s' % (self.title, self.principle_investigator.username)
     
