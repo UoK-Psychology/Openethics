@@ -11,13 +11,14 @@ from django.core.urlresolvers import reverse
 from ethicsapplication.forms import EthicsApplicationForm
 from django.contrib.auth.models import User
 from ethicsapplication.models import EthicsApplication
-
+from django.conf import settings
 
 class CreateViewsTest(TestCase):
     
     def setUp(self):
         self.user = User.objects.create_user('test', 'test@home.com', 'testpass')
         self.user.save()
+        settings.APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
         
     
     def test_create_Application_not_logged_in(self):

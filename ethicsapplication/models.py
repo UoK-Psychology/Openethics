@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from questionnaire.models import AnswerSet
 from django.db.models.manager import Manager
+from workflows.utils import set_workflow
+from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
+from workflows.models import Workflow
 
 # Create your models here.
 
@@ -51,7 +55,18 @@ class EthicsApplication(models.Model):
             Will raise an ImproperlConfigured exception if this setting is not set, or the workflow defined
             doesn't exist.
         '''
-        pass
+        workflow_code = getattr(settings, 'APPLICATION_WORKFLOW', None) 
+        
+        if workflow_code != None:
+            try:
+                approval_workflow = Workflow.objects.get(name=workflow_code)
+                set_workflow(self, approval_workflow)
+                
+            except ObjectDoesNotExist:
+                raise ImproperlyConfigured('The workflow you specify in APPLICATION_WORKFLOW must actually be configured in the db')
+                
+        else:
+            raise ImproperlyConfigured('You must set APPLICATION_WORKFLOW in the settings file')
     
     def _add_to_principle_investigator_role(self, the_user):
         '''

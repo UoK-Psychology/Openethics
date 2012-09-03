@@ -13,9 +13,13 @@ from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from django.conf import settings
 from mock import patch
+from django.core.exceptions import ImproperlyConfigured
+from workflows.models import Workflow
 
 class EthicsApplicationModelTestCase(TestCase):
     
+    def setUp(self):
+        settings.APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
     
     def test_valid_EthicsApplication_creation(self):
         '''
@@ -80,16 +84,6 @@ class EthicsApplicationModelTestCase(TestCase):
         
         self.assertTrue(False)
         
-    
-        
-    def test_adding_new_applications_to_workflow_setting_absent(self):
-        '''
-            If this is a new EthicsApplication object then it should be added to the 
-            workflow defined in the settings.APPLICATION_WORKFLOW setting. In this case
-            the setting is not present so an ImproperlyConfigured exception is raised
-        
-        ''' 
-        self.assertTrue(False)
         
     def test_add_to_workflow_setting_absent(self):
         '''
@@ -98,24 +92,39 @@ class EthicsApplicationModelTestCase(TestCase):
             the setting is not present so an ImproperlyConfigured exception is raised
         
         ''' 
-        self.assertTrue(False)
+        settings.APPLICATION_WORKFLOW = None
+        test_application = EthicsApplication(title='test', principle_investigator=User.objects.create_user('test', 'me@home.com', 'password'))
+        self.assertRaises(ImproperlyConfigured, test_application._add_to_workflow)
+        
     def test_add_to_workflow_setting_invalid(self):
         '''
             If this is a new EthicsApplication object then it should be added to the 
             workflow defined in the settings.APPLICATION_WORKFLOW setting. In this case
-            the setting is not present so an ImproperlyConfigured exception is raised
+            the setting is present but the workflow doesn't exist in the db so an ImproperlyConfigured
+            exception is raised.
         
         ''' 
-        self.assertTrue(False)
+        
+        settings.APPLICATION_WORKFLOW = 'Does not exist!'
+        test_application = EthicsApplication(title='test', principle_investigator=User.objects.create_user('test', 'me@home.com', 'password'))
+        self.assertRaises(ImproperlyConfigured, test_application._add_to_workflow)
     
-    def test_add_to_workflow_setting_present(self):
+    @patch('ethicsapplication.models.set_workflow')#patched in the model module as this is the namespace it will be used from
+    def test_add_to_workflow_setting_valid(self, set_workflow_mock):
         '''
             If this is a new EthicsApplication object then it should be added to the 
             workflow defined in the settings.APPLICATION_WORKFLOW setting. In this case
-            the setting is not present so an ImproperlyConfigured exception is raised
+            the setting is present and the workflow has been configured in the db,
+            so no exception should be run and a call should be made to the 
+            set_workflow function.
         
         ''' 
-        self.assertTrue(False)
+        
+        approval_workflow = Workflow.objects.get(name='Ethics_Application_Approval')
+        settings.APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
+        test_application = EthicsApplication(title='test', principle_investigator=User.objects.create_user('test', 'me@home.com', 'password'))
+        test_application.save()
+        set_workflow_mock.assert_called_once_with(test_application, approval_workflow)
         
     def test_update_principle_investigator(self):
         '''
