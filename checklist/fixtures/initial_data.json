@@ -1,0 +1,145 @@
+[ 
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:18:41.025Z",
+        "change_message" : "",
+        "content_type" : 10,
+        "object_id" : "1",
+        "object_repr" : "Application checklist",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 13
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:18:12.262Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "12",
+        "object_repr" : "Question:Will the study involve recruitement of patients or staff through the NHS? FieldType:booleanfield Selectoptions:None",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 12
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:17:58.104Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "11",
+        "object_repr" : "Question:Will financial inducements (other than reasonable expenses and compensation for time) be offered to participants FieldType:booleanfield Selectoptions:None",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 11
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:17:37.460Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "10",
+        "object_repr" : "Question:Will the study involve prolonged or repetitive testing? (please note, test-retest conditions do NOT fall under this category) FieldType:booleanfield Selectoptions:None",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 10
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:17:26.275Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "9",
+        "object_repr" : "Question:Are drugs, placebos or other substances (e.g., food substances, vitamins) to be administered to the participants or will the study involve invasive, intrusive or potentially harmful procedure",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 9
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:17:13.221Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "8",
+        "object_repr" : "Question:Is pain or more than mild discomfort likely to result from the study? FieldType:booleanfield Selectoptions:None",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 8
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:16:48.774Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "7",
+        "object_repr" : "Question:Could the study induce psychological stress or anxiety or cause harm or negative consequences beyond the risks encountered in normal life? FieldType:booleanfield Selectoptions:None",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 7
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:16:35.565Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "6",
+        "object_repr" : "Question:Will the study involve the withholding of information from, or deliberate deception of, participants? (please note, withholding hypothesis does NOT fall under this category) FieldType:boolean",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 6
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:16:20.678Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "5",
+        "object_repr" : "Question:Will the study involve questions related to topics that are both personal to the respondent and potentially stigmatizing to answer (e.g., referring to sexual, illegal, or deviant activities/b",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 5
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:16:01.274Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "4",
+        "object_repr" : "Question:Will the study be conducted from a non-protected Internet site that is accessible to the general public? FieldType:booleanfield Selectoptions:None",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 4
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:15:43.055Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "3",
+        "object_repr" : "Question:Will it be necessary for paricipants to take part in the study without their knowledge and consent at the time (e.g. covert observation of people in non-public places) FieldType:booleanfield ",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 3
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:15:29.467Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "2",
+        "object_repr" : "Question:Will the study require the co-operation of a gate-keeper for initial access to the groups or individuals recruited? (e.g. students at school, members of self-help groups, residents of a nursi",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 2
+  },
+  { "fields" : { "action_flag" : 1,
+        "action_time" : "2012-09-04T09:15:04.056Z",
+        "change_message" : "",
+        "content_type" : 9,
+        "object_id" : "1",
+        "object_repr" : "Question:Does the study involve participants who are particularly vulnerable or unable to give informed consent? (e.g., children, people with learning disabilities, clinical populations? FieldType:boo",
+        "user" : 1
+      },
+    "model" : "admin.logentry",
+    "pk" : 1
+  }
+]
