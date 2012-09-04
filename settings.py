@@ -135,7 +135,8 @@ INSTALLED_APPS = (
     'ethicsapplication',
     'workflows',
     'permissions',
-    'root'
+    'root',
+    'checklist',
     
     
     
