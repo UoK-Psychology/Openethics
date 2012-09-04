@@ -142,7 +142,7 @@ INSTALLED_APPS = (
 LOGIN_REDIRECT_URL = '/'
 
 APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
-
+PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
