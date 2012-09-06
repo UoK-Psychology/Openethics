@@ -28,7 +28,7 @@ class EthicsApplication(models.Model):
         It is thisobject that will be manipulated by the workflow engine.   
     '''
     
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, default=None)  #default=None stops null strings which effectively makes it mandatory
     principle_investigator = models.ForeignKey(User ,related_name='pi')
     application_form = models.ForeignKey(AnswerSet, related_name='application_form', blank=True, null=True)
     active = models.BooleanField(default=True)

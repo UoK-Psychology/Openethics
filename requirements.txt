@@ -1,0 +1,8 @@
+Django==1.4
+South==0.7.4
+Sphinx==1.1.3
+django-workflows==1.0.2
+mock==1.0b1
+-e git+https://github.com/UoK-Psychology/django-questionnaire.git#egg=django-questionnaire
+-e git+https://github.com/ctrlspc/django-permissions.git#egg=django-permissions 
+
