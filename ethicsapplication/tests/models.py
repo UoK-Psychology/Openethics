@@ -44,6 +44,15 @@ class EthicsApplicationModelTestCase(TestCase):
 
         self.assertRaises(IntegrityError, ethicsApplication.save)
 
+    def test_invalid_EthicsApplication_creation_no_title(self):
+        '''
+            If you don't supply a title then you will get an exception
+        '''
+        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        ethicsApplication = EthicsApplication( principle_investigator=a_user)
+        
+        self.assertRaises(IntegrityError, ethicsApplication.save)
+
     def test_ethicsapplication_manager(self):
         
         '''
