@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from questionnaire.models import AnswerSet
+from questionnaire.models import AnswerSet, Questionnaire
 from django.db.models.manager import Manager
 
 # Create your models here.
@@ -27,7 +27,8 @@ class EthicsApplication(models.Model):
     principle_investigator = models.ForeignKey(User ,related_name='pi')
     application_form = models.ForeignKey(AnswerSet, related_name='application_form', blank=True, null=True)
     active = models.BooleanField(default=True)
-    
+    checklist = models.ForeignKey(Questionnaire, related_name='checklist_questionnaire', blank=True, null=True)
+    #TODO test the new checklist attribute
     objects = EthicsApplicationManager()
     def __unicode__(self):
         return '%s, PI:%s' % (self.title, self.principle_investigator.username)
