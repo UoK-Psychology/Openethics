@@ -90,5 +90,89 @@
   { "fields" : { "name" : "Pre Application Checklist" },
     "model" : "questionnaire.questionnaire",
     "pk" : 1
+  },
+  { "fields" : { "order_info" : 1,
+        "question" : 1,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 1
+  },
+  { "fields" : { "order_info" : 2,
+        "question" : 2,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 2
+  },
+  { "fields" : { "order_info" : 3,
+        "question" : 3,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 3
+  },
+  { "fields" : { "order_info" : 4,
+        "question" : 4,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 4
+  },
+  { "fields" : { "order_info" : 5,
+        "question" : 5,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 5
+  },
+  { "fields" : { "order_info" : 6,
+        "question" : 6,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 6
+  },
+  { "fields" : { "order_info" : 7,
+        "question" : 7,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 7
+  },
+  { "fields" : { "order_info" : 8,
+        "question" : 8,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 8
+  },
+  { "fields" : { "order_info" : 9,
+        "question" : 9,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 9
+  },
+  { "fields" : { "order_info" : 10,
+        "question" : 10,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 10
+  },
+  { "fields" : { "order_info" : 11,
+        "question" : 11,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 11
+  },
+  { "fields" : { "order_info" : 12,
+        "question" : 12,
+        "questiongroup" : 1
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 12
   }
 ]
