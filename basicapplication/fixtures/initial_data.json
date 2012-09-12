@@ -1,0 +1,130 @@
+[ 
+  { "fields" : { "field_type" : "textfield",
+        "label" : "Please describe the aims of the study as you wish them to appear on the information sheet and debriefing form using language that can easily be understood without prior knowledge of psychology. ",
+        "selectoptions" : null
+      },
+    "model" : "questionnaire.question",
+    "pk" : 13
+  },
+  { "fields" : { "field_type" : "textfield",
+        "label" : "Participants can take part in this study if they are:",
+        "selectoptions" : null
+      },
+    "model" : "questionnaire.question",
+    "pk" : 14
+  },
+  { "fields" : { "field_type" : "textfield",
+        "label" : "Participants cannot take part in this study if they are:",
+        "selectoptions" : null
+      },
+    "model" : "questionnaire.question",
+    "pk" : 15
+  },
+  { "fields" : { "field_type" : "radioselectfield",
+        "label" : "Prior informed consent is to be obtained:",
+        "selectoptions" : "[u'From participants', u'From others', u'From both participants and others', u'Prior informed consent is not going to be obtained']"
+      },
+    "model" : "questionnaire.question",
+    "pk" : 16
+  },
+  { "fields" : { "field_type" : "textfield",
+        "label" : "Describe the means of obtaining prior consent, or if prior informed consent is not to be obtained, give reasons for this:",
+        "selectoptions" : null
+      },
+    "model" : "questionnaire.question",
+    "pk" : 17
+  },
+  { "fields" : { "field_type" : "radioselectfield",
+        "label" : "Participants will be debriefed:",
+        "selectoptions" : "[u'In writing', u'Verbally', u'In writing and verbally', u'Participants will not be debriefed']"
+      },
+    "model" : "questionnaire.question",
+    "pk" : 18
+  },
+  { "fields" : { "field_type" : "textfield",
+        "label" : "Please write a debriefing in the box below as you would like it to appear on your debriefing sheet, or If they will not be debriefed in writing, give reasons for this. Use language that a non-psychologist will be able to understand.",
+        "selectoptions" : null
+      },
+    "model" : "questionnaire.question",
+    "pk" : 19
+  },
+  { "fields" : { "field_type" : "multiplechoicefield",
+        "label" : "For a normal study you must tick seven of the options below, if you are ticking less than 7 please explain why the unticked option applies to your study in the box below.",
+        "selectoptions" : "[u\"Participation in this study guarantees confidentiality of participants' information\", u'No one apart from the researcher and research supervisor will have any access to the data.', u'Either: Participants will not be asked to write their name on the study materials. Instead we will ask them to create a unique participant identification number.', u\"Or: Participants' names and any other identifying information will be stored separately from their data in a secure location.\", u'Questionnaires will be stored in a securely locked room for as long as is required by the Data Protection Act', u' and then they will be destroyed by our confidential shredding service.', u'Either: The data collected for this study will be used for a student project.', u'Or: The data collected for this study will form part of a staff project.', u'Once the data is analysed a report of the findings may be submitted for publication. Only broad trends will be reported and it will not be possible to identify any individuals.', u'A summary of the results will be available from the researcher on request.']"
+      },
+    "model" : "questionnaire.question",
+    "pk" : 20
+  }
+  { "fields" : { "name" : "Study Description" },
+    "model" : "questionnaire.questiongroup",
+    "pk" : 2
+  },
+  { "fields" : { "name" : "Consent Arrangements" },
+    "model" : "questionnaire.questiongroup",
+    "pk" : 3
+  },
+  { "fields" : { "name" : "Debrief Arrangements" },
+    "model" : "questionnaire.questiongroup",
+    "pk" : 4
+  },
+  { "fields" : { "name" : "Confidentiality" },
+    "model" : "questionnaire.questiongroup",
+    "pk" : 5
+  },
+  { "fields" : { "order_info" : 1,
+        "question" : 13,
+        "questiongroup" : 2
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 13
+  },
+  { "fields" : { "order_info" : 2,
+        "question" : 14,
+        "questiongroup" : 2
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 14
+  },
+  { "fields" : { "order_info" : 3,
+        "question" : 15,
+        "questiongroup" : 2
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 15
+  },
+  { "fields" : { "order_info" : 1,
+        "question" : 16,
+        "questiongroup" : 3
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 16
+  },
+  { "fields" : { "order_info" : 2,
+        "question" : 17,
+        "questiongroup" : 3
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 17
+  },
+  { "fields" : { "order_info" : 1,
+        "question" : 18,
+        "questiongroup" : 4
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 18
+  },
+  { "fields" : { "order_info" : 2,
+        "question" : 19,
+        "questiongroup" : 4
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 19
+  },
+  { "fields" : { "order_info" : 1,
+        "question" : 20,
+        "questiongroup" : 5
+      },
+    "model" : "questionnaire.question_order",
+    "pk" : 20
+  }
+]
