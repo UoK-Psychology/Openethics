@@ -28,7 +28,9 @@ class StartChecklistTestCase(TestCase):
             if there isn't then it should create one, using the group defined in Settings.CHECKLIST_ID
             to set the one and only group.
             It should then redirect to the do_questionnaire url passing the newly created questionnaire id 
-            in as the questionnaire_id argument
+            in as the questionnaire_id argument, and the url for the application_view for this application
+            in as the on_success get parameter (so that you return to the applicaton view when you finish the 
+            checklist)
             
             variants:
             ethics application already has a checklist questionnaire
@@ -42,8 +44,12 @@ class StartChecklistTestCase(TestCase):
         new_questionnaire = Questionnaire.objects.latest('id')
         self.assertEqual(new_questionnaire.get_ordered_groups()[0].id, int(settings.CHECKLIST_ID))
         self.assertEqual(new_questionnaire.checklist_questionnaire.get(), self.ethicsApplication)
-       
-        self.assertRedirects(response, expected_url=reverse('do_checklist', kwargs={'questionnaire_id':new_questionnaire.id}))
+        
+        base_url = reverse('do_checklist', kwargs={'questionnaire_id':new_questionnaire.id})
+        on_success_url = reverse('application_view', kwargs={'application_id':self.ethicsApplication.id})
+        url = '%s?on_success=%s' % (base_url, on_success_url)
+        
+        self.assertRedirects(response, expected_url=url)
         
     def test_start_checklist_logged_in_checlist_configured_nexttime(self):   
         '''
@@ -64,7 +70,11 @@ class StartChecklistTestCase(TestCase):
         url = reverse('start_checklist', kwargs={'ethics_application_id':self.ethicsApplication.id})
         response = self.client.get(url)
         
-        self.assertRedirects(response, expected_url=reverse('do_checklist', kwargs={'questionnaire_id':test_questionnaire.id}))
+        base_url = reverse('do_checklist', kwargs={'questionnaire_id':test_questionnaire.id})
+        on_success_url = reverse('application_view', kwargs={'application_id':self.ethicsApplication.id})
+        url = '%s?on_success=%s' % (base_url, on_success_url)
+        
+        self.assertRedirects(response, expected_url=url)
         self.assertEqual(questionnaire_count, len(Questionnaire.objects.all()))
 
     def test_start_checklist_not_logged_in(self):
