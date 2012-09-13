@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'root',
     'checklist',
     'workflowutils',
+    'django_nose',
     
     
     
@@ -145,6 +146,7 @@ INSTALLED_APPS = (
 
 CHECKLIST_ID=1
 BASIC_APPLICATION_GROUPS=[2,3,4]
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
