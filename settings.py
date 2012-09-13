@@ -149,9 +149,9 @@ BASIC_APPLICATION_GROUPS=[2,3,4]
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 LOGIN_REDIRECT_URL = '/'
-ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window; you may, of course, use a different value.
 
-
+APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
+PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -185,13 +185,6 @@ LOGGING = {
 
 
 
-#THIS IS FOR EMAIL SETTING
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'testing@example.com'
 
 

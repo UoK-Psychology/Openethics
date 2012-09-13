@@ -35,6 +35,6 @@ class FormsTest(TestCase):
         incorrect_data = {'data': {'title': '',}}
         form = EthicsApplicationForm(incorrect_data)
         
-        form.is_valid()
+        #form.is_valid()   #JA - don't think we need this call
         self.assertFalse(form.is_valid())
         self.assertEqual(form.errors['title'], [u'This field is required.'])

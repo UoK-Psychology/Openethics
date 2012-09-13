@@ -34,11 +34,6 @@ def create_application(request):
             new_application.principle_investigator = request.user
             new_application.save()
             
-            principle_investigator_role = Role.objects.get(name='Principle_Investigator')
-            add_local_role(new_application, request.user, principle_investigator_role)
-            approval_workflow = Workflow.objects.get(name='Ethics_Application_Approval')
-            set_workflow(new_application, approval_workflow)
-            
             return HttpResponseRedirect(reverse('application_view', kwargs={'application_id':new_application.id}))
             
     
