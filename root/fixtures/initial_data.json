@@ -11,7 +11,7 @@
         "last_name" : "",
         "password" : "pbkdf2_sha256$10000$nBMqKauQl6Ok$f/NVu8W802SeYLKv848ZThzAxV/eE5bXiob3oAce8n8=",
         "user_permissions" : [  ],
-        "username" : "jjm20"
+        "username" : "admin"
       },
     "model" : "auth.user",
     "pk" : 1
