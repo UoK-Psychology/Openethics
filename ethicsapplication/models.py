@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from questionnaire.models import AnswerSet
+from questionnaire.models import AnswerSet, Questionnaire
 from django.db.models.manager import Manager
 from workflows.utils import set_workflow
 from django.conf import settings
@@ -32,7 +32,8 @@ class EthicsApplication(models.Model):
     principle_investigator = models.ForeignKey(User ,related_name='pi')
     application_form = models.ForeignKey(AnswerSet, related_name='application_form', blank=True, null=True)
     active = models.BooleanField(default=True)
-    
+    checklist = models.ForeignKey(Questionnaire, related_name='checklist_questionnaire', blank=True, null=True)
+    #TODO test the new checklist attribute
     objects = EthicsApplicationManager()
     
     __original_principle_investigator = None

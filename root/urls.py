@@ -14,4 +14,5 @@ urlpatterns = patterns('',
       
       # This is for overiding from outside apps   
       url(r'^application/', include('ethicsapplication.urls')),
+      url(r'^checklist/', include('checklist.urls')),
 )

@@ -1,3 +1,4 @@
+{% load token_tags %}
 <head>
 	<title>View Application: {{application.title}}</title>
 </head>
@@ -5,6 +6,13 @@
 	<p>
 		<h1>{{application.title}}</h1>
 	</p>
+	
+	{% if_has_permission_for_object application edit %}
+		<p>
+			<a href="{% url start_checklist ethics_application_id=application.id %}">Do Checklist</a>
+		</p>
+	{% end_if_has_permission_for_object %}
+	
 	
 	
 	
