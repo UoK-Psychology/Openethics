@@ -46,10 +46,8 @@ class EthicsApplication(models.Model):
         self.__original_principle_investigator = kwargs.get('principle_investigator', None)
         self.__original_id = self.id
         
-        
-    def save(self):
-        
-        super(EthicsApplication, self).save()
+    def save(self, force_insert=False, force_update=False, using=None):
+        super(EthicsApplication, self).save(force_insert, force_update, using) 
         
         if(self.__original_id != self.id): 
             #this is a new application that has been changed (or somehow the id has changed?!)
@@ -66,7 +64,7 @@ class EthicsApplication(models.Model):
         
             
     def __unicode__(self):
-        return '%s, PI:%s' % (self.title, self.principle_investigator.username)
+        return '%s, PI:%s' % (self.title, self.principle_investigator.username) # pragma: no cover
     
 
 
