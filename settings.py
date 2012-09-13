@@ -135,11 +135,15 @@ INSTALLED_APPS = (
     'ethicsapplication',
     'workflows',
     'permissions',
-    'root'
+    'root',
+    'checklist',
+    'workflowutils',
     
     
     
 )
+
+CHECKLIST_ID=1
 
 LOGIN_REDIRECT_URL = '/'
 
