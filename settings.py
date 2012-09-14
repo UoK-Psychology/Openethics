@@ -139,10 +139,17 @@ INSTALLED_APPS = (
     'checklist',
     'workflowutils',
     'django_nose',
+    'djang_jenklins',
     
     
     
 )
+
+PROJECT_APPS= ( 'ethicsapplication',
+                'root',
+                'checklist',
+                'workflowutils',
+               )
 
 CHECKLIST_ID=1
 BASIC_APPLICATION_GROUPS=[2,3,4]
