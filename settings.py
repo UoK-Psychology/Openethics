@@ -139,7 +139,7 @@ INSTALLED_APPS = (
     'checklist',
     'workflowutils',
     'django_nose',
-    'djang_jenklins',
+    'django_jenkins',
     
     
     
