@@ -140,9 +140,6 @@ INSTALLED_APPS = (
     'workflowutils',
     'django_nose',
     'django_jenkins',
-    
-    
-    
 )
 
 PROJECT_APPS= ( 'ethicsapplication',
