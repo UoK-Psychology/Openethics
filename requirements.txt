@@ -7,7 +7,8 @@ coverage==3.5.2
 django-jenkins==0.13.0
 django-nose==1.1
 -e git+https://github.com/UoK-Psychology/django-questionnaire.git#egg=django-questionnaire
--e git+https://github.com/ctrlspc/django-permissions.git#egg=django-permissions django-workflows==1.0.2
+-e git+https://github.com/ctrlspc/django-permissions.git#egg=django-permissions 
+django-workflows==1.0.2
 docutils==0.9.1
 logilab-astng==0.24.0
 logilab-common==0.58.1
