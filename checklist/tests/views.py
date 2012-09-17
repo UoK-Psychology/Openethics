@@ -36,9 +36,10 @@ class StartChecklistTestCase(TestCase):
         response = self.client.get(url)
         
         #get the latest questionnaire
-        new_questionnaire = Questionnaire.objects.latest('id')
+        new_questionnaire = Questionnaire.objects.latest('id')  #gets the highest ID Questionnaire that should have been created by
+                                                                #the view that would have been called by the get(url) above
         self.assertEqual(new_questionnaire.get_ordered_groups()[0].id, int(settings.CHECKLIST_ID))
-        self.assertEqual(new_questionnaire.checklist_questionnaire.get(), self.ethicsApplication)
+        self.assertEqual(new_questionnaire.checklist_questionnaire.get(), self.ethicsApplication) #double check we got back the Questionnaire we were expecting
         
         base_url = reverse('do_checklist', kwargs={'questionnaire_id':new_questionnaire.id})
         on_success_url = reverse('application_view', kwargs={'application_id':self.ethicsApplication.id})
