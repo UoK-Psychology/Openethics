@@ -41,7 +41,7 @@ def create_application(request):
     return render_to_response('ethicsapplication/create.html', {'form':form},
                               context_instance=RequestContext(request))
     
-def _set_checklist_context(ethics_application, user):
+def _set_checklist_context(ethics_application):
     '''
         This function will try to find the correct answerset for the checklist of
         the ethics_application argument, setting this as the context for the ethics_application
