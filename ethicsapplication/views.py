@@ -40,13 +40,25 @@ def create_application(request):
         
     return render_to_response('ethicsapplication/create.html', {'form':form},
                               context_instance=RequestContext(request))
-
+    
+def _set_checklist_context(ethics_application, user):
+    '''
+        This function will try to find the correct answerset for the checklist of
+        the ethics_application argument, setting this as the context for the ethics_application
+        checklist group
+    '''
+    
+    
 @login_required
 def view_application(request, application_id):
     
     ethics_application = get_object_or_404(EthicsApplication,pk=application_id)
     
     if has_permission(ethics_application, request.user, 'view'):
+        
+        #set the context for the checklist
+        _set_checklist_context(ethics_application)
+        
         return render_to_response('ethicsapplication/view_ethics_application.html', {'application':ethics_application},
                               context_instance=RequestContext(request))
     else:

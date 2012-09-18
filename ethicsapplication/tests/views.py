@@ -149,4 +149,30 @@ class ViewApplictionTestCase(TestCase):
         self.assertTemplateUsed('ethicsapplication/view_ethics_application.html') 
         self.assertTrue('application' in response.context)
         self.assertIsInstance(response.context['application'], EthicsApplication)
+        
+class SetChecklistContextTestCase(TestCase):
+    
+    
+    def test_checklist_questionnaire_not_set(self):
+        '''
+            If there has not been a checklist setup yet (i.e. the checklist has not been
+            started) then this function shouldn't do anything 
+        '''
+        self.assertTrue(False)
+        
+    def test_no_answer_set_for_application(self):
+        '''
+            If there is no answerset for the ethics application checklist
+            then this function should do nothing
+        '''
+        self.assertTrue(False)
+        
+        
+    def test_checklist_and_answerset_available(self):
+        '''
+            If there is both a checklist questiongroup, and there is an answerset for it, based
+            on the user and the questionnaire then this function should set the context on the checklist
+            group using the answerset
+        '''
+        self.assertTrue(False)
     
