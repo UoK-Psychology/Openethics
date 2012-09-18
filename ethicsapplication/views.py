@@ -3,14 +3,10 @@ from django.contrib.auth.decorators import login_required
 from ethicsapplication.forms import EthicsApplicationForm
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from ethicsapplication.models import EthicsApplication
-from permissions.utils import has_permission, add_local_role
 from django.core.exceptions import PermissionDenied
-from permissions.models import Role
-from workflows.utils import set_workflow
-from workflows.models import Workflow
 
 
 
