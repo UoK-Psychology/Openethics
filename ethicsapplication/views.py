@@ -6,6 +6,7 @@ from django.template.context import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from ethicsapplication.models import EthicsApplication
+from permissions.utils import has_permission
 from django.core.exceptions import PermissionDenied
 
 
