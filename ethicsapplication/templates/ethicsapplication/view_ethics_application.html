@@ -8,9 +8,14 @@
 	</p>
 	
 	{% if_has_permission_for_object application edit %}
+	
+		{%if application.checklist and application.checklist.get_ordered_groups|first in application.get_answersets %}
+			Checklist done!
+		{% else %}
 		<p>
 			<a href="{% url start_checklist ethics_application_id=application.id %}">Do Checklist</a>
 		</p>
+		{% endif %}
 	{% end_if_has_permission_for_object %}
 	
 	
