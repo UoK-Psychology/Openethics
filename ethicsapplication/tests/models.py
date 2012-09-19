@@ -6,6 +6,7 @@ from django.conf import settings
 from mock import patch, MagicMock, call
 from django.core.exceptions import ImproperlyConfigured
 from workflows.models import Workflow
+from questionnaire.models import Questionnaire, QuestionGroup, AnswerSet
 
 class EthicsApplicationModelTestCase(TestCase):
     
@@ -236,26 +237,92 @@ class EthicsApplicationModelTestCase(TestCase):
         self.assertEqual(remove_local_role_mock.call_count, 0)
         self.assertEqual(add_local_role_mock.call_count, 0)
         
-    def test_get_answersets_no_groups(self):
-        '''
-            If there are no groups (ie no checklist ir ethics application) then this should return
-            an empty dictionary 
-        '''
-        self.assertTrue(False)
+    
+    def _fabricate_empty_questionnaire(self, name):
+        test_questionnaire = Questionnaire.objects.create(name=name)
+        test_group = QuestionGroup.objects.create(name=name)
+        test_questionnaire.add_question_group(test_group)
+        return test_questionnaire
         
-    def test_get_answersets_groups_no_data(self):
+    def _fabricate_checklist(self, ethics_application):
+        ethics_application.checklist = self._fabricate_empty_questionnaire('checklist')
+    def _fabricate_application_form(self, ethics_application):
+        ethics_application.application_form = self._fabricate_empty_questionnaire('application')
+        
+    def _fabricate_answerset(self, user, questionnaire):
+        return  AnswerSet.objects.create(user=user,
+                                         questionnaire=questionnaire,
+                                         questiongroup=questionnaire.get_ordered_groups()[0])
+
+    def test_get_answersets_for_questionnaire_none(self):
+        '''
+            If you pass None into this function then it will return an empty list
+        '''
+        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
+        
+        self.assertEqual(test_application._get_answersets_for_questionnaire(None), {})
+    
+    def test_get_answersets_for_questionnaire_no_groups(self):
+        '''
+            If you pass a questionnaire that has no groups into this function then it will return an empty list
+        '''
+        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
+        
+        self.assertEqual(test_application._get_answersets_for_questionnaire(Questionnaire.objects.create(name='test')), {})
+            
+    def test__get_answersets_for_questionnaire_groups_no_data(self):
         '''
             If a group doesn't have an answerset then it should not be entered into the dictionary
             therfore if there are no answersets for any of the groups, a empty dictionary should be returned.
         '''
-        self.assertTrue(False)
+        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
         
-    def test_get_answersets_groups_with_data(self):
+        self._fabricate_checklist(test_application)#checklist but no answers
+        
+        
+        self.assertEqual(test_application._get_answersets_for_questionnaire(test_application.checklist), {})#no answers to anything so nothing in the dictionary
+        
+    def test__get_answersets_for_questionnaire_groups_with_data(self):
         '''
             If there are groups configured then for every group that has an aswerset there should be a record in 
             the database, the key should be the group, and the value is the answerset
         '''
-        self.assertTrue(False)
+        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
+        
+        self._fabricate_checklist(test_application)#checklist but no answers
+ 
+        
+        #answers for checklist but not applciation form
+        answer_set = self._fabricate_answerset(a_user, test_application.checklist)
+        
+        
+        self.assertEqual(test_application._get_answersets_for_questionnaire(test_application.checklist),
+                                                     {test_application.checklist.get_ordered_groups()[0]:answer_set})
+        
+    def test_get_answersets(self):
+        '''
+            This function should call _get_answersets_for_questionnaire twice,
+            once for the checklist, and again for the application_form,
+            concatenating the result
+        '''
+        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
+        
+        self._fabricate_checklist(test_application)#checklist but no answers
+        self._fabricate_application_form(test_application)
+        
+        with patch('ethicsapplication.models.EthicsApplication._get_answersets_for_questionnaire') as function_mock:
+            function_mock.return_value = {'a':1}
+            self.assertEqual(test_application.get_answersets(),{'a':1})
+            self.assertEqual(function_mock.mock_calls, [call(test_application.checklist),
+                                                        call(test_application.application_form)]
+                             )
+        
+        
         
 class EthicsApplicationManagerTestCase(TestCase):
     
