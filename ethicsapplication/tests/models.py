@@ -1,12 +1,3 @@
-'''
-This will test the model code for the ethicsapplication application
-
-Created on Jul 25, 2012
-
-@author: jasonmarshall
-'''
-
-
 from django.test import TestCase
 from ethicsapplication.models import EthicsApplication, EthicsApplicationManager
 from django.contrib.auth.models import User
@@ -244,6 +235,27 @@ class EthicsApplicationModelTestCase(TestCase):
         a_role_mock.get_local_users.assert_called_once_with(test_application)
         self.assertEqual(remove_local_role_mock.call_count, 0)
         self.assertEqual(add_local_role_mock.call_count, 0)
+        
+    def test_get_answersets_no_groups(self):
+        '''
+            If there are no groups (ie no checklist ir ethics application) then this should return
+            an empty dictionary 
+        '''
+        self.assertTrue(False)
+        
+    def test_get_answersets_groups_no_data(self):
+        '''
+            If a group doesn't have an answerset then it should not be entered into the dictionary
+            therfore if there are no answersets for any of the groups, a empty dictionary should be returned.
+        '''
+        self.assertTrue(False)
+        
+    def test_get_answersets_groups_with_data(self):
+        '''
+            If there are groups configured then for every group that has an aswerset there should be a record in 
+            the database, the key should be the group, and the value is the answerset
+        '''
+        self.assertTrue(False)
         
 class EthicsApplicationManagerTestCase(TestCase):
     

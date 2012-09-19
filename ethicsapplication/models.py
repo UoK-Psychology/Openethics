@@ -115,3 +115,14 @@ class EthicsApplication(models.Model):
         else:
             raise ImproperlyConfigured('You must set PRINCIPLE_INVESTIGATOR_ROLE in the settings file')
         
+    def get_answersets(self):
+        '''
+            Returns a dictionary that has questiongroups as the key and answersets as the values
+            The questiongroups are those defined in the checklist and application_form questionnaires
+            and the answersets are the answers for those questionnaires created by the principle investigator
+        '''
+        
+        
+        
+        
+        
