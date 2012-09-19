@@ -14,7 +14,6 @@ from ethicsapplication.models import EthicsApplication
 from django.conf import settings
 from questionnaire.models import Questionnaire, QuestionGroup, Question,\
     Question_order, AnswerSet
-from ethicsapplication.views import _set_checklist_context
 
 class CreateViewsTest(TestCase):
     
@@ -153,48 +152,3 @@ class ViewApplictionTestCase(TestCase):
         self.assertTrue('application' in response.context)
         self.assertIsInstance(response.context['application'], EthicsApplication)
         
-class SetChecklistContextTestCase(TestCase):
-    
-    def setUp(self):
-        
-        self.test_user = User.objects.create_user('test_user', 'test@test.com', 'password')
-        self.checklist_questionnaire = Questionnaire.objects.create(name='test_questionnaire')
-        self.checklist_group = QuestionGroup.objects.create(name='checklist_group')
-        self.checklist_questionnaire.add_question_group(self.checklist_group)
-        self.test_application =  EthicsApplication.objects.create(title='test_application', 
-                                                                  principle_investigator=self.test_user)
-        
-    def test_checklist_questionnaire_not_set(self):
-        '''
-            If there has not been a checklist setup yet (i.e. the checklist has not been
-            started) then this function shouldn't do anything 
-        '''
-        _set_checklist_context(self.test_application)
-        self.assertIsNone(self.test_application.checklist)#nothing should have happened and no exceptions thrown
-        
-    def test_no_answer_set_for_application(self):
-        '''
-            If there is no answerset for the ethics application checklist
-            then this function should do nothing
-        '''
-        
-        self.test_application.checklist = self.checklist_questionnaire
-        _set_checklist_context(self.test_application)
-        
-        self.assertIsNone(self.test_application.checklist.get_ordered_groups()[0]._context)#there is no answerset so the context should be none
-        
-        
-    def test_checklist_and_answerset_available(self):
-        '''
-            If there is both a checklist questiongroup, and there is an answerset for it, based
-            on the user and the questionnaire then this function should set the context on the checklist
-            group using the answerset
-        '''
-        self.test_application.checklist = self.checklist_questionnaire
-        answer_set = AnswerSet.objects.create(user=self.test_user,
-                                                   questionnaire=self.checklist_questionnaire,
-                                                   questiongroup=self.checklist_group)
-
-        _set_checklist_context(self.test_application)
-        self.assertEqual(self.test_application.checklist.get_ordered_groups()[0]._context, answer_set)
-    
