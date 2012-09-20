@@ -95,8 +95,7 @@ class GetBasicApplicationGroupsTests(TestCase):
         self.assertRaises(ImproperlyConfigured, _get_basic_application_groups)
         
         
-class ConfigureApplicationFormGroupsTests(TestCase):
-    
+class GetApplicationGroupsFromChecklistTests(TestCase):
     def test_checklist_incomplete(self):
         '''
             If the checklist for the ethiscApplication is incomplete, then this should thrown an 
