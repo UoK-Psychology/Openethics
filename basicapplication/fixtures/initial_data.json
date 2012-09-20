@@ -54,7 +54,7 @@
       },
     "model" : "questionnaire.question",
     "pk" : 20
-  }
+  },
   { "fields" : { "name" : "Study Description" },
     "model" : "questionnaire.questiongroup",
     "pk" : 2

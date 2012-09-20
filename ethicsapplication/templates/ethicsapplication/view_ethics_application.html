@@ -18,7 +18,28 @@
 		{% endif %}
 	{% end_if_has_permission_for_object %}
 	
-	
+		<!-- keep this outside the permissions checking section during development-->
+		<p>
+			Questionnaire groups:
+		</p>
+		<!--
+			<ol>
+
+				{% for group in questiongroup %}
+
+				<li>
+					<a href="{% url handle_next_questiongroup_form_single questionnaire_id=application.application_form.id order_index=1 group_limit=1	%}">group 1</a>
+				</li>				
+				{% endfor %}
+			
+			</ol>
+		-->
+						{{application.application_form}}
+		<ol>
+			<li>
+				<a href="{% url handle_next_questiongroup_form_single questionnaire_id=6 order_index=1 group_limit=1 %}">group 1</a>
+			</li>
+		</ol>
 	
 	
 </body>
