@@ -79,6 +79,15 @@
       "name": "Checklist for application id: 1"
     }
   }, 
+  {
+    "pk": 1, 
+    "model": "questionnaire.questiongroup_order", 
+    "fields": {
+      "questiongroup": 1, 
+      "questionnaire": 2, 
+      "order_info": 1
+    }
+  }, 
   
   {
     "pk": 21, 
@@ -190,7 +199,7 @@
     "pk": 8, 
     "model": "questionnaire.questionanswer", 
     "fields": {
-      "answer": "0", 
+      "answer": "1", 
       "question": 4, 
       "answer_set": 1, 
       "created": "2012-09-20T14:17:55.343Z"

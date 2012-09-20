@@ -6,6 +6,7 @@ from django.conf import settings
 from questionnaire.models import QuestionGroup, Questionnaire
 from django.http import HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
+from applicationform.models import FullApplicationChecklistLink
 
 
 def _get_application_groups_from_checklist(ethics_application):
@@ -17,6 +18,21 @@ def _get_application_groups_from_checklist(ethics_application):
         If the checklist has not been completed then this function will raise an Attribute Error
         as the checklist is essential to this operation
     '''
+    
+    if ethics_application.checklist == None or not ethics_application.checklist.get_ordered_groups()[0] in ethics_application.get_answersets():
+        raise AttributeError
+    
+    checklist_answer_set = ethics_application.get_answersets()[ethics_application.checklist.get_ordered_groups()[0]]
+    
+    all_groups = []
+    for question_answer in checklist_answer_set.get_latest_question_answers():
+        if bool(question_answer.answer):
+            
+            all_groups += FullApplicationChecklistLink.objects.get_ordered_groups_for_question(question_answer.question)
+            
+    
+    return list(set(all_groups))
+    
     
     
 def _get_basic_application_groups():
