@@ -11,6 +11,9 @@ class FullApplicationChecklistLinkManager(models.Manager):
             checklist_question, in order.
         '''
         
+        return [link.included_group for link in super(FullApplicationChecklistLinkManager, self).
+                get_query_set().filter(checklist_question=the_question).order_by('order')]
+        
         
 
 
