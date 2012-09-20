@@ -3,8 +3,9 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.test import TestCase
-from questionnaire.models import Questionnaire
+from questionnaire.models import Questionnaire, QuestionGroup
 from django.core.exceptions import ImproperlyConfigured
+from applicationform.views import _get_basic_application_groups
 
 class FinishedChecklistTestCase(TestCase):
 
@@ -30,70 +31,87 @@ class FinishedChecklistTestCase(TestCase):
         response = self.client.get(url)
         self.assertEquals (404, response.status_code )
         
+    def test_checklist_not_complete(self):
+        '''
+            If the checklist is not completed for the ethics application supplied, then a 404 error
+            should be thrown
+        '''
+        self.assertTrue(False)
+        
     def test_get_valid_firsttime(self):
         '''
-        If ethics application model is valid and doesnt have an existing application 
-        form questinnaire and user is logged in then:
-            - a new application form questionnaire is created and associated to the 
-            ethics application model
-            - the application form questionnaire has the correct question groups
-            configured based on settings.BASIC_APPLICATION_GROUPS
-            - we should be redirected to the view page for the ethics application
+            If this is the first time (i.e there is not an application already configured) then
+            this function should call the _get_basic_application_groups and the _configure_application_form
+            functions, concatenating the list of groups generated (basic application groups first) together.
+            These groups should then be added to a new Questionnaire object which is assigned to the
+            application_form field for the ethicsApplication.
+            Once completed it should return to the view page for this ethics application
         '''
-        settings.BASIC_APPLICATION_GROUPS = [1,1,1]  # only group 1 is setup in the local fixture
-        self.client.login(username='test', password='password') 
-        response = self.client.get(self.url)
-        
-        self.ethicsApplication = EthicsApplication.objects.get(id=self.ethicsApplication.id)  #refresh our instance from the DB
-        self.assertIsInstance(self.ethicsApplication.application_form, Questionnaire)
-        
-        applicationform_groups = [group.id for group in self.ethicsApplication.application_form.get_ordered_groups()]
-        self.assertEqual(settings.BASIC_APPLICATION_GROUPS, applicationform_groups)    
-        
-        redirect_url = reverse('application_view', kwargs={'application_id':self.ethicsApplication.id})
-        self.assertEquals (302, response.status_code )
-        self.assertEquals (response['Location'], 'http://testserver' + redirect_url)
+        self.assertTrue(False)
         
     def test_get_valid_notfirsttime(self):
         '''
-        If ethics application model is valid and does have an existing application 
-        form questinnaire and user is logged in then:
-            - check that the application form questionnaire doesn't change
-            - we should be redirected to the view page for the ethics application
+            If there is already an ethicsApplication questionnaire, then this function should do nothing,
+            and simply return to the view page for the ethics application.
         '''
-        settings.BASIC_APPLICATION_GROUPS = [1,1,1]
-        self.client.login(username='test', password='password') 
-        test_questionnaire=Questionnaire.objects.create(name='testname')
-        self.ethicsApplication.application_form = test_questionnaire
-        self.ethicsApplication.save() 
-              
-        response = self.client.get(self.url)
-        #check that our EA has not been changed by getting it back from the DB and compairing it with
-        #the one we created and stored away at the beginning
-        self.ethicsApplication = EthicsApplication.objects.get(id=self.ethicsApplication.id)  #refresh our instance from the DB
-        self.assertEqual(self.ethicsApplication.application_form, test_questionnaire)
-        #check we got sent to the expected url
-        redirect_url = reverse('application_view', kwargs={'application_id':self.ethicsApplication.id})
-
-        self.assertEquals (302, response.status_code )
-        self.assertEquals (response['Location'], 'http://testserver' + redirect_url)
-
+        self.assertTrue(False)
         
-    def test_basic_application_group_setting_improperly_configured(self):
+class GetBasicApplicationGroupsTests(TestCase):
+    
+    def setUp(self):
+        settings.BASIC_APPLICATION_GROUPS = []
+        self.user = User.objects.create_user('test', 'test@test.com', 'password')
+        self.ethicsApplication = EthicsApplication.objects.create(title='test application', principle_investigator=self.user)
+       
+    def test_valid_configuration(self):
+        '''
+            If the configuration of the basic application groups is valid then this function should
+            return a list of Questiongroups representing the configured id's, in the same order as is specified
+            in the setting
+        '''
+        settings.BASIC_APPLICATION_GROUPS = [1,3,2]  # only group 1 is setup in the initial_data fixture
+       
+        groups = _get_basic_application_groups()
+        self.assertEqual(groups,
+                         [
+                              QuestionGroup.objects.get(id=settings.BASIC_APPLICATION_GROUPS[0]),
+                              QuestionGroup.objects.get(id=settings.BASIC_APPLICATION_GROUPS[1]),
+                              QuestionGroup.objects.get(id=settings.BASIC_APPLICATION_GROUPS[2]),
+                          ])
+        
+    def test_setting_improperly_configured(self):
         '''
             If there is no settings.BASIC_APPLICATION_GROUPS or the groups it references 
             do not exist then an ImproperlyConfigured
             exception will be thrown
         '''
-        if hasattr(settings, 'BASIC_APPLICATION_GROUPS'):
-            del(settings.BASIC_APPLICATION_GROUPS)
         
-        self.client.login(username='test', password='password') 
-        self.assertRaises(ImproperlyConfigured, self.client.get, self.url)
+        del(settings.BASIC_APPLICATION_GROUPS)#setting not present
         
-        settings.BASIC_APPLICATION_GROUPS = [99999,]
+        self.assertRaises(ImproperlyConfigured, _get_basic_application_groups)
         
-        self.client.login(username='test', password='password') 
-        self.assertRaises(ImproperlyConfigured, self.client.get, self.url)
+        settings.BASIC_APPLICATION_GROUPS = [99999,]#groups don't exist for setting
+        
+        self.assertRaises(ImproperlyConfigured, _get_basic_application_groups)
+        
+        
+class ConfigureApplicationFormGroupsTests(TestCase):
+    
+    def test_checklist_incomplete(self):
+        '''
+            If the checklist for the ethiscApplication is incomplete, then this should thrown an 
+            Attribute error, as the checklist answers are essential for this operation
+        '''
+        self.assertTrue(False)  
+        
+    def test_checklist_complete(self):
+        '''
+            If the checklist is complete then this function should locate all the questions
+            that responded True, then do a look up to get a list of all the QuestionGroups that are linked
+            to this question.
+            The function should then create a QuestionGroup set, which will exclude duplicates of groups that are
+            linked to more than one question, only adding them the first time they are included by a question.
+        '''
+        self.assertTrue(False)     
         
 
