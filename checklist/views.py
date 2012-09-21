@@ -35,8 +35,13 @@ def start_checklist(request, ethics_application_id):
         ethics_application.save()
         
     base_url = reverse('do_checklist', kwargs={'questionnaire_id':ethics_application.checklist.id})
-    application_view_url = reverse('application_view', kwargs={'application_id':ethics_application.id})
-    url = '%s?on_success=%s' % (base_url, application_view_url)
+
+    #application_view_url = reverse('application_view', kwargs={'application_id':ethics_application.id})
+    #url = '%s?on_success=%s' % (base_url, application_view_url)
+
+    application_success_url = reverse('finished_checklist', kwargs={'ethics_application_id':ethics_application.id})
+    url = '%s?on_success=%s' % (base_url, application_success_url)
+
     return HttpResponseRedirect(url)
         
         
