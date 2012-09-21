@@ -25,7 +25,8 @@
 			<ol>
 				{% for group in application.application_form.get_ordered_groups %}
 				<li>
-					<a href="{% url handle_next_questiongroup_form_single questionnaire_id=application.application_form.id order_index=forloop.counter0 group_limit=1 %}">group 1</a>
+					<a href="{% url handle_next_questiongroup_form_single questionnaire_id=application.application_form.id order_index=forloop.counter0 group_limit=1 %}">
+						{{group.name}}</a>
 				</li>				
 				{% endfor %}	
 			</ol>
