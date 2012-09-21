@@ -21,7 +21,5 @@ urlpatterns = patterns('',
                     'finished_url':'/',
                     'success_name':'on_success',
                     }),                  
-      url(r'^finish/(?P<ethics_application_id>\d+)/$',
-          view ='applicationform.views.configure_application_form', 
-          name='finished_checklist'),
+      
 )

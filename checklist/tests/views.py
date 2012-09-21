@@ -42,7 +42,7 @@ class StartChecklistTestCase(TestCase):
         self.assertEqual(new_questionnaire.checklist_questionnaire.get(), self.ethicsApplication) #double check we got back the Questionnaire we were expecting
         
         base_url = reverse('do_checklist', kwargs={'questionnaire_id':new_questionnaire.id})
-        on_success_url = reverse('application_view', kwargs={'application_id':self.ethicsApplication.id})
+        on_success_url = reverse('configure_application_form', kwargs={'ethics_application_id':self.ethicsApplication.id})
         url = '%s?on_success=%s' % (base_url, on_success_url)
         
         self.assertRedirects(response, expected_url=url)
@@ -67,7 +67,7 @@ class StartChecklistTestCase(TestCase):
         response = self.client.get(url)
         
         base_url = reverse('do_checklist', kwargs={'questionnaire_id':test_questionnaire.id})
-        on_success_url = reverse('application_view', kwargs={'application_id':self.ethicsApplication.id})
+        on_success_url = reverse('configure_application_form', kwargs={'ethics_application_id':self.ethicsApplication.id})
         url = '%s?on_success=%s' % (base_url, on_success_url)
         
         self.assertRedirects(response, expected_url=url)

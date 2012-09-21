@@ -39,38 +39,10 @@ def start_checklist(request, ethics_application_id):
     #application_view_url = reverse('application_view', kwargs={'application_id':ethics_application.id})
     #url = '%s?on_success=%s' % (base_url, application_view_url)
 
-    application_success_url = reverse('finished_checklist', kwargs={'ethics_application_id':ethics_application.id})
+    application_success_url = reverse('configure_application_form', kwargs={'ethics_application_id':ethics_application.id})
     url = '%s?on_success=%s' % (base_url, application_success_url)
 
     return HttpResponseRedirect(url)
         
         
-def finished_checklist(request, ethics_application_id):
-    if not request.user.is_authenticated():
-        raise PermissionDenied()
-    
-    ethics_application = get_object_or_404(EthicsApplication, pk=ethics_application_id)
-    
-    if not hasattr(settings, 'BASIC_APPLICATION_GROUPS'):
-            raise ImproperlyConfigured('BASIC_APPLICATION_GROUPS ID not configured')
-    else:
-        application_groups = []
-        for primary_key in settings.BASIC_APPLICATION_GROUPS:
-            try:
-                group = QuestionGroup.objects.get(pk=primary_key)
-                application_groups.append(group)
-            except ObjectDoesNotExist:
-                raise ImproperlyConfigured('Question group does not exist for configured id of: %s' % primary_key)
-    
-    if ethics_application.application_form is None:
-        application_form_questionnaire = Questionnaire.objects.create(name='Application form for application id: %s' % ethics_application.id)
-        for group in application_groups:
-            application_form_questionnaire.add_question_group(group)
-        
-        ethics_application.application_form = application_form_questionnaire
-        ethics_application.save()
-           
-    return HttpResponseRedirect(reverse('application_view', kwargs={'application_id':ethics_application_id}))
-
-
 

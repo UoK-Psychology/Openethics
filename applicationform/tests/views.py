@@ -35,7 +35,7 @@ class FinishedChecklistTestCase(TestCase):
         '''
         If user is not logged in then they should get a page forbidden 403
         '''
-        url = reverse('finished_checklist', kwargs={'ethics_application_id':self.ethicsApplication.id})
+        url = reverse('configure_application_form', kwargs={'ethics_application_id':self.ethicsApplication.id})
         response = self.client.get(url)
         self.assertEquals (403, response.status_code )
         
@@ -44,7 +44,7 @@ class FinishedChecklistTestCase(TestCase):
         If ethics applicatin ID is invalid we should get a 404 does not exist
         '''
         self.client.login(username='test', password='password') 
-        url = reverse('finished_checklist', kwargs={'ethics_application_id':971234})
+        url = reverse('configure_application_form', kwargs={'ethics_application_id':971234})
         response = self.client.get(url)
         self.assertEquals (404, response.status_code )
     
@@ -56,7 +56,7 @@ class FinishedChecklistTestCase(TestCase):
             should be thrown
         '''
         self.client.login(username='test', password='password') 
-        url = reverse('finished_checklist', kwargs={'ethics_application_id':self.ethicsApplication.id})
+        url = reverse('configure_application_form', kwargs={'ethics_application_id':self.ethicsApplication.id})
         #no checklist configured
         response = self.client.get(url)
         self.assertEquals (404, response.status_code )
@@ -81,7 +81,7 @@ class FinishedChecklistTestCase(TestCase):
         
         #setup
         self.client.login(username='test', password='password') 
-        url = reverse('finished_checklist', kwargs={'ethics_application_id':self.ethicsApplication.id})
+        url = reverse('configure_application_form', kwargs={'ethics_application_id':self.ethicsApplication.id})
         self.ethicsApplication.checklist = _fabricate_checklist_questionnaire()
         self.ethicsApplication.save()
         _fabricate_checklist_answers_set(self.user, self.ethicsApplication.checklist)
@@ -109,7 +109,7 @@ class FinishedChecklistTestCase(TestCase):
             If there is already an ethicsApplication questionnaire, then this function should do nothing,
             and simply return to the view page for the ethics application.
         '''
-        url = reverse('finished_checklist', kwargs={'ethics_application_id':self.ethicsApplication.id})
+        url = reverse('configure_application_form', kwargs={'ethics_application_id':self.ethicsApplication.id})
         self.client.login(username='test', password='password') 
         self.ethicsApplication.checklist = _fabricate_checklist_questionnaire()
         self.ethicsApplication.save()
