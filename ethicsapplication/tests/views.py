@@ -12,6 +12,8 @@ from ethicsapplication.forms import EthicsApplicationForm
 from django.contrib.auth.models import User
 from ethicsapplication.models import EthicsApplication
 from django.conf import settings
+from questionnaire.models import Questionnaire, QuestionGroup, Question,\
+    Question_order, AnswerSet
 
 class CreateViewsTest(TestCase):
     
@@ -149,4 +151,4 @@ class ViewApplictionTestCase(TestCase):
         self.assertTemplateUsed('ethicsapplication/view_ethics_application.html') 
         self.assertTrue('application' in response.context)
         self.assertIsInstance(response.context['application'], EthicsApplication)
-    
+        

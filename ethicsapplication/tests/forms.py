@@ -27,6 +27,7 @@ class FormsTest(TestCase):
         self.assertFalse('principle_investigator' in form.fields)
         self.assertFalse('application_form' in form.fields)
         self.assertFalse('active' in form.fields)
+        self.assertFalse('checklist' in form.fields)
 
     def test_EthicsApplication_form_title_must_be_present(self):
         '''
