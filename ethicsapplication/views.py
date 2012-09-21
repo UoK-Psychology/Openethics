@@ -8,8 +8,7 @@ from django.core.urlresolvers import reverse
 from ethicsapplication.models import EthicsApplication
 from permissions.utils import has_permission
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
-from questionnaire.models import AnswerSet
-
+from questionnaire.models import AnswerSet, QuestionGroup_order
 
 
 @login_required
@@ -50,7 +49,6 @@ def view_application(request, application_id):
     ethics_application = get_object_or_404(EthicsApplication,pk=application_id)
     
     if has_permission(ethics_application, request.user, 'view'):
-        
         return render_to_response('ethicsapplication/view_ethics_application.html', {'application':ethics_application},
                               context_instance=RequestContext(request))
     else:
