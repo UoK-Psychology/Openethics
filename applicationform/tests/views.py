@@ -197,6 +197,7 @@ class GetApplicationGroupsFromChecklistTests(TestCase):
             linked to more than one question, only adding them the first time they are included by a question.
             
             this test makes use of the above fixture
+            checklist question 1 links to group 9
             checklist question 2 links to groups 6 and 7
             checklist question 3 links to groups 7
             checklist question 4 links to groups 8
@@ -205,7 +206,7 @@ class GetApplicationGroupsFromChecklistTests(TestCase):
             answered as yes
             
             therefore we should expect to get a groups 6,7,8 back in that order, importantly we shouldn't
-            see 6,7,7,8 returned
+            see 6,7,7,8 returned, nor 9 returned as this question is answered as no.
         '''
     
         test_application = EthicsApplication.objects.get(id=1)
@@ -218,4 +219,4 @@ class GetApplicationGroupsFromChecklistTests(TestCase):
                           ])
         
         
-
+    

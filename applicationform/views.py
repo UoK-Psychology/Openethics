@@ -26,7 +26,7 @@ def _get_application_groups_from_checklist(ethics_application):
     
     all_groups = []
     for question_answer in checklist_answer_set.get_latest_question_answer_in_order():
-        if bool(question_answer.answer):
+        if bool(int(question_answer.answer)):
             
             all_groups += FullApplicationChecklistLink.objects.get_ordered_groups_for_question(question_answer.question)
             

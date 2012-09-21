@@ -52,6 +52,15 @@
     }
   }, 
   {
+    "pk": 5, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 9, 
+      "checklist_question": 1, 
+      "order": 1
+    }
+  }, 
+  {
     "pk": 6, 
     "model": "questionnaire.questiongroup", 
     "fields": {
@@ -70,6 +79,13 @@
     "model": "questionnaire.questiongroup", 
     "fields": {
       "name": "included 3"
+    }
+  },
+  {
+    "pk": 9, 
+    "model": "questionnaire.questiongroup", 
+    "fields": {
+      "name": "included 4"
     }
   },
   {
