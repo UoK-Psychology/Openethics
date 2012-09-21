@@ -146,6 +146,10 @@ class EthicsApplication(models.Model):
             
         return answersets
         
+    def is_ready_to_submit(self):
+        '''
         
+        '''
+        return False
         
         

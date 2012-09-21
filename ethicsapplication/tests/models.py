@@ -322,7 +322,21 @@ class EthicsApplicationModelTestCase(TestCase):
                                                         call(test_application.application_form)]
                              )
         
+    def test_is_ready_to_submit_no_questionnaires(self):
+        '''
+            This test should simply return False if there are no questionnaires or groups for
+            checklist and ethics application
         
+        '''
+        self.assertTrue(False)
+        
+    def test_is_ready_to_submit(self):
+        '''
+            This test should only return true is there is an answerset available for the checklist
+            and every questiongroup in the applicationform. 
+        
+        '''
+        self.assertTrue(False)
         
 class EthicsApplicationManagerTestCase(TestCase):
     
