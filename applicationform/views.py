@@ -25,13 +25,16 @@ def _get_application_groups_from_checklist(ethics_application):
     checklist_answer_set = ethics_application.get_answersets()[ethics_application.checklist.get_ordered_groups()[0]]
     
     all_groups = []
-    for question_answer in checklist_answer_set.get_latest_question_answers():
+    for question_answer in checklist_answer_set.get_latest_question_answer_in_order():
         if bool(question_answer.answer):
             
             all_groups += FullApplicationChecklistLink.objects.get_ordered_groups_for_question(question_answer.question)
             
+    duplicates_removed = []
+    [duplicates_removed.append(i) for i in all_groups if not duplicates_removed.count(i)]
     
-    return list(set(all_groups))
+    
+    return duplicates_removed
     
     
     

@@ -209,7 +209,8 @@ class GetApplicationGroupsFromChecklistTests(TestCase):
         '''
     
         test_application = EthicsApplication.objects.get(id=1)
-        self.assertEqual(_get_application_groups_from_checklist(test_application),
+        returned_groups = _get_application_groups_from_checklist(test_application)
+        self.assertEqual(returned_groups,
                          [
                           QuestionGroup.objects.get(id=6),
                           QuestionGroup.objects.get(id=7),
