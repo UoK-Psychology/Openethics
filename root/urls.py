@@ -15,7 +15,7 @@ urlpatterns = patterns('',
       # This is for overiding from outside apps   
       url(r'^application/', include('ethicsapplication.urls')),
       url(r'^checklist/', include('checklist.urls')),
-      
+      url(r'^applicationform/', include('applicationform.urls')),
       #temporarily put this here until we find a better place for it
       #url(r'questionnaire/', include('questionnaire.urls')),
       url(r'^qs/(?P<questionnaire_id>\d+)/(?P<order_index>\d+)/(?P<group_limit>\d+)/$', 

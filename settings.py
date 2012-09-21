@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     'permissions',
     'root',
     'checklist',
+    'applicationform',
     'workflowutils',
     'django_nose',
     'django_jenkins',
