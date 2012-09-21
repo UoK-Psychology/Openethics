@@ -10,4 +10,4 @@ from ethicsapplication.models import EthicsApplication
 class EthicsApplicationForm(ModelForm):
     class Meta:
         model = EthicsApplication
-        exclude = ('principle_investigator','application_form', 'active')
+        exclude = ('principle_investigator','application_form', 'active', 'checklist')

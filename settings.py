@@ -138,12 +138,19 @@ INSTALLED_APPS = (
     'root',
     'checklist',
     'workflowutils',
-    
-    
-    
+    'django_nose',
+    'django_jenkins',
 )
 
+PROJECT_APPS= ( 'ethicsapplication',
+                'root',
+                'checklist',
+                'workflowutils',
+               )
+
 CHECKLIST_ID=1
+BASIC_APPLICATION_GROUPS=[2,3,4]
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 LOGIN_REDIRECT_URL = '/'
 

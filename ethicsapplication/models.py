@@ -30,7 +30,7 @@ class EthicsApplication(models.Model):
     
     title = models.CharField(max_length=255, default=None)  #default=None stops null strings which effectively makes it mandatory
     principle_investigator = models.ForeignKey(User ,related_name='pi')
-    application_form = models.ForeignKey(AnswerSet, related_name='application_form', blank=True, null=True)
+    application_form = models.ForeignKey(Questionnaire, related_name='application_form', blank=True, null=True)
     active = models.BooleanField(default=True)
     checklist = models.ForeignKey(Questionnaire, related_name='checklist_questionnaire', blank=True, null=True)
     #TODO test the new checklist attribute
@@ -46,10 +46,8 @@ class EthicsApplication(models.Model):
         self.__original_principle_investigator = kwargs.get('principle_investigator', None)
         self.__original_id = self.id
         
-        
-    def save(self):
-        
-        super(EthicsApplication, self).save()
+    def save(self, force_insert=False, force_update=False, using=None):
+        super(EthicsApplication, self).save(force_insert, force_update, using) 
         
         if(self.__original_id != self.id): 
             #this is a new application that has been changed (or somehow the id has changed?!)
@@ -66,7 +64,7 @@ class EthicsApplication(models.Model):
         
             
     def __unicode__(self):
-        return '%s, PI:%s' % (self.title, self.principle_investigator.username)
+        return '%s, PI:%s' % (self.title, self.principle_investigator.username) # pragma: no cover
     
 
 
@@ -116,4 +114,38 @@ class EthicsApplication(models.Model):
                 raise ImproperlyConfigured('The workflow you specify in PRINCIPLE_INVESTIGATOR_ROLE must actually be configured in the db')
         else:
             raise ImproperlyConfigured('You must set PRINCIPLE_INVESTIGATOR_ROLE in the settings file')
+        
+    def _get_answersets_for_questionnaire(self, questionnaire):
+        
+        answersets = {}
+        
+        if questionnaire != None:
+            for group in questionnaire.get_ordered_groups():
+                    try:
+                        answer_set = AnswerSet.objects.get(user=self.principle_investigator,
+                                                              questionnaire=questionnaire,
+                                                              questiongroup=group)
+                        answersets[group] = answer_set
+                        
+                    except ObjectDoesNotExist:
+                        pass
+                
+        return answersets
+    def get_answersets(self):
+        '''
+            Returns a dictionary that has questiongroups as the key and answersets as the values
+            The questiongroups are those defined in the checklist and application_form questionnaires
+            and the answersets are the answers for those questionnaires created by the principle investigator
+        '''
+        #for checklist
+        answersets = {}
+        if self.checklist != None:
+            answersets.update(self._get_answersets_for_questionnaire(self.checklist))
+        if self.application_form != None:
+            answersets.update( self._get_answersets_for_questionnaire(self.application_form))
+            
+        return answersets
+        
+        
+        
         

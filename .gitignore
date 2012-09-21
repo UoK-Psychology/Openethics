@@ -2,3 +2,5 @@
 .pydevproject
 *.pyc
 sqlite.db
+
+.coverage

@@ -8,12 +8,27 @@
 	</p>
 	
 	{% if_has_permission_for_object application edit %}
+	
+		{%if application.checklist and application.checklist.get_ordered_groups|first in application.get_answersets %}
+			Checklist done!
+		{% else %}
 		<p>
 			<a href="{% url start_checklist ethics_application_id=application.id %}">Do Checklist</a>
 		</p>
+		{% endif %}
 	{% end_if_has_permission_for_object %}
 	
-	
-	
-	
+		<!-- keep this outside the permissions checking section during development-->
+		<p>
+			Questionnaire groups:
+		</p>
+			<ol>
+				{% for group in application.application_form.get_ordered_groups %}
+				<li>
+					<a href="{% url handle_next_questiongroup_form_single questionnaire_id=application.application_form.id order_index=forloop.counter0 group_limit=1 %}">
+						{{group.name}}</a>
+				</li>				
+				{% endfor %}	
+			</ol>
+
 </body>

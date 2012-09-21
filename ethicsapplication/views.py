@@ -3,15 +3,12 @@ from django.contrib.auth.decorators import login_required
 from ethicsapplication.forms import EthicsApplicationForm
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from ethicsapplication.models import EthicsApplication
-from permissions.utils import has_permission, add_local_role
-from django.core.exceptions import PermissionDenied
-from permissions.models import Role
-from workflows.utils import set_workflow
-from workflows.models import Workflow
-
+from permissions.utils import has_permission
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
+from questionnaire.models import AnswerSet, QuestionGroup_order
 
 
 @login_required
@@ -43,7 +40,9 @@ def create_application(request):
         
     return render_to_response('ethicsapplication/create.html', {'form':form},
                               context_instance=RequestContext(request))
+    
 
+    
 @login_required
 def view_application(request, application_id):
     
