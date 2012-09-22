@@ -7,11 +7,16 @@ from mock import patch, MagicMock, call
 from django.core.exceptions import ImproperlyConfigured
 from workflows.models import Workflow
 from questionnaire.models import Questionnaire, QuestionGroup, AnswerSet
-
+from permissions.models import Role
 class EthicsApplicationModelTestCase(TestCase):
     
     def setUp(self):
         settings.APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
+        settings.PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
+        role = Role.objects.get(name='Principle_Investigator')
+        self.test_user = User.objects.create_user('test', 'me@home.com', 'password')
+        self.ethics_application = EthicsApplication.objects.create(title='test_application', 
+                                                                   principle_investigator=self.test_user)
     
     def test_valid_EthicsApplication_creation(self):
         '''
@@ -25,7 +30,7 @@ class EthicsApplicationModelTestCase(TestCase):
         
         '''
         
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        a_user = self.test_user
         ethicsApplication = EthicsApplication(title='test application', principle_investigator=a_user)
         ethicsApplication.save()
         
@@ -46,7 +51,7 @@ class EthicsApplicationModelTestCase(TestCase):
         '''
             If you don't supply a title then you will get an exception
         '''
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        a_user = self.test_user
         ethicsApplication = EthicsApplication( principle_investigator=a_user)
         
         self.assertRaises(IntegrityError, ethicsApplication.save)
@@ -70,7 +75,7 @@ class EthicsApplicationModelTestCase(TestCase):
 
             
         #create a new ethicsapplication object and save it
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+        a_user = self.test_user
         my_Application = EthicsApplication(title='test', principle_investigator=a_user)
         my_Application.save()
         #assert that it was called once
@@ -91,7 +96,7 @@ class EthicsApplicationModelTestCase(TestCase):
         
         ''' 
         settings.APPLICATION_WORKFLOW = None
-        test_application = EthicsApplication(title='test', principle_investigator=User.objects.create_user('test', 'me@home.com', 'password'))
+        test_application = EthicsApplication(title='test', principle_investigator=self.test_user)
         self.assertRaises(ImproperlyConfigured, test_application._add_to_workflow)
         
     def test_add_to_workflow_setting_invalid(self):
@@ -104,7 +109,7 @@ class EthicsApplicationModelTestCase(TestCase):
         ''' 
         
         settings.APPLICATION_WORKFLOW = 'Does not exist!'
-        test_application = EthicsApplication(title='test', principle_investigator=User.objects.create_user('test', 'me@home.com', 'password'))
+        test_application = EthicsApplication(title='test', principle_investigator=self.test_user)
         self.assertRaises(ImproperlyConfigured, test_application._add_to_workflow)
     
     @patch('ethicsapplication.models.set_workflow')#patched in the model module as this is the namespace it will be used from
@@ -120,7 +125,7 @@ class EthicsApplicationModelTestCase(TestCase):
         
         approval_workflow = Workflow.objects.get(name='Ethics_Application_Approval')
         settings.APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
-        test_application = EthicsApplication(title='test', principle_investigator=User.objects.create_user('test', 'me@home.com', 'password'))
+        test_application = EthicsApplication(title='test', principle_investigator=self.test_user)
         test_application.save()
         set_workflow_mock.assert_called_once_with(test_application, approval_workflow)
      
@@ -132,7 +137,7 @@ class EthicsApplicationModelTestCase(TestCase):
             _add_to_principle_investigator_role function should be called to update the 
             membership of this group
         '''
-        test_application = EthicsApplication(title='test', principle_investigator=User.objects.create_user('test', 'me@home.com', 'password'))
+        test_application = EthicsApplication(title='test', principle_investigator=self.test_user)
         test_application.save()
         
         self.assertEqual(function_mock.call_count , 1)
@@ -153,11 +158,11 @@ class EthicsApplicationModelTestCase(TestCase):
             or doesn't exist in the db then a ImproperlyCOnfigured exception should be raised.
         '''
         settings.PRINCIPLE_INVESTIGATOR_ROLE = None
-        test_application = EthicsApplication(title='test', principle_investigator=User.objects.create_user('test', 'me@home.com', 'password'))
-        self.assertRaises(ImproperlyConfigured, test_application._add_to_principle_investigator_role)
+        
+        self.assertRaises(ImproperlyConfigured, self.ethics_application._add_to_principle_investigator_role)
         
         settings.PRINCIPLE_INVESTIGATOR_ROLE = 'Does Not exist'
-        self.assertRaises(ImproperlyConfigured, test_application._add_to_principle_investigator_role)
+        self.assertRaises(ImproperlyConfigured, self.ethics_application._add_to_principle_investigator_role)
         
    
     @patch('ethicsapplication.models.Role')
@@ -175,7 +180,7 @@ class EthicsApplicationModelTestCase(TestCase):
         a_role_mock.get_local_users.return_value = []
         
         role_mock.objects.get.return_value =  a_role_mock
-        user1 = User.objects.create_user('test', 'me@home.com', 'password')
+        user1 = self.test_user
         
         test_application = EthicsApplication(title = 'test', principle_investigator=user1)
         
@@ -196,7 +201,7 @@ class EthicsApplicationModelTestCase(TestCase):
         '''
         settings.PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
         
-        user1 = User.objects.create_user('test', 'me@home.com', 'password')
+        user1 = self.test_user
         user2 = User.objects.create_user('test2', 'me2@home.com', 'password2')
         
         a_role_mock = MagicMock(name='a_role')
@@ -222,7 +227,7 @@ class EthicsApplicationModelTestCase(TestCase):
         '''
         settings.PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
         
-        user1 = User.objects.create_user('test', 'me@home.com', 'password')
+        user1 = self.test_user
         
         
         a_role_mock = MagicMock(name='a_role')
@@ -258,50 +263,38 @@ class EthicsApplicationModelTestCase(TestCase):
         '''
             If you pass None into this function then it will return an empty list
         '''
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
-        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
-        
-        self.assertEqual(test_application._get_answersets_for_questionnaire(None), {})
+        self.assertEqual(self.ethics_application._get_answersets_for_questionnaire(None), {})
     
     def test_get_answersets_for_questionnaire_no_groups(self):
         '''
             If you pass a questionnaire that has no groups into this function then it will return an empty list
         '''
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
-        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
-        
-        self.assertEqual(test_application._get_answersets_for_questionnaire(Questionnaire.objects.create(name='test')), {})
+        self.assertEqual(self.ethics_application._get_answersets_for_questionnaire(Questionnaire.objects.create(name='test')), {})
             
     def test__get_answersets_for_questionnaire_groups_no_data(self):
         '''
             If a group doesn't have an answerset then it should not be entered into the dictionary
             therfore if there are no answersets for any of the groups, a empty dictionary should be returned.
         '''
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
-        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
-        
-        self._fabricate_checklist(test_application)#checklist but no answers
+        self._fabricate_checklist(self.ethics_application)#checklist but no answers
         
         
-        self.assertEqual(test_application._get_answersets_for_questionnaire(test_application.checklist), {})#no answers to anything so nothing in the dictionary
+        self.assertEqual(self.ethics_application._get_answersets_for_questionnaire(self.ethics_application.checklist), {})#no answers to anything so nothing in the dictionary
         
     def test__get_answersets_for_questionnaire_groups_with_data(self):
         '''
             If there are groups configured then for every group that has an aswerset there should be a record in 
             the database, the key should be the group, and the value is the answerset
         '''
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
-        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
-        
-        self._fabricate_checklist(test_application)#checklist but no answers
+        self._fabricate_checklist(self.ethics_application)#checklist but no answers
  
         
         #answers for checklist but not applciation form
-        answer_set = self._fabricate_answerset(a_user, test_application.checklist)
+        answer_set = self._fabricate_answerset(self.test_user, self.ethics_application.checklist)
         
         
-        self.assertEqual(test_application._get_answersets_for_questionnaire(test_application.checklist),
-                                                     {test_application.checklist.get_ordered_groups()[0]:answer_set})
+        self.assertEqual(self.ethics_application._get_answersets_for_questionnaire(self.ethics_application.checklist),
+                                                     {self.ethics_application.checklist.get_ordered_groups()[0]:answer_set})
         
     def test_get_answersets(self):
         '''
@@ -309,25 +302,24 @@ class EthicsApplicationModelTestCase(TestCase):
             once for the checklist, and again for the application_form,
             concatenating the result
         '''
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
-        test_application = EthicsApplication.objects.create(title='test app', principle_investigator=a_user)
         
-        self._fabricate_checklist(test_application)#checklist but no answers
-        self._fabricate_application_form(test_application)
+        
+        self._fabricate_checklist(self.ethics_application)#checklist but no answers
+        self._fabricate_application_form(self.ethics_application)
         
         with patch('ethicsapplication.models.EthicsApplication._get_answersets_for_questionnaire') as function_mock:
             function_mock.return_value = {'a':1}
-            self.assertEqual(test_application.get_answersets(),{'a':1})
-            self.assertEqual(function_mock.mock_calls, [call(test_application.checklist),
-                                                        call(test_application.application_form)]
+            self.assertEqual(self.ethics_application.get_answersets(),{'a':1})
+            self.assertEqual(function_mock.mock_calls, [call(self.ethics_application.checklist),
+                                                        call(self.ethics_application.application_form)]
                              )
         
     def test_is_ready_to_submit_no_questionnaires(self):
         '''
             This test should simply return False if there are no questionnaires or groups for
             checklist and ethics application
-        
         '''
+        
         self.assertTrue(False)
         
     def test_is_ready_to_submit(self):
@@ -340,37 +332,30 @@ class EthicsApplicationModelTestCase(TestCase):
         
 class EthicsApplicationManagerTestCase(TestCase):
     
-    def test_get_active_applications_invalid_user(self):
-        '''
-            If the user is invalid this function should just return an empty list
-        '''
-        #create a user but don't save it
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
+    def setUp(self):
         
-        self.assertEqual([], EthicsApplication.objects.get_active_applications(a_user))  
+        self.test_user = User.objects.create_user('test', 'me@home.com', 'password')
+        self.ethics_application = EthicsApplication.objects.create(title='test_application', 
+                                                                   principle_investigator=self.test_user)
         
     def test_get_active_applications_valid_user_with_applications(self):
         '''
             If the user is valid and has applications this function should return a list of these applications objects
         '''
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
-        a_user.save()#save the user so it becomes a valid user
         
-        test_application_1 = EthicsApplication(title='test application', principle_investigator=a_user)
-        test_application_1.save()
         
-        test_application_2 = EthicsApplication(title='test application', principle_investigator=a_user)
+        test_application_2 = EthicsApplication(title='test application', principle_investigator=self.test_user)
         test_application_2.save()
         
-        self.assertEqual([test_application_1, test_application_2], 
-                         EthicsApplication.objects.get_active_applications(a_user)) 
+        self.assertEqual([self.ethics_application, test_application_2], 
+                         EthicsApplication.objects.get_active_applications(self.test_user)) 
         
     def test_get_active_applications_valid_user_no_applications(self):
         '''
             If the user is valid but has no applications this function will return an empty list
         '''
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
-        a_user.save()#save the user so it becomes a valid user
+        a_user = User.objects.create_user('a_user', 'email@email.com', 'password')
+        
         self.assertEqual([], EthicsApplication.objects.get_active_applications(a_user)) 
         
          
@@ -380,14 +365,11 @@ class EthicsApplicationManagerTestCase(TestCase):
             applications should be returned.
         '''
         
-        a_user = User.objects.create_user('test', 'me@home.com', 'password')
-        a_user.save()#save the user so it becomes a valid user
+       
+        #create an inactive application
+        EthicsApplication.objects.create(title='test application', principle_investigator=self.test_user,
+                                                               active=False)
+
         
-        test_application_1 = EthicsApplication(title='test application', principle_investigator=a_user)
-        test_application_1.save()
-        
-        test_application_2 = EthicsApplication(title='test application', principle_investigator=a_user, active=False)
-        test_application_2.save()
-        
-        self.assertEqual([test_application_1], 
-                         EthicsApplication.objects.get_active_applications(a_user)) 
+        self.assertEqual([self.ethics_application], 
+                         EthicsApplication.objects.get_active_applications(self.test_user)) 
