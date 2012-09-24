@@ -7,13 +7,11 @@ from mock import patch, MagicMock, call
 from django.core.exceptions import ImproperlyConfigured
 from workflows.models import Workflow
 from questionnaire.models import Questionnaire, QuestionGroup, AnswerSet
-from permissions.models import Role
 class EthicsApplicationModelTestCase(TestCase):
     
     def setUp(self):
         settings.APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
         settings.PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
-        role = Role.objects.get(name='Principle_Investigator')
         self.test_user = User.objects.create_user('test', 'me@home.com', 'password')
         self.ethics_application = EthicsApplication.objects.create(title='test_application', 
                                                                    principle_investigator=self.test_user)
@@ -319,8 +317,56 @@ class EthicsApplicationModelTestCase(TestCase):
             This test should simply return False if there are no questionnaires or groups for
             checklist and ethics application
         '''
+        #no checklist or application form
+        self.assertFalse(self.ethics_application.is_ready_to_submit())
         
-        self.assertTrue(False)
+    def test_is_ready_to_submit_no_asnwer_sets(self):
+        '''
+            If there are no answersets then this function should return False.
+            It should return False as soon as it finds the first group without an answer
+        '''
+        
+        with patch('ethicsapplication.models.EthicsApplication.get_answersets') as get_answersets_mock:
+            
+            answer_set_dict = MagicMock(name='answerset_dict')
+            answer_set_dict.__contains__.return_value = False
+            
+            get_answersets_mock.return_value = answer_set_dict
+            
+            #checklist & applciation form incomplete
+            self._fabricate_checklist(self.ethics_application)
+            self._fabricate_application_form(self.ethics_application)
+            
+            self.assertFalse(self.ethics_application.is_ready_to_submit())
+            
+            self.assertEqual(answer_set_dict.__contains__.call_count ,1)
+            self.assertEqual(get_answersets_mock.call_count , 1)
+            
+    def test_is_ready_to_submit_answer_sets_incomplete(self):
+        '''
+        '''
+        with patch('ethicsapplication.models.EthicsApplication.get_answersets') as get_answersets_mock:
+            
+            answerset_mock = MagicMock(name='answerset')
+            answerset_mock.is_complete.return_value = False
+            
+            answer_set_dict = MagicMock(name='answerset_dict')
+            answer_set_dict.__getitem__.return_value = answerset_mock
+            answer_set_dict.__contains__.return_value = True
+            
+            get_answersets_mock.return_value = answer_set_dict
+            
+            #checklist & applciation form incomplete
+            self._fabricate_checklist(self.ethics_application)
+            self._fabricate_application_form(self.ethics_application)
+            
+            self.assertFalse(self.ethics_application.is_ready_to_submit())
+            
+            self.assertEqual(answer_set_dict.__contains__.call_count, 1)
+            self.assertEqual(answer_set_dict.__getitem__.call_count, 1)
+            
+            self.assertEqual(get_answersets_mock.call_count , 1)
+            self.assertEqual(answerset_mock.mock_calls, [call.is_complete()])
         
     def test_is_ready_to_submit(self):
         '''
@@ -328,7 +374,31 @@ class EthicsApplicationModelTestCase(TestCase):
             and every questiongroup in the applicationform. 
         
         '''
-        self.assertTrue(False)
+       
+        with patch('ethicsapplication.models.EthicsApplication.get_answersets') as get_answersets_mock:
+            
+            answerset_mock = MagicMock(name='answerset')
+            answerset_mock.is_complete.return_value = True
+            
+            answer_set_dict = MagicMock(name='answerset_dict')
+            answer_set_dict.__getitem__.return_value = answerset_mock
+            answer_set_dict.__contains__.return_value = True
+            
+            get_answersets_mock.return_value = answer_set_dict
+            
+            #checklist & applciation form incomplete
+            self._fabricate_checklist(self.ethics_application)
+            self._fabricate_application_form(self.ethics_application)
+            
+            self.assertTrue(self.ethics_application.is_ready_to_submit())
+            answer_set_dict.__contains__.assert_any_call(self.ethics_application.checklist.get_ordered_groups()[0])
+            answer_set_dict.__contains__.assert_any_call(self.ethics_application.application_form.get_ordered_groups()[0])
+            
+            answer_set_dict.__getitem__.assert_any_call(self.ethics_application.checklist.get_ordered_groups()[0])
+            answer_set_dict.__getitem__.assert_any_call(self.ethics_application.application_form.get_ordered_groups()[0])
+            
+            self.assertEqual(get_answersets_mock.call_count , 1)
+            self.assertEqual(answerset_mock.mock_calls, [call.is_complete(), call.is_complete()])
         
 class EthicsApplicationManagerTestCase(TestCase):
     

@@ -148,8 +148,18 @@ class EthicsApplication(models.Model):
         
     def is_ready_to_submit(self):
         '''
-        
+            This function checks that both the checklist and the application for questionnaires are
+            both complete. If they are it will return True, otherwise it will return False.
         '''
-        return False
+        answersets = self.get_answersets()
+        
+        if self.checklist == None or self.application_form == None:
+            return False
+        
+        for group in self.checklist.get_ordered_groups() + self.application_form.get_ordered_groups():
+            if group not in answersets or not answersets[group].is_complete():
+                return False
+            
+        return True
         
         
