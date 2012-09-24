@@ -38,7 +38,7 @@
 			
 		<p>
 			{% if application.is_ready_to_submit %}
-				<a href=".">Submit!</a>
+				<a href="{%url submit_application application_id=application.id%}">Submit!</a>
 			{% endif %}
 		</p>
 
