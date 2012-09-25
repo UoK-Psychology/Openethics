@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from ethicsapplication.forms import EthicsApplicationForm
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from ethicsapplication.models import EthicsApplication
 from permissions.utils import has_permission
@@ -54,4 +54,8 @@ def view_application(request, application_id):
     else:
         raise PermissionDenied()
     
-
+def submit_application(request, application_id):
+    '''
+    
+    '''
+    return HttpResponse('Submitted')
