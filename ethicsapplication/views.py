@@ -54,8 +54,4 @@ def view_application(request, application_id):
     else:
         raise PermissionDenied()
     
-def submit_application(request, application_id):
-    '''
-    
-    '''
-    return HttpResponse('Submitted')
+
