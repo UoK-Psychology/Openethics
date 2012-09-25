@@ -8,4 +8,7 @@ urlpatterns = patterns('ethicsapplication.views',
       url(r'^view/(?P<application_id>\d+)$',
           view ='view_application', 
           name='application_view'), #view
+     url(r'^submit/(?P<application_id>\d+)$',
+          view ='submit_application', 
+          name='submit_application'),
 )

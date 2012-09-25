@@ -25,10 +25,21 @@
 			<ol>
 				{% for group in application.application_form.get_ordered_groups %}
 				<li>
-					<a href="{% url do_application_form_group questionnaire_id=application.application_form.id order_index=forloop.counter0 %}">
+					<a href="{% url do_application_form_group questionnaire_id=application.application_form.id order_index=forloop.counter0 %}?on_success={% url application_view application_id=application.id%}">
 						{{group.name}}</a>
+					{%if group in application.get_answersets %}
+						(Completed)
+					{% else %}
+						(Incomplete)
+					{% endif %}	
 				</li>				
 				{% endfor %}	
 			</ol>
+			
+		<p>
+			{% if application.is_ready_to_submit %}
+				<a href="{%url submit_application application_id=application.id%}">Submit!</a>
+			{% endif %}
+		</p>
 
 </body>

@@ -126,5 +126,452 @@
       },
     "model" : "questionnaire.question_order",
     "pk" : 20
+  },
+  {
+    "pk": 1, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 1, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 1, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 1, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 4, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 2, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 2, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 2, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 7, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 3, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 3, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 9, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 3, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 10, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 4, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 11, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 4, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 12, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 4, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 13, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 5, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 14, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 5, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 15, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 5, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 16, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 6, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 17, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 6, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 18, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 6, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 19, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 7, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 20, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 7, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 21, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 7, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 22, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 8, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 23, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 8, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 8, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 25, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 9, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 26, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 9, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 27, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 9, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 28, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 10, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 29, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 10, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 30, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 10, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 31, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 11, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 32, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 11, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 33, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 11, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 34, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 6, 
+      "checklist_question": 12, 
+      "order": 1
+    }
+  }, 
+  {
+    "pk": 35, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 7, 
+      "checklist_question": 12, 
+      "order": 2
+    }
+  }, 
+  {
+    "pk": 36, 
+    "model": "applicationform.fullapplicationchecklistlink", 
+    "fields": {
+      "included_group": 8, 
+      "checklist_question": 12, 
+      "order": 3
+    }
+  }, 
+  
+  {
+    "pk": 21, 
+    "model": "questionnaire.question", 
+    "fields": {
+      "field_type": "booleanfield", 
+      "selectoptions": null, 
+      "label": "Are the participants at risk of physical or psychological harm greater than encountered in ordinary life?"
+    }
+  }, 
+  {
+    "pk": 22, 
+    "model": "questionnaire.question", 
+    "fields": {
+      "field_type": "textfield", 
+      "selectoptions": null, 
+      "label": "If yes, Describe the nature of the risk and steps taken to minimise it:"
+    }
+  }, 
+  {
+    "pk": 23, 
+    "model": "questionnaire.question", 
+    "fields": {
+      "field_type": "booleanfield", 
+      "selectoptions": null, 
+      "label": "Is the information gathered from the participants of a sensitive or personal nature"
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "questionnaire.question", 
+    "fields": {
+      "field_type": "textfield", 
+      "selectoptions": null, 
+      "label": "If yes, Describe the procedures to be used for assuring confidentiality and protecting participants from stress:"
+    }
+  }, 
+  {
+    "pk": 25, 
+    "model": "questionnaire.question", 
+    "fields": {
+      "field_type": "textfield", 
+      "selectoptions": null, 
+      "label": "If observational research is to be conducted without prior consent, please describe the situations in which observations will take place and say how local cultural values and privacy of individuals will be taken into account."
+    }
+  },
+  {
+    "pk": 6, 
+    "model": "questionnaire.questiongroup", 
+    "fields": {
+      "name": "Protection of Participants"
+    }
+  }, 
+  {
+    "pk": 7, 
+    "model": "questionnaire.questiongroup", 
+    "fields": {
+      "name": "Nature of information being gathered"
+    }
+  }, 
+  {
+    "pk": 8, 
+    "model": "questionnaire.questiongroup", 
+    "fields": {
+      "name": "Observational Research"
+    }
+  },
+  {
+    "pk": 21, 
+    "model": "questionnaire.question_order", 
+    "fields": {
+      "questiongroup": 6, 
+      "question": 21, 
+      "order_info": 1
+    }
+  }, 
+  {
+    "pk": 22, 
+    "model": "questionnaire.question_order", 
+    "fields": {
+      "questiongroup": 6, 
+      "question": 22, 
+      "order_info": 2
+    }
+  }, 
+  {
+    "pk": 23, 
+    "model": "questionnaire.question_order", 
+    "fields": {
+      "questiongroup": 7, 
+      "question": 23, 
+      "order_info": 1
+    }
+  }, 
+  {
+    "pk": 24, 
+    "model": "questionnaire.question_order", 
+    "fields": {
+      "questiongroup": 7, 
+      "question": 24, 
+      "order_info": 2
+    }
+  }, 
+  {
+    "pk": 25, 
+    "model": "questionnaire.question_order", 
+    "fields": {
+      "questiongroup": 8, 
+      "question": 25, 
+      "order_info": 1
+    }
   }
 ]
