@@ -16,7 +16,13 @@ class CommitteeManager(models.Manager):
             then this function will return None
         
         '''
-        return False
+        query_set = super(CommitteeManager, self).get_query_set().order_by('count', '-id')
+
+        if len(query_set) > 0:
+            member = query_set[0].member
+            return member
+        else:
+            return None
     
 class Committee(models.Model):
     '''
@@ -29,3 +35,6 @@ class Committee(models.Model):
     count = models.IntegerField(max_length=3, default=0)
 
     objects = CommitteeManager()
+    
+    def __unicode__(self):
+        return '%s count: %s' % (self.member, self.count)

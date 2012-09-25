@@ -51,6 +51,8 @@ class CommitteeManagerTestCase(TestCase):
         
         #now change reviewr3's count to 0, this would mean that reviewer 3 would be returned as their pk is higher
         commiteeMap[reviewer3].count = 0
+        commiteeMap[reviewer3].save()
+        
         
         self.assertEqual(Committee.objects.get_next_free_reviewer(), reviewer3)
         
