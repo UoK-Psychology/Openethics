@@ -9,4 +9,4 @@ class Committee(models.Model):
         applications each committee member has reviewed.
     '''
     member = models.ForeignKey(User)
-    count = models.IntegerField(max_length=3)
+    count = models.IntegerField(max_length=3, default=0)

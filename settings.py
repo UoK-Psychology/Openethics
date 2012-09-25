@@ -148,6 +148,7 @@ PROJECT_APPS= ( 'ethicsapplication',
                 'root',
                 'checklist',
                 'workflowutils',
+                'review'
                )
 
 CHECKLIST_ID=1
