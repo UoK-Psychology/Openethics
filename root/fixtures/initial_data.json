@@ -48,7 +48,7 @@
   },
   { "fields" : { "condition" : "",
         "destination" : 2,
-        "name" : "token_submission",
+        "name" : "submit_for_review",
         "permission" : 5,
         "workflow" : 1
       },
@@ -57,7 +57,7 @@
   },
   { "fields" : { "condition" : "",
         "destination" : 3,
-        "name" : "approved",
+        "name" : "approve",
         "permission" : 4,
         "workflow" : 1
       },
@@ -66,7 +66,7 @@
   },
   { "fields" : { "condition" : "",
         "destination" : 1,
-        "name" : "rejected",
+        "name" : "reject",
         "permission" : 4,
         "workflow" : 1
       },
@@ -97,132 +97,105 @@
     "model" : "workflows.workflowpermissionrelation",
     "pk" : 4
   },
-  { "fields" : { "permission" : 5,
-        "workflow" : 1
-      },
-    "model" : "workflows.workflowpermissionrelation",
-    "pk" : 5
-  },
   { "fields" : { "permission" : 1,
         "role" : 1,
         "state" : 1
       },
     "model" : "workflows.statepermissionrelation",
     "pk" : 1
+  },
+  { "fields" : { "permission" : 1,
+        "role" : 1,
+        "state" : 1
+      },
+    "model" : "workflows.statepermissionrelation",
+    "pk" : 2
   },
   { "fields" : { "permission" : 2,
         "role" : 1,
         "state" : 1
       },
     "model" : "workflows.statepermissionrelation",
-    "pk" : 2
-  },
-  { "fields" : { "permission" : 3,
-        "role" : 1,
-        "state" : 1
-      },
-    "model" : "workflows.statepermissionrelation",
     "pk" : 3
   },
-  { "fields" : { "permission" : 5,
+  { "fields" : { "permission" : 4,
         "role" : 1,
         "state" : 1
       },
     "model" : "workflows.statepermissionrelation",
     "pk" : 4
   },
-  { "fields" : { "permission" : 3,
+  { "fields" : { "permission" : 2,
         "role" : 2,
         "state" : 1
       },
     "model" : "workflows.statepermissionrelation",
     "pk" : 5
   },
-  { "fields" : { "permission" : 1,
-        "role" : 1,
-        "state" : 2
-      },
-    "model" : "workflows.statepermissionrelation",
-    "pk" : 6
-  },
-  { "fields" : { "permission" : 3,
+  { "fields" : { "permission" : 2,
         "role" : 1,
         "state" : 2
       },
     "model" : "workflows.statepermissionrelation",
     "pk" : 7
   },
-  { "fields" : { "permission" : 3,
+  { "fields" : { "permission" : 2,
         "role" : 2,
         "state" : 2
       },
     "model" : "workflows.statepermissionrelation",
     "pk" : 8
   },
-  { "fields" : { "permission" : 4,
+  { "fields" : { "permission" : 3,
         "role" : 2,
         "state" : 2
       },
     "model" : "workflows.statepermissionrelation",
     "pk" : 9
   },
-  { "fields" : { "permission" : 1,
-        "role" : 1,
-        "state" : 3
-      },
-    "model" : "workflows.statepermissionrelation",
-    "pk" : 10
-  },
-  { "fields" : { "permission" : 3,
+  { "fields" : { "permission" : 2,
         "role" : 1,
         "state" : 3
       },
     "model" : "workflows.statepermissionrelation",
     "pk" : 11
   },
-  { "fields" : { "permission" : 3,
+  { "fields" : { "permission" : 2,
         "role" : 2,
         "state" : 3
       },
     "model" : "workflows.statepermissionrelation",
     "pk" : 12
   },
-  { "fields" : { "codename" : "owner",
-        "content_types" : [  ],
-        "name" : "owner"
-      },
-    "model" : "permissions.permission",
-    "pk" : 1
-  },
   { "fields" : { "codename" : "edit",
         "content_types" : [  ],
         "name" : "edit"
       },
     "model" : "permissions.permission",
-    "pk" : 2
+    "pk" : 1
   },
   { "fields" : { "codename" : "view",
         "content_types" : [  ],
         "name" : "view"
       },
     "model" : "permissions.permission",
-    "pk" : 3
+    "pk" : 2
   },
   { "fields" : { "codename" : "evaluate",
         "content_types" : [  ],
         "name" : "evaluate"
       },
     "model" : "permissions.permission",
-    "pk" : 4
+    "pk" : 3
   },
   { "fields" : { "codename" : "submit",
         "content_types" : [  ],
         "name" : "submit"
       },
     "model" : "permissions.permission",
-    "pk" : 5
+    "pk" : 4
   },
-  { "fields" : { "name" : "Supervisor" },
+  { "fields" : { "name" : "Reviewer" },
     "model" : "permissions.role",
     "pk" : 2
   },

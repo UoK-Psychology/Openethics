@@ -76,7 +76,7 @@
         "role" : 1
       },
     "model" : "permissions.objectpermission",
-    "pk" : 1
+    "pk" : 2
   },
   { "fields" : { "content_id" : 1,
         "content_type" : [
@@ -87,17 +87,6 @@
         "role" : 1
       },
     "model" : "permissions.objectpermission",
-    "pk" : 2
-  },
-  { "fields" : { "content_id" : 1,
-        "content_type" : [
-                "ethicsapplication", 
-                "ethicsapplication"
-            ],
-        "permission" : 3,
-        "role" : 1
-      },
-    "model" : "permissions.objectpermission",
     "pk" : 3
   },
   { "fields" : { "content_id" : 1,
@@ -105,7 +94,7 @@
                 "ethicsapplication", 
                 "ethicsapplication"
             ],
-        "permission" : 5,
+        "permission" : 4,
         "role" : 1
       },
     "model" : "permissions.objectpermission",
@@ -116,7 +105,7 @@
                 "ethicsapplication", 
                 "ethicsapplication"
             ],
-        "permission" : 3,
+        "permission" : 2,
         "role" : 2
       },
     "model" : "permissions.objectpermission",
