@@ -412,6 +412,7 @@ class EthicsApplicationModelTestCase(TestCase):
             
             test_application = EthicsApplication()
             self.assertEqual(test_application.get_current_state(), test_state_name)
+            get_state_mock.assert_called_once_with(test_application)
         
 class EthicsApplicationManagerTestCase(TestCase):
     

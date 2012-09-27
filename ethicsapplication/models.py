@@ -168,5 +168,6 @@ class EthicsApplication(models.Model):
             This function returns the current state for this application. This will be useful to easily get the 
             state of a given application in a template
         '''
+        return get_state(self)
         
         
