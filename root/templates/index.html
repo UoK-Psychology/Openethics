@@ -13,6 +13,9 @@
 		{% for application in active_applications %}
 		
 			<li><a href="{% url application_view application_id=application.id%}">{{application.title}}</a></li>
+			{%if application.get_current_state.name == 'awaiting_approval' %}
+			 (Awaiting Review)
+			{% endif %}
 		{% endfor %}
 		
 	</ul>
