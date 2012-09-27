@@ -49,7 +49,7 @@
   { "fields" : { "condition" : "",
         "destination" : 2,
         "name" : "submit_for_review",
-        "permission" : 5,
+        "permission" : 4,
         "workflow" : 1
       },
     "model" : "workflows.transition",
@@ -58,7 +58,7 @@
   { "fields" : { "condition" : "",
         "destination" : 3,
         "name" : "approve",
-        "permission" : 4,
+        "permission" : 3,
         "workflow" : 1
       },
     "model" : "workflows.transition",
@@ -67,7 +67,7 @@
   { "fields" : { "condition" : "",
         "destination" : 1,
         "name" : "reject",
-        "permission" : 4,
+        "permission" : 3,
         "workflow" : 1
       },
     "model" : "workflows.transition",
