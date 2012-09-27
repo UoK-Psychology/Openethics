@@ -169,5 +169,10 @@ class EthicsApplication(models.Model):
             state of a given application in a template
         '''
         return get_state(self)
+    
+    def assign_reviewer(self, user):
+        '''
+            This function assigns user to the reviewer role for this application
+        '''
         
         

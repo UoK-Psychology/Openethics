@@ -7,11 +7,14 @@ from mock import patch, MagicMock, call
 from django.core.exceptions import ImproperlyConfigured
 from workflows.models import Workflow
 from questionnaire.models import Questionnaire, QuestionGroup, AnswerSet
+from permissions.models import Role
 class EthicsApplicationModelTestCase(TestCase):
     
     def setUp(self):
         settings.APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
         settings.PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
+        settings.REVIEWER_ROLE = 'Reviewer'
+        
         self.test_user = User.objects.create_user('test', 'me@home.com', 'password')
         self.ethics_application = EthicsApplication.objects.create(title='test_application', 
                                                                    principle_investigator=self.test_user)
@@ -413,6 +416,34 @@ class EthicsApplicationModelTestCase(TestCase):
             test_application = EthicsApplication()
             self.assertEqual(test_application.get_current_state(), test_state_name)
             get_state_mock.assert_called_once_with(test_application)
+            
+    def test_assign_reviewer_user_is_none(self):
+        '''
+            If the user is None or anything that is not a user, then an attribute error is raised
+        '''
+        self.assertRaises(AttributeError, self.ethics_application.assign_reviewer, None)
+        self.assertRaises(AttributeError, self.ethics_application.assign_reviewer, 'NotAUser')
+        
+    def test_assign_reviewer_setting_malconfigured(self):
+        '''
+            If the settings.REVIEWER_ROLE is not present in the settings module, or it is present but
+            does not exist in the database then an ImporperlyConfigured error will be raised
+        '''
+        del(settings.REVIEWER_ROLE)
+        self.assertRaises(ImproperlyConfigured, self.ethics_application.assign_reviewer, self.test_user)
+        
+        settings.REVIEWER_ROLE = 'InvalidRole'
+        self.assertRaises(ImproperlyConfigured, self.ethics_application.assign_reviewer, self.test_user)
+        
+    def test_assign_reviewer_valid_user(self):
+        '''
+            if a valid user is passed in then the add_local_role function is used
+            to assign this user to the reviewer role for this application
+        '''
+        with patch('ethicsapplication.models.add_local_role') as as_local_role_mock:
+            
+            self.ethics_application.assign_reviewer(self.test_user)
+            as_local_role_mock.assert_called_once_with(self.ethics_application, self.test_user, Role.objects.get(name=settings.REVIEWER_ROLE))
         
 class EthicsApplicationManagerTestCase(TestCase):
     
