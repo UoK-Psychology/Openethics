@@ -43,7 +43,7 @@ class SubmitForReviewTests(TestCase):
             url = reverse('submit_application', kwargs={'ethics_application_id':self.ethicsApplication.id})
             response = self.client.get(url)
             self.assertEquals (403, response.status_code )
-            has_permission_mock.assert_called_once_with(self.test_user, 'submit')
+            has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
         
     def test_forbidden_transition(self):
         '''
@@ -60,7 +60,7 @@ class SubmitForReviewTests(TestCase):
                 response = self.client.get(url)
                 self.assertEquals (403, response.status_code)
                 do_transition_mock.assert_called_once_with(self.ethicsApplication, 'submit_for_review', self.test_user)
-                has_permission_mock.assert_called_once_with(self.test_user, 'submit')
+                has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
     
         
     def test_correct_state_reviewer(self):
@@ -79,5 +79,5 @@ class SubmitForReviewTests(TestCase):
                 response = self.client.get(url)
                 self.assertRedirects(response, reverse('index_view'))
                 do_transition_mock.assert_called_once_with(self.ethicsApplication, 'submit_for_review', self.test_user)
-                has_permission_mock.assert_called_once_with(self.test_user, 'submit')
+                has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
         

@@ -20,7 +20,7 @@ def submit_for_review(request, ethics_application_id):
     '''
     ethics_application = get_object_or_404(EthicsApplication, pk=ethics_application_id)
     
-    if not request.user.is_authenticated() or not has_permission(request.user, 'submit') or not do_transition(ethics_application, 'submit_for_review', request.user):
+    if not request.user.is_authenticated() or not has_permission(ethics_application, request.user, 'submit') or not do_transition(ethics_application, 'submit_for_review', request.user):
         raise PermissionDenied()
     
     return HttpResponseRedirect(reverse('index_view'))
