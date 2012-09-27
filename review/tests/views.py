@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from ethicsapplication.models import EthicsApplication
 from django.contrib.auth.models import User
-from mock import patch
+from mock import patch, MagicMock
 
 
 class SubmitForReviewTests(TestCase):
@@ -62,22 +62,31 @@ class SubmitForReviewTests(TestCase):
                 do_transition_mock.assert_called_once_with(self.ethicsApplication, 'submit_for_review', self.test_user)
                 has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
     
-        
-    def test_correct_state_reviewer(self):
+     
+    @patch('review.views.has_permission')
+    @patch('review.views.do_transition')  
+    @patch('review.models.CommitteeManager.get_next_free_reviewer')
+    @patch('ethicsapplication.models.EthicsApplication.assign_reviewer')
+    def test_correct_state_reviewer(self, has_permission_mock,do_transition_mock,get_next_free_reviewer_mock,assign_reviewer_mock ):
         '''
             If all is well and the application can perform the submit_for_review transition then this function
-            should call the do_transition function, and return to the home page
+            should call the do_transition function, then it shoudl find the next avaialble reviewer
+            using the CommitteeManager.get_next_free_reviewer, assigning this user as a reviewer on the application
+            using the assign_reviewer function and return to the home page
         '''
         self.client.login(username='test', password='password') 
-        with patch('review.views.has_permission') as has_permission_mock:
-            has_permission_mock.return_value = True
-            
-            with patch('review.views.do_transition') as do_transition_mock:
-                do_transition_mock.return_value = True
-                
-                url = reverse('submit_application', kwargs={'ethics_application_id':self.ethicsApplication.id})
-                response = self.client.get(url)
-                self.assertRedirects(response, reverse('index_view'))
-                do_transition_mock.assert_called_once_with(self.ethicsApplication, 'submit_for_review', self.test_user)
-                has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
+        
+        has_permission_mock.return_value = True
+        do_transition_mock.return_value = True
+        next_free_reviewer = MagicMock(name='free_reviewer')
+        get_next_free_reviewer_mock.return_value = next_free_reviewer
+        
+        
+        url = reverse('submit_application', kwargs={'ethics_application_id':self.ethicsApplication.id})
+        response = self.client.get(url)
+        self.assertRedirects(response, reverse('index_view'))
+        do_transition_mock.assert_called_once_with(self.ethicsApplication, 'submit_for_review', self.test_user)
+        has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
+        get_next_free_reviewer_mock.assert_called_once_with()
+        assign_reviewer_mock.assert_called_once_with(next_free_reviewer)
         
