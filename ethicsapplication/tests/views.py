@@ -14,6 +14,7 @@ from ethicsapplication.models import EthicsApplication
 from django.conf import settings
 from questionnaire.models import Questionnaire, QuestionGroup, Question,\
     Question_order, AnswerSet
+from mock import patch
 
 class CreateViewsTest(TestCase):
     
@@ -96,6 +97,18 @@ class CreateViewsTest(TestCase):
         
         self.assertEquals(response.context['form']['title'].errors[0], 'This field is required.')
 
+    def test_get_current_state(self):
+        '''
+            This function should return the name of the state that this application is currently in
+            which is achieved by calling the get_state function from the workflows utils package
+        '''
+        
+        with patch('ethicsapplication.views.get_state') as get_state_mock:
+            test_state_name = 'test_state'
+            get_state_mock.return_value = test_state_name
+            
+            test_application = EthicsApplication()
+            self.assertEqual(test_application.get_current_state(), test_state_name)
 
 class ViewApplictionTestCase(TestCase):
     '''
