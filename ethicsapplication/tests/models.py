@@ -399,6 +399,19 @@ class EthicsApplicationModelTestCase(TestCase):
             
             self.assertEqual(get_answersets_mock.call_count , 1)
             self.assertEqual(answerset_mock.mock_calls, [call.is_complete(), call.is_complete()])
+            
+    def test_get_current_state(self):
+        '''
+            This function should return the name of the state that this application is currently in
+            which is achieved by calling the get_state function from the workflows utils package
+        '''
+        
+        with patch('ethicsapplication.models.get_state') as get_state_mock:
+            test_state_name = 'test_state'
+            get_state_mock.return_value = test_state_name
+            
+            test_application = EthicsApplication()
+            self.assertEqual(test_application.get_current_state(), test_state_name)
         
 class EthicsApplicationManagerTestCase(TestCase):
     

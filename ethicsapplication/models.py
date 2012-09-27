@@ -8,6 +8,7 @@ from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 from workflows.models import Workflow
 from permissions.models import Role
 from permissions.utils import remove_local_role, add_local_role
+from workflows.utils import get_state
 # Create your models here.
 
 class EthicsApplicationManager(Manager):
