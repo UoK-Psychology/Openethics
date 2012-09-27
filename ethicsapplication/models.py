@@ -174,5 +174,23 @@ class EthicsApplication(models.Model):
         '''
             This function assigns user to the reviewer role for this application
         '''
+        if user is None or not isinstance(user, User):
+            raise AttributeError('User specified was invalid')
+        
+        reviewer_code= getattr(settings, 'REVIEWER_ROLE', None)
+        
+        if reviewer_code != None:
+            try:
+                reviewer_role = Role.objects.get(name=reviewer_code)
+                #check to see if the principle investigator is in the local for this role
+                
+                add_local_role(self, user, reviewer_role)
+                    
+                    
+            except ObjectDoesNotExist:
+                raise ImproperlyConfigured('The workflow you specify in REVIEWER_ROLE must actually be configured in the db')
+        else:
+            raise ImproperlyConfigured('You must set REVIEWER_ROLE in the settings file')
+        
         
         
