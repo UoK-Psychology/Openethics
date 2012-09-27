@@ -6,6 +6,7 @@ from workflows.utils import do_transition
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
 from ethicsapplication.models import EthicsApplication
+from review.models import Committee
 
 
 
@@ -22,5 +23,8 @@ def submit_for_review(request, ethics_application_id):
     
     if not request.user.is_authenticated() or not has_permission(ethics_application, request.user, 'submit') or not do_transition(ethics_application, 'submit_for_review', request.user):
         raise PermissionDenied()
+    
+    reviewer = Committee.objects.get_next_free_reviewer()
+    ethics_application.assign_reviewer(reviewer)
     
     return HttpResponseRedirect(reverse('index_view'))

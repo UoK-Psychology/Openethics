@@ -67,7 +67,7 @@ class SubmitForReviewTests(TestCase):
     @patch('review.views.do_transition')  
     @patch('review.models.CommitteeManager.get_next_free_reviewer')
     @patch('ethicsapplication.models.EthicsApplication.assign_reviewer')
-    def test_correct_state_reviewer(self, has_permission_mock,do_transition_mock,get_next_free_reviewer_mock,assign_reviewer_mock ):
+    def test_correct_state_reviewer(self, assign_reviewer_mock, get_next_free_reviewer_mock,do_transition_mock,has_permission_mock ):
         '''
             If all is well and the application can perform the submit_for_review transition then this function
             should call the do_transition function, then it shoudl find the next avaialble reviewer
