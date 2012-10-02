@@ -1,0 +1,24 @@
+<html>
+		<head>
+			{% block title %}<title>Base Title</title>{% endblock %}
+			
+			<link href="{{ STATIC_URL }}css/base.css" rel="stylesheet" type="text/css" media="sccreen" />
+			
+			{% block extra_style %}{% endblock%}
+			
+		</head>
+		<body>
+			<div id="container">
+				<div id="header">
+					{% block header %} Open Ethics {% endblock %}
+				</div>
+				
+				<div id="content">
+					{% block content %}
+					<p>base content</p>
+					{% endblock %}
+				</div>
+				
+			</div>
+		</body>
+</html>
