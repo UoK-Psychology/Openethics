@@ -1,24 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 		<head>
 			{% block title %}<title>Base Title</title>{% endblock %}
 			
-			<link href="{{ STATIC_URL }}css/base.css" rel="stylesheet" type="text/css" media="sccreen" />
+			<link href="{{ STATIC_URL }}css/ea_base.css" rel="stylesheet" type="text/css" media="screen" />
 			
 			{% block extra_style %}{% endblock%}
 			
 		</head>
 		<body>
-			<div id="container">
-				<div id="header">
-					{% block header %} Open Ethics {% endblock %}
+			<div id="wrapper">
+				<div id="banner" class="clearfix">
+					<div class="container clearfix">
+						<a class="site-logo" href="{% url index_view %}">
+							<img alt="OpenEthics" src="{{ STATIC_URL }}/images/oe_logo_big.png" />
+						</a>
+						{% block banner-menu %}
+						<ul class="top-nav">
+							<li>help</li>
+							<li><a href="{% url auth_login %}">sign in</a></li>
+						</ul>
+						{% endblock %}
+					</div>
 				</div>
-				
-				<div id="content">
-					{% block content %}
-					<p>base content</p>
+				<div id="page" class="container">
+					{% block page-header %} Open Ethics {% endblock %}
+					{% block page-content%}
+						<div id="content-sidebar">
+							sidebar
+						</div>
+						<div id="content-1">
+							{% block content %}
+							<p>main body content</p>
+							{% endblock %}
+						</div>
+						<div id="content-2">
+							<p>lower body content</p>
+						</div>
 					{% endblock %}
-				</div>
-				
+				</div>	
 			</div>
 		</body>
 </html>

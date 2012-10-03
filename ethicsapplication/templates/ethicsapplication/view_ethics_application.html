@@ -4,15 +4,21 @@
 	<title>View Application: {{application.title}}</title>
 {% endblock %}
 
+{% block page-header %}
+		<h1>Application name: {{application.title}}</h1>
+{% endblock %}
+
 {% block content %}
-	<p>
-		<h1>{{application.title}}</h1>
-	</p>
 	
 	{% if_has_permission_for_object application edit %}
 	
 		{%if application.checklist and application.checklist.get_ordered_groups|first in application.get_answersets %}
-			Checklist done!
+			<p id="checklist">
+				<span>Checklist completed:</span>
+				<a id="edit" href="{% url start_checklist ethics_application_id=application.id %}">
+					edit
+				</a>
+			</p>
 		{% else %}
 		<p>
 			<a href="{% url start_checklist ethics_application_id=application.id %}">Do Checklist</a>
