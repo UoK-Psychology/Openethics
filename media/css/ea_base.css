@@ -103,9 +103,9 @@ a.site-logo img {
 	border-bottom-width: 1px;
 }
 
-#btn-create-app,
-#btn-create-app a,
-#todo,
+#sidebar-top,
+#sidebar-top a,
+#sidebar-lower,
 #content-1,
 #content-2 {
 	border-style: solid;
@@ -114,12 +114,12 @@ a.site-logo img {
 	padding: 3px;
 }
 
-#btn-create-app {
+#sidebar-top {
 	margin:0 0 5px 0;
 	text-align: center;
 }
 
-#btn-create-app a {
+#sidebar-top a {
 	background-color:#EEEEEE;
 	border-radius: 5px;
 	color:#FF2222;
@@ -129,7 +129,7 @@ a.site-logo img {
 	text-align: center;
 }
 
-#btn-create-app a:hover {
+#sidebar-top a:hover {
 	background-color:#DDDDDD;
 	color:#FF3333;
 	font-size: 1.4em;
@@ -179,5 +179,9 @@ p#checklist a {
 
 #page h1 {
 	font-size:1.5em;
-	padding:4px 0;
+	padding: 8px 0;
+}
+
+#content-1 input {
+	padding: 5px;
 }

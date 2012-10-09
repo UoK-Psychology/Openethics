@@ -19,27 +19,59 @@
 						{% block banner-menu %}
 						<ul class="top-nav">
 							<li><a href="#">help</a></li>
-							<li><a href="{% url auth_login %}">sign in</a></li>
+							{% if user.is_authenticated %}
+								<li><a href="{% url auth_logout %}">logout</a></li>
+							{% else %}
+								<li><a href="{% url auth_login %}">login</a></li>
+							{% endif %}
 						</ul>
 						{% endblock %}
 					</div>
 				</div>
 				<div id="page" class="container">
-					{% block page-header %} Open Ethics {% endblock %}
+					{% block page-header %}
+						<h1><span class="field">Open Ethics</span></h1>
+					{% endblock %}
 					{% block page-content%}
 						{% block sidebar %}
-						<div id="content-sidebar">
-							sidebar
-						</div>
+							<div id="content-sidebar">
+							{% if user.is_authenticated %}
+								{% block sidebar-top %}
+									<div id="sidebar-top">
+											<a href="{% url create_application_view %}">New Application</a>
+									</div>
+								{% endblock %}
+							{% endif %}
+							{% block sidebar-lower %}
+								{% if user.is_authenticated %}
+									<div id="sidebar-lower">
+										<div id="todo-filter">
+											Filter by:&#09; <a href="#">date required</a> | <a href="#">date created</a>
+										</div>
+										<div id="todo-items">
+											<ol>
+												{% for item in todo %}
+													<li>
+														<a href="">{{ item.name }}</a>
+													</li>
+												{% endfor %}
+											</ol>
+										</div>
+									</div>
+								{% else %}
+									&nbsp;
+								{% endif %}
+							{% endblock %}
+							</div>
 						{% endblock %}
+						
 						<div id="content-1">
 							{% block content %}
 							<p>main body content</p>
 							{% endblock %}
 						</div>
-						<div id="content-2">
-							<p>lower body content</p>
-						</div>
+						{% block content-lower %}
+						{% endblock %}
 					{% endblock %}
 				</div>	
 			</div>

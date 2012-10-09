@@ -5,28 +5,15 @@
 {% endblock %}
 
 {% block page-header %}
-		<h1>Application name: {{application.title}}</h1>
+		<h1><span class="field">Application name:</span><span class="value">{{application.title}}</span></h1>
 {% endblock %}
 
 {% block sidebar %}
 <div id="content-sidebar">
-	<div id="btn-create-app">
-		<a href="{% url create_application_view %}">New Application</a>
-	</div>
-	<div id="todo">
-		<div id="todo-filter">
-			Filter by:&#09; <a href="#">date required</a> | <a href="#">date created</a>
-		</div>
-		<div id="todo-items">
-			<ol>
-				{% for item in todo %}
-					<li>
-						<a href="">{{ item.name }}</a>
-					</li>
-				{% endfor %}
-			</ol>
-		</div>
-	</div>
+	{% block sidebar-top %}
+	{% endblock %}
+	{% block sidebar-lower %}
+	{% endblock %}
 </div>
 {% endblock %}
 
