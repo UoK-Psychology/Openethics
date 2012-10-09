@@ -1,16 +1,33 @@
+{% extends "ethicsapplication/ea_base.html" %}
 {% load token_tags %}
-<head>
+{% block title %} 
 	<title>View Application: {{application.title}}</title>
-</head>
-<body>
-	<p>
-		<h1>{{application.title}}</h1>
-	</p>
+{% endblock %}
+
+{% block page-header %}
+		<h1><span class="field">Application name:</span><span class="value">{{application.title}}</span></h1>
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-sidebar">
+	{% block sidebar-top %}
+	{% endblock %}
+	{% block sidebar-lower %}
+	{% endblock %}
+</div>
+{% endblock %}
+
+{% block content %}
 	
 	{% if_has_permission_for_object application edit %}
 	
 		{%if application.checklist and application.checklist.get_ordered_groups|first in application.get_answersets %}
-			Checklist done!
+			<p id="checklist">
+				<span class="field">Status:</span><span class="value">checklist completed:</span>
+				<a id="edit" href="{% url start_checklist ethics_application_id=application.id %}">
+					edit
+				</a>
+			</p>
 		{% else %}
 		<p>
 			<a href="{% url start_checklist ethics_application_id=application.id %}">Do Checklist</a>
@@ -42,4 +59,4 @@
 			{% endif %}
 		</p>
 
-</body>
+{% endblock %}

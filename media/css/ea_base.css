@@ -1,0 +1,187 @@
+/* temp for during CSS development */
+/*
+div, img, ul {
+	border-style: dotted;
+	border-width: 1px;
+}*/
+
+html, body {
+	height: 100%;
+	min-width: 960px;
+}
+
+body {
+	font:14px Helvetica, Arial, freesans, clean, sans-serif;
+	line-height: 1.4;
+}
+
+a,
+a:link,
+a:visited {
+	color:#000000;
+	text-decoration: none;
+}
+
+p#checklist a:link,
+p#checklist a:visited {
+	
+}
+
+a:hover,
+a:active {
+	color:#E01020;
+}
+
+div {
+	display: block;
+}
+
+.clearfix::after{
+	content:".";
+	display:block;
+	height:0;
+	clear:both;
+	visibility:hidden
+}
+
+
+* html .clearfix{
+	height:1%
+}
+
+.clearfix{
+	display:block
+}
+
+
+* {
+	margin:0;
+	padding:0;
+}
+
+#wrapper {
+	height: 100%;
+	min-height: 100%;
+}
+
+.container {
+	margin:0 auto;
+	text-align:left;
+	width: 960px;
+}
+.site-logo {
+	float: left;
+
+	padding: 5px;
+	position: relative;
+	width:300px;
+}
+
+.top-nav {
+	float: right !important;
+	line-height: 2em;
+	list-style: none;
+	padding: 40px 0;
+	position: relative;
+}
+
+.top-nav li {
+	color:#AA3333;
+	float: left;
+	font-size: 16px;
+	margin: 0 0 0 20px;
+}
+
+a.site-logo img {
+	position: absolute;
+	left: 0;
+	max-width:300px;
+}
+
+#banner {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+}
+
+#sidebar-top,
+#sidebar-top a,
+#sidebar-lower,
+#content-1,
+#content-2 {
+	border-style: solid;
+	border-color: #C0C0C0;
+	border-width: 1px;
+	padding: 3px;
+}
+
+#sidebar-top {
+	margin:0 0 5px 0;
+	text-align: center;
+}
+
+#sidebar-top a {
+	background-color:#EEEEEE;
+	border-radius: 5px;
+	color:#FF2222;
+	font-size: 1.4em;
+	margin:0 0 5px 0;
+	padding: 3px 3px;
+	text-align: center;
+}
+
+#sidebar-top a:hover {
+	background-color:#DDDDDD;
+	color:#FF3333;
+	font-size: 1.4em;
+	margin:0 0 5px 0;
+	padding: 3px 3px;
+	text-align: center;
+}
+
+#todo-filter,
+#todo-items {
+	padding:8px;
+}
+
+#todo-items ol {
+	list-style-type: square;
+}
+
+#content-sidebar {
+	float: right;
+	width: 29%;
+}
+
+#content-1, #content-2 {
+	float: left;
+	padding: 12px;
+	width: 66%;
+}
+
+#content-2 {
+	margin-top: 5px;
+}
+
+ol, ul {
+	list-style-position: inside;
+}
+
+p#checklist {
+	font-size: 1.2em;
+	padding-bottom: 10px;
+}
+
+p#checklist a {
+	font-size: 0.8em;
+	font: "Courier New" narrow;
+	padding-left: 12px;
+}
+
+#page h1 {
+	font-size:1.5em;
+	padding: 8px 0;
+}
+
+#content-1 input {
+	padding: 5px;
+}
