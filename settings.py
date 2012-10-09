@@ -159,7 +159,7 @@ LOGIN_REDIRECT_URL = '/'
 
 APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
 PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
-
+REVIEWER_ROLE = 'Reviewer'
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
