@@ -182,6 +182,33 @@ p#checklist a {
 	padding: 8px 0;
 }
 
+#page h1 + p{
+	font-size:1.25em;
+	padding: 0 0 12px 0;
+}
+
 #content-1 input {
 	padding: 5px;
+}
+
+#content-1-wide ul {
+	list-style: none;
+	padding: 0 0 0 8px;
+}
+
+#content-1-wide ol li label input {
+	margin: 0 8px 0 12px;
+}
+
+#content-1-wide ol ul {
+	padding: 5px 0 12px 0;
+}
+
+#content-1-wide ol label {
+	font-size: 1.1em;
+}
+
+#content-1-wide input[type="submit"] {
+	border-radius: 5px;
+	font-size: 1.5em;
 }
