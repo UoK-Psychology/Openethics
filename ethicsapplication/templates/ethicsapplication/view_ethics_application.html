@@ -8,13 +8,35 @@
 		<h1>Application name: {{application.title}}</h1>
 {% endblock %}
 
+{% block sidebar %}
+<div id="content-sidebar">
+	<div id="btn-create-app">
+		<a href="{% url create_application_view %}">New Application</a>
+	</div>
+	<div id="todo">
+		<div id="todo-filter">
+			Filter by:&#09; <a href="#">date required</a> | <a href="#">date created</a>
+		</div>
+		<div id="todo-items">
+			<ol>
+				{% for item in todo %}
+					<li>
+						<a href="">{{ item.name }}</a>
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
 {% block content %}
 	
 	{% if_has_permission_for_object application edit %}
 	
 		{%if application.checklist and application.checklist.get_ordered_groups|first in application.get_answersets %}
 			<p id="checklist">
-				<span>Checklist completed:</span>
+				<span class="field">Status:</span><span class="value">checklist completed:</span>
 				<a id="edit" href="{% url start_checklist ethics_application_id=application.id %}">
 					edit
 				</a>

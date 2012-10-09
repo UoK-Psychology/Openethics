@@ -18,7 +18,7 @@
 						</a>
 						{% block banner-menu %}
 						<ul class="top-nav">
-							<li>help</li>
+							<li><a href="#">help</a></li>
 							<li><a href="{% url auth_login %}">sign in</a></li>
 						</ul>
 						{% endblock %}
@@ -27,9 +27,11 @@
 				<div id="page" class="container">
 					{% block page-header %} Open Ethics {% endblock %}
 					{% block page-content%}
+						{% block sidebar %}
 						<div id="content-sidebar">
 							sidebar
 						</div>
+						{% endblock %}
 						<div id="content-1">
 							{% block content %}
 							<p>main body content</p>
