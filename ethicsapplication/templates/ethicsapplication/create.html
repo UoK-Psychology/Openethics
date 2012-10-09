@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-	<p>block content in create.html</p>
 	<form method="post" action="{% url create_application_view %}">
 		{% csrf_token %}
 		{{form.as_p}}
