@@ -1,9 +1,4 @@
 /* temp for during CSS development */
-/*
-div, img, ul {
-	border-style: dotted;
-	border-width: 1px;
-}*/
 
 html, body {
 	height: 100%;
@@ -22,6 +17,10 @@ a:visited {
 	text-decoration: none;
 }
 
+a.coloured-link {
+	color:#4183C4;
+}
+
 p#checklist a:link,
 p#checklist a:visited {
 	
@@ -36,23 +35,22 @@ div {
 	display: block;
 }
 
-.clearfix::after{
+.clearfix:after{
+	clear:both;
 	content:".";
 	display:block;
 	height:0;
-	clear:both;
+	line-height:0;
 	visibility:hidden
-}
-
-
-* html .clearfix{
-	height:1%
 }
 
 .clearfix{
 	display:block
 }
 
+* html .clearfix{
+	height:1%
+}
 
 * {
 	margin:0;
@@ -71,18 +69,30 @@ div {
 }
 .site-logo {
 	float: left;
-
 	padding: 5px;
 	position: relative;
-	width:300px;
+	/* width:300px; */
 }
 
-.top-nav {
+span.field {
+	font-weight:bold;
+}
+ul.top-nav {
 	float: right !important;
 	line-height: 2em;
 	list-style: none;
-	padding: 40px 0;
-	position: relative;
+	vertical-align: middle;
+}
+
+ul.top-nav a {
+	display: table-cell;
+	height: 80px;  /*unfortunatley need to set this to the height of the image else menu is at top*/
+	vertical-align: middle;
+}
+
+a.site-logo img {
+	left: 0;
+	max-height: 70px;
 }
 
 .top-nav li {
@@ -92,15 +102,9 @@ div {
 	margin: 0 0 0 20px;
 }
 
-a.site-logo img {
-	position: absolute;
-	left: 0;
-	max-width:300px;
-}
-
 #banner {
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
+	background-color: #F0F0F0;
+	border-bottom: 1px solid #CACACA;
 }
 
 #sidebar-top,
@@ -115,6 +119,7 @@ a.site-logo img {
 }
 
 #sidebar-top {
+	border-style: none;
 	margin:0 0 5px 0;
 	text-align: center;
 }
@@ -177,9 +182,18 @@ p#checklist a {
 	padding-left: 12px;
 }
 
+#page {
+	padding:0 3px;
+}
+
 #page h1 {
 	font-size:1.5em;
 	padding: 8px 0;
+}
+
+#page h2 {
+	font-size:1.1em;
+	padding:5px 0;
 }
 
 #page h1 + p{
@@ -211,4 +225,37 @@ p#checklist a {
 #content-1-wide input[type="submit"] {
 	border-radius: 5px;
 	font-size: 1.5em;
+}
+
+/*
+ * for login/logout forms:
+ *       url(r'^accounts/login/$', view ='django.contrib.auth.views.login', name='auth_login'),
+ *       url(r'^accounts/logout/$', view ='django.contrib.auth.views.logout', name='auth_logout'),   
+ */ 
+#content-1 form p {
+	display:block;
+	padding-bottom: 12px;
+}
+
+label[for="id_username"],
+label[for="id_password"] {
+	float:left;
+	min-width: 100px;
+}
+
+input[id="id_username"],
+input[id="id_password"] {
+	display:block;
+}
+
+#content-1 form p:after {
+	clear:both;
+	content:".";
+	display:block;
+	height:0;
+	line-height:0;
+	visibility:hidden
+}
+#content-1 form input[type="submit"]{
+	margin:20px 0 10px 100px;
 }

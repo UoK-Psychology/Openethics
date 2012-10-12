@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block page-header %}
-		<h1><span class="field">Application name:</span><span class="value">{{application.title}}</span></h1>
+		<h1><span class="field">Application name: </span><span class="value">{{application.title}}</span></h1>
 {% endblock %}
 
 {% block sidebar %}
@@ -23,8 +23,8 @@
 	
 		{%if application.checklist and application.checklist.get_ordered_groups|first in application.get_answersets %}
 			<p id="checklist">
-				<span class="field">Status:</span><span class="value">checklist completed:</span>
-				<a id="edit" href="{% url start_checklist ethics_application_id=application.id %}">
+				<span class="field">Status: </span><span class="value">checklist completed:</span>
+				<a class="coloured-link" href="{% url start_checklist ethics_application_id=application.id %}">
 					edit
 				</a>
 			</p>
@@ -36,9 +36,7 @@
 	{% end_if_has_permission_for_object %}
 	
 		<!-- keep this outside the permissions checking section during development-->
-		<p>
-			Questionnaire groups:
-		</p>
+		<h2>Questionnaire groups:</h2>
 			<ol>
 				{% for group in application.application_form.get_ordered_groups %}
 				<li>
