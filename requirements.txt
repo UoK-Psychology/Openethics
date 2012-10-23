@@ -4,17 +4,18 @@ Pygments==1.5
 South==0.7.4
 Sphinx==1.1.3
 coverage==3.5.2
+django-extensions==0.9
 django-jenkins==0.13.0
 django-nose==1.1
 -e git+https://github.com/UoK-Psychology/django-questionnaire.git#egg=django-questionnaire
--e git+https://github.com/ctrlspc/django-permissions.git#egg=django-permissions 
+-e git+https://github.com/ctrlspc/django-permissions.git#egg=django-permissions django-tastypie==0.9.11
 django-workflows==1.0.2
 docutils==0.9.1
 logilab-astng==0.24.0
 logilab-common==0.58.1
+mimeparse==0.1.3
 mock==1.0b1
 nose==1.2.1
 pylint==0.25.2
+python-dateutil==1.5
 wsgiref==0.1.2
-
-
