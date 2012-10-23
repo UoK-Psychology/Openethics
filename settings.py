@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'checklist',
     'applicationform',
     'workflowutils',
+    'tastypie',
     'django_nose',
     'django_jenkins',
 )

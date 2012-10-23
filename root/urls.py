@@ -2,7 +2,15 @@ from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+from root.api import UserResource
+from ethicsapplication.api import EthicsApplicationResource
+from tastypie.api import Api
 admin.autodiscover()
+
+v1_api = Api(api_name='v1')
+v1_api.register(UserResource())
+v1_api.register(EthicsApplicationResource())
+
 
 urlpatterns = patterns('',
     
@@ -16,6 +24,7 @@ urlpatterns = patterns('',
       url(r'^application/', include('ethicsapplication.urls')),
       url(r'^checklist/', include('checklist.urls')),
       url(r'^applicationform/', include('applicationform.urls')),
+      (r'^api/', include(v1_api.urls)),
       #temporarily put this here until we find a better place for it
       #url(r'questionnaire/', include('questionnaire.urls')),
       url(r'^qs/(?P<questionnaire_id>\d+)/(?P<order_index>\d+)/(?P<group_limit>\d+)/$', 
