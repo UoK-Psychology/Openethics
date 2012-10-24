@@ -1,0 +1,261 @@
+/* temp for during CSS development */
+
+html, body {
+	height: 100%;
+	min-width: 960px;
+}
+
+body {
+	font:14px Helvetica, Arial, freesans, clean, sans-serif;
+	line-height: 1.4;
+}
+
+a,
+a:link,
+a:visited {
+	color:#000000;
+	text-decoration: none;
+}
+
+a.coloured-link {
+	color:#4183C4;
+}
+
+p#checklist a:link,
+p#checklist a:visited {
+	
+}
+
+a:hover,
+a:active {
+	color:#E01020;
+}
+
+div {
+	display: block;
+}
+
+.clearfix:after{
+	clear:both;
+	content:".";
+	display:block;
+	height:0;
+	line-height:0;
+	visibility:hidden
+}
+
+.clearfix{
+	display:block
+}
+
+* html .clearfix{
+	height:1%
+}
+
+* {
+	margin:0;
+	padding:0;
+}
+
+#wrapper {
+	height: 100%;
+	min-height: 100%;
+}
+
+.container {
+	margin:0 auto;
+	text-align:left;
+	width: 960px;
+}
+.site-logo {
+	float: left;
+	padding: 5px;
+	position: relative;
+	/* width:300px; */
+}
+
+span.field {
+	font-weight:bold;
+}
+ul.top-nav {
+	float: right !important;
+	line-height: 2em;
+	list-style: none;
+	vertical-align: middle;
+}
+
+ul.top-nav a {
+	display: table-cell;
+	height: 80px;  /*unfortunatley need to set this to the height of the image else menu is at top*/
+	vertical-align: middle;
+}
+
+a.site-logo img {
+	left: 0;
+	max-height: 70px;
+}
+
+.top-nav li {
+	color:#AA3333;
+	float: left;
+	font-size: 16px;
+	margin: 0 0 0 20px;
+}
+
+#banner {
+	background-color: #F0F0F0;
+	border-bottom: 1px solid #CACACA;
+}
+
+#sidebar-top,
+#sidebar-top a,
+#sidebar-lower,
+#content-1,
+#content-2 {
+	border-style: solid;
+	border-color: #C0C0C0;
+	border-width: 1px;
+	padding: 3px;
+}
+
+#sidebar-top {
+	border-style: none;
+	margin:0 0 5px 0;
+	text-align: center;
+}
+
+#sidebar-top a {
+	background-color:#EEEEEE;
+	border-radius: 5px;
+	color:#FF2222;
+	font-size: 1.4em;
+	margin:0 0 5px 0;
+	padding: 3px 3px;
+	text-align: center;
+}
+
+#sidebar-top a:hover {
+	background-color:#DDDDDD;
+	color:#FF3333;
+	font-size: 1.4em;
+	margin:0 0 5px 0;
+	padding: 3px 3px;
+	text-align: center;
+}
+
+#todo-filter,
+#todo-items {
+	padding:8px;
+}
+
+#todo-items ol {
+	list-style-type: square;
+}
+
+#content-sidebar {
+	float: right;
+	width: 29%;
+}
+
+#content-1, #content-2 {
+	float: left;
+	padding: 12px;
+	width: 66%;
+}
+
+#content-2 {
+	margin-top: 5px;
+}
+
+ol, ul {
+	list-style-position: inside;
+}
+
+p#checklist {
+	font-size: 1.2em;
+	padding-bottom: 10px;
+}
+
+p#checklist a {
+	font-size: 0.8em;
+	font: "Courier New" narrow;
+	padding-left: 12px;
+}
+
+#page {
+	padding:0 3px;
+}
+
+#page h1 {
+	font-size:1.5em;
+	padding: 8px 0;
+}
+
+#page h2 {
+	font-size:1.1em;
+	padding:5px 0;
+}
+
+#page h1 + p{
+	font-size:1.25em;
+	padding: 0 0 12px 0;
+}
+
+#content-1 input {
+	padding: 5px;
+}
+
+#content-1-wide ul {
+	list-style: none;
+	padding: 0 0 0 8px;
+}
+
+#content-1-wide ol li label input {
+	margin: 0 8px 0 12px;
+}
+
+#content-1-wide ol ul {
+	padding: 5px 0 12px 0;
+}
+
+#content-1-wide ol label {
+	font-size: 1.1em;
+}
+
+#content-1-wide input[type="submit"] {
+	border-radius: 5px;
+	font-size: 1.5em;
+}
+
+/*
+ * for login/logout forms:
+ *       url(r'^accounts/login/$', view ='django.contrib.auth.views.login', name='auth_login'),
+ *       url(r'^accounts/logout/$', view ='django.contrib.auth.views.logout', name='auth_logout'),   
+ */ 
+#content-1 form p {
+	display:block;
+	padding-bottom: 12px;
+}
+
+label[for="id_username"],
+label[for="id_password"] {
+	float:left;
+	min-width: 100px;
+}
+
+input[id="id_username"],
+input[id="id_password"] {
+	display:block;
+}
+
+#content-1 form p:after {
+	clear:both;
+	content:".";
+	display:block;
+	height:0;
+	line-height:0;
+	visibility:hidden
+}
+#content-1 form input[type="submit"]{
+	margin:20px 0 10px 100px;
+}

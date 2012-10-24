@@ -1,25 +1,18 @@
-
+{% extends "ethicsapplication/ea_base.html" %}
 <h1>Openethics</h1>
 <h2>Welcome to the index page!</h2>
 
 <body>
 
-
 {% if user.is_authenticated %}
-
-	<p><h1> Your Active Applications:</h1></p>
-	<ul>
-		
-		{% for application in active_applications %}
-		
-			<li><a href="{% url application_view application_id=application.id%}">{{application.title}}</a></li>
-		{% endfor %}
-		
-	</ul>
-	
-	<p>
-		<a href="{% url auth_logout %}?next=/">logout</a>
-	</p>
+	{% block content %}
+		<p><h1> Your Active Applications:</h1></p>
+		<ul>	
+			{% for application in active_applications %}
+				<li><a href="{% url application_view application_id=application.id%}">{{application.title}}</a></li>
+			{% endfor %}
+		</ul>
+	{% endblock %}
 {% else %}
 
 	{% url auth_login as login_url %}
