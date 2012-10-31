@@ -489,6 +489,17 @@ class EthicsApplicationManagerTestCase(TestCase):
         self.assertEqual([self.ethics_application], 
                          EthicsApplication.objects.get_active_applications(self.test_user))
         
+    
+    def test_get_applications_for_review_malconfigured(self):
+        '''
+            If the settings.REVIEWER_ROLE is not present in the settings module, or it is present but
+            does not exist in the database then an ImporperlyConfigured error will be raised
+        '''
+        del(settings.REVIEWER_ROLE)
+        self.assertRaises(ImproperlyConfigured, EthicsApplication.objects.get_applications_for_review, self.test_user)
+        
+        settings.REVIEWER_ROLE = 'InvalidRole'
+        self.assertRaises(ImproperlyConfigured, EthicsApplication.objects.get_applications_for_review, self.test_user)
         
         
     @patch('ethicsapplication.models.get_object_for_principle_as_role')
@@ -497,14 +508,20 @@ class EthicsApplicationManagerTestCase(TestCase):
            This function is basically a very thin wrapper around the 
            get_object_for_principle_as_role utility function provided by django-permission
            library. Therefore this function should return whatever this function does.
+           
+           The value add of this function is that it knows how to look up the role to be
+           used for the reviewer, this should be looked up based on the settings.REVIEWER_ROLE
         '''
+        
+        settings.REVIEWER_ROLE = 'Reviewer'
+        reviewer_role = Role.objects.get(name=settings.REVIEWER_ROLE)
         
         util_patch.return_value = [1,2,3]
         
         self.assertEqual(EthicsApplication.objects.get_applications_for_review(self.test_user), 
                          [1,2,3])
         
-        util_patch.assert_called_once_with(self.test_user)
+        util_patch.assert_called_once_with(principle=self.test_user, principle_role=reviewer_role)
         
     
         

@@ -29,6 +29,17 @@ class EthicsApplicationManager(Manager):
             
             @param reviewer: The user object for the reviewer.
         '''
+        reviewer_code= getattr(settings, 'REVIEWER_ROLE', None)
+        
+        if reviewer_code != None:
+            try:
+                reviewer_role = Role.objects.get(name=reviewer_code)                
+                return get_object_for_principle_as_role(principle=reviewer, principle_role=reviewer_role)
+                    
+            except ObjectDoesNotExist:
+                raise ImproperlyConfigured('The workflow you specify in REVIEWER_ROLE must actually be configured in the db')
+        else:
+            raise ImproperlyConfigured('You must set REVIEWER_ROLE in the settings file')
         
         return []
 
