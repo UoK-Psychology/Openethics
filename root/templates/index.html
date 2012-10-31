@@ -14,6 +14,18 @@
 			{% endfor %}
 		</ul>
 	{% endblock %}
+	
+	{% block sidebar-lower %}
+		<p><h1> Applications for your review:</h1></p>
+		<ul>	
+			{% for application in applications_for_review %}
+				<li><a href="{% url application_view application_id=application.id%}">{{application.title}}</a></li>
+			{% endfor %}
+		</ul>
+	
+	{% endblock %}
+	
+	
 {% else %}
 
 	{% url auth_login as login_url %}
