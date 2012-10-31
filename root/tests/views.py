@@ -56,3 +56,32 @@ class IndexViewTestCase(TestCase):
             #assert that manager_mock is called
             manager_mock.assert_called_with(self.user)
 
+        
+    def test_user_is_logged_in_has_applications_for_review(self):
+        '''
+            If the user has got applications that they are the reviewer for then they should
+            be listed in the context as applications_for_review
+        '''
+        with patch('ethicsapplication.models.EthicsApplicationManager.get_applications_for_review') as manager_mock:
+            
+           
+            manager_mock.return_value = [1,2,3]      #set what value we want the call the get_active_applicaitons() to return below..
+            
+            #have a user, and be logged in
+            #get request to the index page
+            self.client.login(username='test', password='testpass')   
+            response = self.client.get(reverse('index_view'))   #the context returned by a call to index_view will include the result
+                                                                #of a call to get_active_applications.
+            
+            #assert 200
+            #assert the template
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response,
+                                'index.html')
+            #assert context
+            self.assertTrue('applications_for_review' in response.context)
+            self.assertEqual(response.context['applications_for_review'], [1,2,3])
+            #assert that manager_mock is called
+            manager_mock.assert_called_with(self.user)
+
+    
