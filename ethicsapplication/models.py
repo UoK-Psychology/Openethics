@@ -7,8 +7,9 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 from workflows.models import Workflow
 from permissions.models import Role
-from permissions.utils import remove_local_role, add_local_role
+from permissions.utils import remove_local_role, add_local_role, get_object_for_principle_as_role
 from workflows.utils import get_state
+
 # Create your models here.
 
 class EthicsApplicationManager(Manager):
@@ -21,6 +22,15 @@ class EthicsApplicationManager(Manager):
         '''
         
         return [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user).filter(active=True)]
+    
+    def get_applications_for_review(self, reviewer):
+        '''
+            Returns the applications that the user is a reviewer for
+            
+            @param reviewer: The user object for the reviewer.
+        '''
+        
+        return []
 
 class EthicsApplication(models.Model):
     '''

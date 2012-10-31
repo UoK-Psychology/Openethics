@@ -487,4 +487,27 @@ class EthicsApplicationManagerTestCase(TestCase):
 
         
         self.assertEqual([self.ethics_application], 
-                         EthicsApplication.objects.get_active_applications(self.test_user)) 
+                         EthicsApplication.objects.get_active_applications(self.test_user))
+        
+        
+        
+    @patch('ethicsapplication.models.get_object_for_principle_as_role')
+    def test_get_applications_for_review(self, util_patch):
+        '''
+           This function is basically a very thin wrapper around the 
+           get_object_for_principle_as_role utility function provided by django-permission
+           library. Therefore this function should return whatever this function does.
+        '''
+        
+        util_patch.return_value = [1,2,3]
+        
+        self.assertEqual(EthicsApplication.objects.get_applications_for_review(self.test_user), 
+                         [1,2,3])
+        
+        util_patch.assert_called_once_with(self.test_user)
+        
+    
+        
+        
+        
+         
