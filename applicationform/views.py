@@ -4,9 +4,10 @@ from django.core.exceptions import PermissionDenied, ImproperlyConfigured,\
     ObjectDoesNotExist
 from django.conf import settings
 from questionnaire.models import QuestionGroup, Questionnaire
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.core.urlresolvers import reverse
 from applicationform.models import FullApplicationChecklistLink
+from django.contrib.auth.decorators import login_required
 
 
 def _get_application_groups_from_checklist(ethics_application):
@@ -87,3 +88,12 @@ def configure_application_form(request, ethics_application_id):
         ethics_application.save()
            
     return HttpResponseRedirect(reverse('application_view', kwargs={'application_id':ethics_application_id}))
+
+
+@login_required
+def view_application_section(request, ethics_application_id, questionnaire_id, order_index, return_url):
+    '''
+    
+    '''
+    
+    return HttpResponse('view application section')

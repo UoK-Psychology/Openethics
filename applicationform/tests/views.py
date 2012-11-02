@@ -218,5 +218,11 @@ class GetApplicationGroupsFromChecklistTests(TestCase):
                           QuestionGroup.objects.get(id=8),
                           ])
         
+class ViewApplicationSectionTests(TestCase):
+    
+    def test_logged_in(self):
+        '''
         
+        '''
+        self.assertTrue(False)  
     
