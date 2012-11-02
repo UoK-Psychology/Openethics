@@ -47,14 +47,9 @@ def create_application(request):
 def view_application(request, application_id):
     
     ethics_application = get_object_or_404(EthicsApplication,pk=application_id)
-    #START test data for template development
-    item1 = { 'name': 'Application review: John Smith', }
-    item2 = { 'name': 'Supervisor review: Ann Brown', } 
     
-    todo = ( item1, item2, )
-    #END
     if has_permission(ethics_application, request.user, 'view'):
-        return render_to_response('ethicsapplication/view_ethics_application.html', {'application':ethics_application, 'todo':todo, },
+        return render_to_response('ethicsapplication/view_ethics_application.html', {'application':ethics_application, },
                               context_instance=RequestContext(request))
     else:
         raise PermissionDenied()
