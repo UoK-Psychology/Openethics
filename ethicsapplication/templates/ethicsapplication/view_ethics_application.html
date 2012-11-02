@@ -62,7 +62,7 @@
 		<ol>
 				{% for group in application.application_form.get_ordered_groups %}
 				<li>
-					<a href="{% url view_application_form_group application_id=application.id questionnaire_id=application.application_form.id order_index=forloop.counter0 %}?return_url={% url application_view application_id=application.id%}">
+					<a href="{% url read_application_form_group application_id=application.id questionnaire_id=application.application_form.id order_index=forloop.counter0 %}?return_url={% url application_view application_id=application.id%}">
 						{{group.name}}</a>
 				</li>				
 				{% endfor %}	
