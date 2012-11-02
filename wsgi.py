@@ -14,14 +14,18 @@ framework.
 
 """
 import os
-
+dirname = os.path.dirname(globals()["__file__"])
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Openethics.settings")
 
+import newrelic.agent
+newrelic.agent.initialize(dirname + '/newrelic.ini')
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
+
+application = newrelic.agent.wsgi_application()(application)
 
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
