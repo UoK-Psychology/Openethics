@@ -93,7 +93,10 @@ def configure_application_form(request, ethics_application_id):
 @login_required
 def view_application_section(request, ethics_application_id, questionnaire_id, order_index, return_url):
     '''
-    
+        This function should first check that the user has view permission for the 
+        application in question
+        Then it should get the AnswerSet for the questiongroup as answered by the principle investigator
+        of the application (the question group is referenced by the questionnaire_id and the order_index)
     '''
     
     return HttpResponse('view application section')
