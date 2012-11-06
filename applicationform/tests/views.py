@@ -220,9 +220,52 @@ class GetApplicationGroupsFromChecklistTests(TestCase):
         
 class ViewApplicationSectionTests(TestCase):
     
-    def test_logged_in(self):
+    def test_authentication(self):
         '''
-        
+            The user must be loggin in to access this view, if they
+            aren't then they should be redirected to login
         '''
         self.assertTrue(False)  
     
+    def test_authorization(self):
+        '''
+            The user must have the view permission for the ethics application
+            in question. If they don't then they should get a 403 forbidden error
+        '''
+        self.assertTrue(False)  
+        
+        
+    def test_invalid_parameters(self):
+        '''
+            If the questionniare or the ethics application is not present then 
+            the requester should get a 404 response.
+            If the order_index is invalid - i.e. there is no group available at that
+            index in the questionnaire the user should get a 404 error
+        '''
+        self.assertTrue(False)  
+        
+    def test_no_answerset(self):
+        '''
+            If everything is good but there is no answeret available then the view
+            should return a httpo 200 response, rendering the read_application_group
+            template, but have an empty list for the question_answers key in the context
+        '''
+        self.assertTrue(False)  
+        
+    def test_answerset_avaialble(self):
+        '''
+            If everything goes well, and there is an answer_set for the paramters supplied
+            then the view should call the get_latest_question_Answer_in_order function
+            on the answerset, and it should put the returned list in the context, keyed
+            with "question_answers", this context should be sent in a http 200 response
+            rendering the read_application_group template.
+        '''
+        
+        self.assertTrue(False)  
+        
+        
+        
+        
+        
+        
+        
