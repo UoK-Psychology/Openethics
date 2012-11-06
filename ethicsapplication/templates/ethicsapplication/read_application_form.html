@@ -1,0 +1,9 @@
+
+<ul>
+{% for question_answer in question_answers %}
+	<li>{{question_answer.question.label}}:<br>
+		{{question_answer.answer}}
+	</li>
+
+{% endfor %}
+</ul>
