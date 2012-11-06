@@ -231,7 +231,7 @@ class ViewApplicationSectionTests(TestCase):
         self.test_questionnaire = Questionnaire.objects.create(name='test questionnaire')
         self.test_group = QuestionGroup.objects.create(name='test group')
         self.test_questionnaire.add_question_group(self.test_group)
-        self.valid_url = reverse('view_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
+        self.valid_url = reverse('read_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
                                                              'questionnaire_id':self.test_questionnaire.id,
                                                              'order_index':0})
         
@@ -253,15 +253,15 @@ class ViewApplicationSectionTests(TestCase):
             index in the questionnaire the user should get a 404 error
         '''
         self.client.login(username='test', password='password')
-        invalid_application_url = reverse('view_application_form_group', kwargs={'ethics_application_id':999,
+        invalid_application_url = reverse('read_application_form_group', kwargs={'ethics_application_id':999,
                                                              'questionnaire_id':self.test_questionnaire.id,
                                                              'order_index':0})
         
-        invalid_questionnaire_url = reverse('view_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
+        invalid_questionnaire_url = reverse('read_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
                                                              'questionnaire_id':999,
                                                              'order_index':0})
         
-        invalid_group_url = reverse('view_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
+        invalid_group_url = reverse('read_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
                                                              'questionnaire_id':self.test_questionnaire.id,
                                                              'order_index':999})
         
