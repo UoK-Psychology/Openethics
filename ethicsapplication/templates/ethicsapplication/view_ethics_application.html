@@ -56,8 +56,8 @@
 	
 		<!-- Show the read only views of the  application section -->	
 		
-		<a href="{% url view_checklist ethics_application_id=application.id %}?return_to={% url application_view application_id=application.id%}">View Checklist</a>
 		
+		<a href="{% url read_application_form_group ethics_application_id=application.id questionnaire_id=application.checklist.id order_index=0 %}?return_url={% url application_view application_id=application.id%}">View Checklist</a>
 		<h2>Application subsections:</h2>
 		<ol>
 				{% for group in application.application_form.get_ordered_groups %}
