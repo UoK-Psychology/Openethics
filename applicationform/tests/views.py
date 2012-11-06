@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.test import TestCase
-from questionnaire.models import Questionnaire, QuestionGroup, AnswerSet
+from questionnaire.models import Questionnaire, QuestionGroup, AnswerSet,\
+    QuestionAnswer
 from django.core.exceptions import ImproperlyConfigured
 from applicationform.views import _get_basic_application_groups,\
     _get_application_groups_from_checklist
@@ -220,20 +221,29 @@ class GetApplicationGroupsFromChecklistTests(TestCase):
         
 class ViewApplicationSectionTests(TestCase):
     
+    def setUp(self):
+        '''
+            Sets up the shared pre-requisites for the tests.
+        '''
+        self.testUser = User.objects.create_user('test', 'test@home.com', "password")
+        self.test_application = EthicsApplication.objects.create(principle_investigator=self.testUser,
+                                                                 title='test application')
+        self.test_questionnaire = Questionnaire.objects.create(name='test questionnaire')
+        self.test_group = QuestionGroup.objects.create(name='test group')
+        self.test_questionnaire.add_question_group(self.test_group)
+        self.valid_url = reverse('view_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
+                                                             'questionnaire_id':self.test_questionnaire.id,
+                                                             'order_index':0})
+        
+        
     def test_authentication(self):
         '''
             The user must be loggin in to access this view, if they
             aren't then they should be redirected to login
-        '''
-        self.assertTrue(False)  
-    
-    def test_authorization(self):
-        '''
-            The user must have the view permission for the ethics application
-            in question. If they don't then they should get a 403 forbidden error
-        '''
-        self.assertTrue(False)  
+        '''        
         
+        response = self.client.get(self.valid_url)
+        self.assertRedirects(response, '/accounts/login/?next=%s' % self.valid_url )
         
     def test_invalid_parameters(self):
         '''
@@ -242,30 +252,87 @@ class ViewApplicationSectionTests(TestCase):
             If the order_index is invalid - i.e. there is no group available at that
             index in the questionnaire the user should get a 404 error
         '''
-        self.assertTrue(False)  
+        self.client.login(username='test', password='password')
+        invalid_application_url = reverse('view_application_form_group', kwargs={'ethics_application_id':999,
+                                                             'questionnaire_id':self.test_questionnaire.id,
+                                                             'order_index':0})
         
-    def test_no_answerset(self):
+        invalid_questionnaire_url = reverse('view_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
+                                                             'questionnaire_id':999,
+                                                             'order_index':0})
+        
+        invalid_group_url = reverse('view_application_form_group', kwargs={'ethics_application_id':self.test_application.id,
+                                                             'questionnaire_id':self.test_questionnaire.id,
+                                                             'order_index':999})
+        
+        for url in [invalid_application_url,invalid_questionnaire_url,invalid_group_url]:
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 404)
+            
+        
+    @patch('applicationform.views.has_permission')  
+    def test_authorization(self, has_permission_mock):
         '''
-            If everything is good but there is no answeret available then the view
-            should return a httpo 200 response, rendering the read_application_group
-            template, but have an empty list for the question_answers key in the context
+            The user must have the view permission for the ethics application
+            in question. If they don't then they should get a 403 forbidden error
         '''
-        self.assertTrue(False)  
+        self.client.login(username='test', password='password')  
+        has_permission_mock.return_value = False
         
-    def test_answerset_avaialble(self):
+        response = self.client.get(self.valid_url)
+        self.assertEquals (403, response.status_code )
+        
+    
+    def carryout_shared_assertions(self, expected_question_answers):
         '''
-            If everything goes well, and there is an answer_set for the paramters supplied
-            then the view should call the get_latest_question_Answer_in_order function
-            on the answerset, and it should put the returned list in the context, keyed
-            with "question_answers", this context should be sent in a http 200 response
-            rendering the read_application_group template.
+            This function is shared between the test_no_answerset and
+            test_answerset_avaialble tests as only their setup differs
+            
+            It asserts that
+            The Get request returns 200
+            the template that is used is : applicationform/read_application_form.html
+            the context contains a key : return_to which is the same as the return_to arg sent in the get request
+            the context also contains a key: question_Answers which should match the expected_question_answers parameter
         '''
+        with patch('applicationform.views.has_permission') as has_permission_mock:
+            has_permission_mock.return_value = True
+            self.client.login(username='test', password='password') 
+            return_to_url = 'a_url'
+            
+            self.client.login(username='test', password='password') 
+            
+            response = self.client.get(self.valid_url,{'return_to':return_to_url})
+            
+            
+            self.assertEqual(response.status_code, 200)
+            self.assertTemplateUsed(response,
+                                    'applicationform/read_application_form.html')
+            self.assertTrue('return_to' in response.context)
+            self.assertTrue('question_Answers' in response.context)
+            
+            self.assertEqual(response.context['return_to'], return_to_url)
+            self.assertEqual(response.context['question_Answers'], expected_question_answers)   
+            
+    @patch('applicationform.views.has_permission')      
+    def test_answerset_avaialble(self, has_permission_mock):
+        '''
+            If everything goes well:
+            1. If there is no answerset available then then there should be an empty
+            list keyed against question_answers in the context.
+            2. If there is an answerset then the get_latest_question_Answer_in_order function
+            on the answerset should be called, and it should put the returned list in the context, keyed
+            with "question_answers"
+        '''
+        #first, when there is no answerset present:
+        self.carryout_shared_assertions([])
         
-        self.assertTrue(False)  
+        #now setup the answerset
+        AnswerSet.objects.create(   user=self.testUser,
+                                    questionnaire=self.test_questionnaire,
+                                    questiongroup=self.test_group)
         
-        
-        
-        
-        
-        
+        with patch('questionnaire.models.AnswserSet.get_latest_question_answer_in_order') as answer_set_mock:
+            answer_set_mock.return_value = [QuestionAnswer()]
+            self.carryout_shared_assertions(answer_set_mock.return_value)
+
         
