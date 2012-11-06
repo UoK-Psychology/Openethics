@@ -1,14 +1,15 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
 from ethicsapplication.models import EthicsApplication
 from django.core.exceptions import PermissionDenied, ImproperlyConfigured,\
     ObjectDoesNotExist
 from django.conf import settings
-from questionnaire.models import QuestionGroup, Questionnaire
+from questionnaire.models import QuestionGroup, Questionnaire, AnswerSet
 from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.core.urlresolvers import reverse
 from applicationform.models import FullApplicationChecklistLink
 from django.contrib.auth.decorators import login_required
-
+from permissions.utils import has_permission
+from django.template.context import RequestContext
 
 def _get_application_groups_from_checklist(ethics_application):
     '''
@@ -91,12 +92,40 @@ def configure_application_form(request, ethics_application_id):
 
 
 @login_required
-def view_application_section(request, ethics_application_id, questionnaire_id, order_index, return_url):
+def read_application_section(request, ethics_application_id, questionnaire_id, order_index, return_url):
     '''
         This function should first check that the user has view permission for the 
         application in question
         Then it should get the AnswerSet for the questiongroup as answered by the principle investigator
         of the application (the question group is referenced by the questionnaire_id and the order_index)
     '''
+    if request.GET.get('return_url', None) != None:
+        return_url = request.GET.get('return_url')
+        
+    ethics_application = get_object_or_404(EthicsApplication, pk=ethics_application_id)
+    questionnaire = get_object_or_404(Questionnaire, pk=questionnaire_id)
     
-    return HttpResponse('view application section')
+    try:
+        ordered_groups = questionnaire.get_ordered_groups()
+        question_group = ordered_groups[int(order_index)]
+    except IndexError:
+        raise Http404("Invalid order index")
+    
+    if not has_permission(ethics_application, request.user, 'view'):
+        raise PermissionDenied()
+    
+    try:
+        answer_set = AnswerSet.objects.get(user=ethics_application.principle_investigator,
+                                           questionnaire=questionnaire,
+                                           questiongroup=question_group)
+        
+        question_answers = answer_set.get_latest_question_answer_in_order()
+        
+    except ObjectDoesNotExist:
+        #not to worry just return an empty list
+        question_answers=[]
+    
+    return render_to_response('ethicsapplication/read_application_form.html', 
+                              {     'return_url':return_url, 
+                                    'question_answers':question_answers},
+                              context_instance=RequestContext(request))

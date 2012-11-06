@@ -301,17 +301,17 @@ class ViewApplicationSectionTests(TestCase):
             
             self.client.login(username='test', password='password') 
             
-            response = self.client.get(self.valid_url,{'return_to':return_to_url})
+            response = self.client.get(self.valid_url,{'return_url':return_to_url})
             
             
             self.assertEqual(response.status_code, 200)
             self.assertTemplateUsed(response,
-                                    'applicationform/read_application_form.html')
-            self.assertTrue('return_to' in response.context)
-            self.assertTrue('question_Answers' in response.context)
+                                    'ethicsapplication/read_application_form.html')
+            self.assertTrue('return_url' in response.context)
+            self.assertTrue('question_answers' in response.context)
             
-            self.assertEqual(response.context['return_to'], return_to_url)
-            self.assertEqual(response.context['question_Answers'], expected_question_answers)   
+            self.assertEqual(response.context['return_url'], return_to_url)
+            self.assertEqual(response.context['question_answers'], expected_question_answers)   
             
     @patch('applicationform.views.has_permission')      
     def test_answerset_avaialble(self, has_permission_mock):
@@ -331,7 +331,7 @@ class ViewApplicationSectionTests(TestCase):
                                     questionnaire=self.test_questionnaire,
                                     questiongroup=self.test_group)
         
-        with patch('questionnaire.models.AnswserSet.get_latest_question_answer_in_order') as answer_set_mock:
+        with patch('applicationform.views.AnswerSet.get_latest_question_answer_in_order') as answer_set_mock:
             answer_set_mock.return_value = [QuestionAnswer()]
             self.carryout_shared_assertions(answer_set_mock.return_value)
 
