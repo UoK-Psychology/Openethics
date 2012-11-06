@@ -13,7 +13,7 @@ urlpatterns = patterns('',
                        
     url(r'^view/(?P<ethics_application_id>\d+)/(?P<questionnaire_id>\d+)/(?P<order_index>\d+)/$',
           view ='applicationform.views.read_application_section', 
-          name='view_application_form_group',
+          name='read_application_form_group',
           kwargs={'return_url':'/'},
         ), 
                        
