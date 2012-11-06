@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from mock import patch
+from ethicsapplication.models import EthicsApplication
 class IndexViewTestCase(TestCase):
     
     def setUp(self):
@@ -64,8 +65,8 @@ class IndexViewTestCase(TestCase):
         '''
         with patch('ethicsapplication.models.EthicsApplicationManager.get_applications_for_review') as manager_mock:
             
-           
-            manager_mock.return_value = [1,2,3]      #set what value we want the call the get_active_applicaitons() to return below..
+            application_for_review = EthicsApplication.objects.create(title='test', principle_investigator=self.user)
+            manager_mock.return_value = [application_for_review]      #set what value we want the call the get_active_applicaitons() to return below..
             
             #have a user, and be logged in
             #get request to the index page
@@ -80,7 +81,7 @@ class IndexViewTestCase(TestCase):
                                 'index.html')
             #assert context
             self.assertTrue('applications_for_review' in response.context)
-            self.assertEqual(response.context['applications_for_review'], [1,2,3])
+            self.assertEqual(response.context['applications_for_review'], [application_for_review] )
             #assert that manager_mock is called
             manager_mock.assert_called_with(self.user)
 
