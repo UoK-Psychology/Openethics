@@ -23,11 +23,14 @@ class EthicsApplicationManager(Manager):
         
         return [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user).filter(active=True)]
     
-    def get_applications_for_review(self, reviewer):
+    def get_applications_for_review(self, reviewer, state=None):
         '''
             Returns the applications that the user is a reviewer for
             
             @param reviewer: The user object for the reviewer.
+            @param state: If specified then the returned list will be filtered so that only
+            applications in this state are retunred. If the state cannot be resolved then all
+            applications will be retunred.
         '''
         reviewer_code= getattr(settings, 'REVIEWER_ROLE', None)
         

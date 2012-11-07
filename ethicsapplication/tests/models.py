@@ -5,7 +5,7 @@ from django.db.utils import IntegrityError
 from django.conf import settings
 from mock import patch, MagicMock, call
 from django.core.exceptions import ImproperlyConfigured
-from workflows.models import Workflow
+from workflows.models import Workflow, State
 from questionnaire.models import Questionnaire, QuestionGroup, AnswerSet
 from permissions.models import Role
 class EthicsApplicationModelTestCase(TestCase):
@@ -489,8 +489,16 @@ class EthicsApplicationManagerTestCase(TestCase):
         self.assertEqual([self.ethics_application], 
                          EthicsApplication.objects.get_active_applications(self.test_user))
         
+class GetApplicationsForReviewTests(TestCase):
     
-    def test_get_applications_for_review_malconfigured(self):
+    def setUp(self):
+        
+        self.test_user = User.objects.create_user('test', 'me@home.com', 'password')
+        self.ethics_application = EthicsApplication.objects.create(title='test_application', 
+                                                                   principle_investigator=self.test_user)
+        self.test_state = State.objects.create(name='test_state', workflow=Workflow.objects.create(nam='test'))
+    
+    def test_malconfigured(self):
         '''
             If the settings.REVIEWER_ROLE is not present in the settings module, or it is present but
             does not exist in the database then an ImporperlyConfigured error will be raised
@@ -503,7 +511,7 @@ class EthicsApplicationManagerTestCase(TestCase):
         
         
     @patch('ethicsapplication.models.get_object_for_principle_as_role')
-    def test_get_applications_for_review(self, util_patch):
+    def test_no_state_specified(self, util_patch):
         '''
            This function is basically a very thin wrapper around the 
            get_object_for_principle_as_role utility function provided by django-permission
@@ -523,8 +531,53 @@ class EthicsApplicationManagerTestCase(TestCase):
         
         util_patch.assert_called_once_with(principle=self.test_user, principle_role=reviewer_role)
         
-    
+    @patch('ethicsapplication.models.get_object_for_principle_as_role')
+    def test_state_specified_as_string(self, util_patch):
+        '''
+            If the state is specified as a String then this should first be resplved to a State object
+            if this is not possible then None should be used as the state (and so all the applications
+            will be returned).
+            If the state is a State object (or the state can be resolved by the string name) then the list
+            of applications should be filtered to only include the applications that are in this given state.
+        '''
+        settings.REVIEWER_ROLE = 'Reviewer'
+        util_patch.return_value = [1]
+        
+        #invalid String
+        with patch('ethicsapplication.models.get_state') as get_state_mock:
+            
+            #invalid state string first
+            EthicsApplication.objects.get_applications_for_review(self.test_user, state='invalid')
+            self.assertEqual(get_state_mock.call_count, 0)
+            
+            #now try again with a valid string
+            EthicsApplication.objects.get_applications_for_review(self.test_user, state='test_state')
+            get_state_mock.assert_called_once_with(1)
+        
+    @patch('ethicsapplication.models.get_object_for_principle_as_role')  
+    def test_statet_specified_as_role(self, util_patch):
         
         
+        settings.REVIEWER_ROLE = 'Reviewer'
+        reviewer_role = Role.objects.get(name=settings.REVIEWER_ROLE)
         
-         
+        util_patch.return_value = [1,2,3]
+        
+        with patch('ethicsapplication.models.get_state') as get_state_mock:
+            get_state_returns = [False, True, True]
+            
+            def sideEffect(*args, **kwargs):
+                return get_state_returns.pop()
+            
+            get_state_mock.side_effect = sideEffect
+            
+            applications = EthicsApplication.objects.get_applications_for_review(self.test_user, state='test_state')
+            
+            self.assertEqual(applications,[2,3])
+        
+            util_patch.assert_called_once_with(principle=self.test_user, principle_role=reviewer_role)
+            self.assertEqual(get_state_mock.mock_calls, [call(1), call(2), call(3)])
+            
+            
+            
+            
