@@ -118,6 +118,7 @@ class EvaluateApplicationFormTests(TestCase):
             If the ethics_application_id is not in the db then this should cause a 
             404 error.
         '''
+        self.client.login(username='test', password='password') 
         invalid_url_permutations = [reverse('accept_application', kwargs={'ethics_application_id':999}),
                                     reverse('reject_application', kwargs={'ethics_application_id':999})]
         
@@ -138,7 +139,7 @@ class EvaluateApplicationFormTests(TestCase):
             page.
         
         '''
-        
+        self.client.login(username='test', password='password') 
         with patch('review.views.do_transition') as do_transition_mock:
             do_transition_mock.return_value = False
             
@@ -150,7 +151,7 @@ class EvaluateApplicationFormTests(TestCase):
             do_transition_mock.reset()
             do_transition_mock.return_value = True
             response = self.client.get(url)
-            self.assertRedirects(response, reverse('index'))
+            self.assertRedirects(response, reverse('index_view'))
             
            
     def test_accept(self):
@@ -158,9 +159,9 @@ class EvaluateApplicationFormTests(TestCase):
             run the shared assertions for the accept url
         '''
         
-        self.shared_asserions(self.valid_accept_url, 'accept')
+        self.shared_asserions(self.valid_accept_url, 'approve')
     def test_reject(self):
         '''
-            run the shared assertions for the rejectred url
+            run the shared assertions for the rejected url
         '''
-        self.shared_asserions(self.valid_accept_url, 'reject')   
+        self.shared_asserions(self.valid_reject_url, 'reject')   

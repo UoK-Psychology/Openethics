@@ -32,7 +32,7 @@ def submit_for_review(request, ethics_application_id):
 
 
 @login_required 
-def evaluate_application_form(request, ethics_application_id, approved):
+def evaluate_application_form(request, ethics_application_id, approved=False):
     '''
         This view will attempt to transition the ethics application to the 
         correct state depending on whether the approved flag is True, in which
@@ -40,5 +40,19 @@ def evaluate_application_form(request, ethics_application_id, approved):
         reject transition applied. All of this is dependent on the requesting user having
         the appropriate permissions to perform these transitions.
     '''
+    ethics_application = get_object_or_404(EthicsApplication, pk=ethics_application_id)
     
-    return HttpResponseRedirect(reverse('index'))
+    if approved:
+        transition = 'approve'
+    else:
+        transition = 'reject'
+    if not do_transition(ethics_application, transition, request.user):
+        raise PermissionDenied()
+    
+    return HttpResponseRedirect(reverse('index_view'))
+
+
+
+
+
+
