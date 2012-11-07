@@ -78,5 +78,12 @@
 	</p>
 	
 	{% end_if_has_permission_for_object %}
+	
+	{% if_has_permission_for_object application evaluate %}
+		<p>
+			<a href="{%url accept_application ethics_application_id=application.id%}">Accept</a>
+			<a href="{%url reject_application ethics_application_id=application.id%}">Reject</a>
+		</p>
+	{% end_if_has_permission_for_object %}
 
 {% endblock %}
