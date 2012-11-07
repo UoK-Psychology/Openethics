@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
 from ethicsapplication.models import EthicsApplication
 from review.models import Committee
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -28,3 +29,16 @@ def submit_for_review(request, ethics_application_id):
     ethics_application.assign_reviewer(reviewer)
     
     return HttpResponseRedirect(reverse('index_view'))
+
+
+@login_required 
+def evaluate_application_form(request, ethics_application_id, approved):
+    '''
+        This view will attempt to transition the ethics application to the 
+        correct state depending on whether the approved flag is True, in which
+        case it will have the Approved trnsition applied, otherwise it will have the 
+        reject transition applied. All of this is dependent on the requesting user having
+        the appropriate permissions to perform these transitions.
+    '''
+    
+    return HttpResponseRedirect(reverse('index'))

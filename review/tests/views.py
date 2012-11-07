@@ -89,4 +89,50 @@ class SubmitForReviewTests(TestCase):
         has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
         get_next_free_reviewer_mock.assert_called_once_with()
         assign_reviewer_mock.assert_called_once_with(next_free_reviewer)
+
+class EvaluateApplicationFormTests(TestCase):
+    
+    def setUp(self):
+        '''
+            The common setup for all tests
+        '''
+
+    def test_logged_in(self):
+        '''
+            If the user is not logged in then they should eb redirected to the login
+            screen
+        '''
         
+        self.assertTrue(False)
+        
+    def test_invalid_parameters(self):
+        '''
+            If the ethics_application_id is not in the db then this should cause a 
+            404 error.
+        '''
+        self.assertTrue(False)
+        
+        
+    def test_accept(self):
+        '''
+            If the accept url is hit with a valid ethics_application_id 
+            then the do transition should be called with the requesting user,
+            the ethics application and the transition codename "accept"
+            
+            If this returns False then a 403 forbidden error should be raised
+            If this returns True then the request should be redirected to the index
+            page.
+        '''
+        
+        self.assertTrue(False)
+    def test_reject(self):
+        '''
+            If the reject url is hit with a valid ethics_application_id 
+            then the do transition should be called with the requesting user,
+            the ethics application and the transition codename "reject"
+            
+            If this returns False then a 403 forbidden error should be raised
+            If this returns True then the request should be redirected to the index
+            page.
+        '''
+        self.assertTrue(False)    
