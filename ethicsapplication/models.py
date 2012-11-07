@@ -5,7 +5,7 @@ from django.db.models.manager import Manager
 from workflows.utils import set_workflow
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
-from workflows.models import Workflow
+from workflows.models import Workflow, State
 from permissions.models import Role
 from permissions.utils import remove_local_role, add_local_role, get_object_for_principle_as_role
 from workflows.utils import get_state
@@ -34,10 +34,29 @@ class EthicsApplicationManager(Manager):
         '''
         reviewer_code= getattr(settings, 'REVIEWER_ROLE', None)
         
+        if isinstance(state, str):
+            try:
+                state = State.objects.get(name=state)
+            except ObjectDoesNotExist:
+                state = None
+        
         if reviewer_code != None:
             try:
-                reviewer_role = Role.objects.get(name=reviewer_code)                
-                return get_object_for_principle_as_role(principle=reviewer, principle_role=reviewer_role)
+                reviewer_role = Role.objects.get(name=reviewer_code)  
+                
+                applications = get_object_for_principle_as_role(principle=reviewer, principle_role=reviewer_role)           
+                
+                
+                if state == None:
+                    return applications 
+                
+                filtered_applications = []
+                
+                for application in applications:
+                    if get_state(application) == state:
+                        filtered_applications.append(application)
+                        
+                return filtered_applications
                     
             except ObjectDoesNotExist:
                 raise ImproperlyConfigured('The workflow you specify in REVIEWER_ROLE must actually be configured in the db')

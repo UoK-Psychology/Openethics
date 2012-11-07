@@ -496,7 +496,7 @@ class GetApplicationsForReviewTests(TestCase):
         self.test_user = User.objects.create_user('test', 'me@home.com', 'password')
         self.ethics_application = EthicsApplication.objects.create(title='test_application', 
                                                                    principle_investigator=self.test_user)
-        self.test_state = State.objects.create(name='test_state', workflow=Workflow.objects.create(nam='test'))
+        self.test_state = State.objects.create(name='test_state', workflow=Workflow.objects.create(name='test'))
     
     def test_malconfigured(self):
         '''
@@ -564,10 +564,10 @@ class GetApplicationsForReviewTests(TestCase):
         util_patch.return_value = [1,2,3]
         
         with patch('ethicsapplication.models.get_state') as get_state_mock:
-            get_state_returns = [False, True, True]
+            get_state_returns = ['a different state', self.test_state, self.test_state]
             
             def sideEffect(*args, **kwargs):
-                return get_state_returns.pop()
+                return get_state_returns.pop(0)
             
             get_state_mock.side_effect = sideEffect
             
