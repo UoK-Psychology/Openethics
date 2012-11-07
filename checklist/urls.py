@@ -20,12 +20,6 @@ urlpatterns = patterns('',
                    'next_form_name':'do_checklist',
                     'finished_url':'/',
                     'success_name':'on_success',
-                    }),       
-    url(r'^view/(?P<ethics_application_id>\d+)/$',
-          view ='checklist.views.start_checklist', 
-          name='view_checklist',
-          kwargs= {'template_name':'checklist/checklist_form.html',
-                    'return_to':'/',
-                    }),  
+                    }),    
       
 )
