@@ -9,12 +9,12 @@ urlpatterns = patterns('review.views',
                        
      url(r'^approve/(?P<ethics_application_id>\d+)/$',
           view ='evaluate_application_form', 
-          name='configure_application_form',
+          name='accept_application',
         kwargs={'approved':True},),
                        
     url(r'^reject/(?P<ethics_application_id>\d+)/$',
           view ='evaluate_application_form', 
-          name='configure_application_form',
+          name='reject_application',
         kwargs={'approved':False},),
        
 )
