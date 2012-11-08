@@ -1,15 +1,23 @@
-<form method="post" action=".">
+{% extends "ethicsapplication/ea_base.html" %}
 
+{% block page-header %}
+	<h1><span class="field">{{application_title}}</span><span class="value">Initial checklist</span></h1>
+	<p>Please complete the following initial checklist and once complete, click the 'submit' button at the bottom of this form:</p>
+{% endblock %}
 
-	
-
-
-	{%csrf_token %}
-	{% for field in form %}
-		<p>{{ field.label_tag }}: {{ field }} <strong>{{ field.errors }}</strong></p> 
-	{% endfor %}
-	
-
-
- 
-<input type="submit" value="Submit" />
+{% block page-content%}
+	<div id="content-1-wide">
+		{% block content %}
+			<form method="post" action=".">
+			{%csrf_token %}
+			<ol>
+				{% for field in form %}
+				<li>
+					{{ field.label_tag }}: {{ field }} <strong>{{ field.errors }}</strong>
+				</li> 
+				{% endfor %}
+			</ol>
+			<input type="submit" value="Submit" />
+		{% endblock %}
+	</div>
+{% endblock %}

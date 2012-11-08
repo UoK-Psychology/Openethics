@@ -1,14 +1,13 @@
-<head>
+{% extends "ethicsapplication/ea_base.html" %}
+
+{% block title %} 
 	<title>Create a new Ethics application</title>
-</head>
-<body>
-	
+{% endblock %}
+
+{% block content %}
 	<form method="post" action="{% url create_application_view %}">
 		{% csrf_token %}
 		{{form.as_p}}
 		<input type="submit" value="Submit"/>
 	</form>
-	
-	
-	
-</body>
+{% endblock %}

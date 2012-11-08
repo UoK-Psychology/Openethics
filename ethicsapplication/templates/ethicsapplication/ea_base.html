@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+		<head>
+			{% block title %}<title>Base Title</title>{% endblock %}
+			
+			<link href="{{ STATIC_URL }}css/ea_base.css" rel="stylesheet" type="text/css" media="screen" />
+			
+			{% block extra_style %}{% endblock%}
+			
+		</head>
+		<body>
+			<div id="wrapper">
+				<div id="banner" class="clearfix">
+					<div class="container clearfix">
+						<a class="site-logo" href="{% url index_view %}">
+							<img alt="OpenEthics" src="{{ STATIC_URL }}/images/oe_logo_big.png" />
+						</a>
+						{% block banner-menu %}
+						<ul class="top-nav">
+							<li><a href="#">help</a></li>
+							{% if user.is_authenticated %}
+								<li><a href="{% url auth_logout %}">logout</a></li>
+							{% else %}
+								<li><a href="{% url auth_login %}">login</a></li>
+							{% endif %}
+						</ul>
+						{% endblock %}
+					</div>
+				</div>
+				<div id="page" class="container">
+					{% block page-header %}
+						<h1><span class="field">Open Ethics</span></h1>
+					{% endblock %}
+					{% block page-content%}
+						{% block sidebar %}
+							<div id="content-sidebar">
+							{% if user.is_authenticated %}
+								{% block sidebar-top %}
+									<div id="sidebar-top">
+											<a href="{% url create_application_view %}">New Application</a>
+									</div>
+								{% endblock %}
+							{% endif %}
+							{% block sidebar-lower %}
+								{% if user.is_authenticated %}
+									<div id="sidebar-lower">
+										<div id="todo-filter">
+											Filter by:&#09; <a href="#">date required</a> | <a href="#">date created</a>
+										</div>
+										<div id="todo-items">
+											<ol>
+												{% for item in todo %}
+													<li>
+														<a href="">{{ item.name }}</a>
+													</li>
+												{% endfor %}
+											</ol>
+										</div>
+									</div>
+								{% else %}
+									&nbsp;
+								{% endif %}
+							{% endblock %}
+							</div>
+						{% endblock %}
+						
+						<div id="content-1">
+							{% block content %}
+							<p>main body content</p>
+							{% endblock %}
+						</div>
+						{% block content-lower %}
+						{% endblock %}
+					{% endblock %}
+				</div>	
+			</div>
+		</body>
+</html>

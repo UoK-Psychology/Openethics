@@ -14,6 +14,7 @@ from ethicsapplication.models import EthicsApplication
 from django.conf import settings
 from questionnaire.models import Questionnaire, QuestionGroup, Question,\
     Question_order, AnswerSet
+from mock import patch
 
 class CreateViewsTest(TestCase):
     
@@ -96,6 +97,7 @@ class CreateViewsTest(TestCase):
         
         self.assertEquals(response.context['form']['title'].errors[0], 'This field is required.')
 
+    
 
 class ViewApplictionTestCase(TestCase):
     '''
