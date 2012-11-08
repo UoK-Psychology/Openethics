@@ -9,6 +9,7 @@ from workflows.models import Workflow, State
 from permissions.models import Role
 from permissions.utils import remove_local_role, add_local_role, get_object_for_principle_as_role
 from workflows.utils import get_state
+from ethicsapplication.signals import application_created
 
 # Create your models here.
 
@@ -120,8 +121,9 @@ class EthicsApplication(models.Model):
             #this is a new application that has been changed (or somehow the id has changed?!)
             self._add_to_workflow()
             self._add_to_principle_investigator_role()
-            
             self.__original_id = self.id
+            
+            application_created.send(sender=self, application=self)
             
         if(self.__original_principle_investigator != self.principle_investigator and self.__original_id == self.id ):#if pi has changed but id hasn't
             self._add_to_principle_investigator_role()
