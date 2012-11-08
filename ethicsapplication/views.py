@@ -49,13 +49,9 @@ def view_application(request, application_id):
     ethics_application = get_object_or_404(EthicsApplication,pk=application_id)
     
     if has_permission(ethics_application, request.user, 'view'):
-        return render_to_response('ethicsapplication/view_ethics_application.html', {'application':ethics_application},
+        return render_to_response('ethicsapplication/view_ethics_application.html', {'application':ethics_application, },
                               context_instance=RequestContext(request))
     else:
         raise PermissionDenied()
     
-def submit_application(request, application_id):
-    '''
-    
-    '''
-    return HttpResponse('Submitted')
+

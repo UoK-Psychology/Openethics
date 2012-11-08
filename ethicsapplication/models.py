@@ -5,21 +5,89 @@ from django.db.models.manager import Manager
 from workflows.utils import set_workflow
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
-from workflows.models import Workflow
+from workflows.models import Workflow, State
 from permissions.models import Role
-from permissions.utils import remove_local_role, add_local_role
+from permissions.utils import remove_local_role, add_local_role, get_object_for_principle_as_role
+from workflows.utils import get_state
+
 # Create your models here.
 
 class EthicsApplicationManager(Manager):
     
-    def get_active_applications(self, the_user):
+    def _filter_applications_on_state(self, applications, state):
         '''
-            Returns the active applications for a user, will return an empty list if there
-            aren't any active users.
+            This function will filter the list of applications, returning
+            only those applications that are in the state specified.
+        '''
+        if not isinstance(applications, list) or not isinstance(state, State):
+            raise AttributeError
+        
+        filtered = []
+        for application in applications:
+            if get_state(application) == state:
+                filtered.append(application)
+                
+        return filtered
+    
+    def get_applications_for_principle_investigator(self, the_user, state=None):
+        '''
+            Returns the applications that the_user is the principle investigator for, 
+            will return an empty list if there aren't any. 
+            You can optionally specify a state filter, if specified then
+            the applications for the_user will be filtered to only include those applications that
+            are in the state specified. If this parameter is omitted or is None then all applications for
+            the_user will be returned.
         
         '''
         
-        return [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user).filter(active=True)]
+        if isinstance(state, str):
+            try:
+                state = State.objects.get(name=state)
+            except ObjectDoesNotExist:
+                state = None
+                
+        applications = [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user)]
+        
+        if state == None:
+            return applications
+        else:
+            return self._filter_applications_on_state(applications, state)
+    
+    def get_applications_for_reviewer(self, reviewer, state=None):
+        '''
+            Returns the applications that the user is a reviewer for
+            
+            @param reviewer: The user object for the reviewer.
+            @param state: If specified then the returned list will be filtered so that only
+            applications in this state are retunred. If the state cannot be resolved then all
+            applications will be retunred.
+        '''
+        reviewer_code= getattr(settings, 'REVIEWER_ROLE', None)
+        
+        if isinstance(state, str):
+            try:
+                state = State.objects.get(name=state)
+            except ObjectDoesNotExist:
+                state = None
+        
+        if reviewer_code != None:
+            try:
+                reviewer_role = Role.objects.get(name=reviewer_code)  
+                
+                applications = get_object_for_principle_as_role(principle=reviewer, principle_role=reviewer_role)           
+                
+                
+                if state == None:
+                    return applications 
+                else:
+                    return self._filter_applications_on_state(applications, state)
+                    
+            except ObjectDoesNotExist:
+                raise ImproperlyConfigured('The workflow you specify in REVIEWER_ROLE must actually be configured in the db')
+        else:
+            raise ImproperlyConfigured('You must set REVIEWER_ROLE in the settings file')
+        
+        return []
 
 class EthicsApplication(models.Model):
     '''
@@ -31,7 +99,6 @@ class EthicsApplication(models.Model):
     title = models.CharField(max_length=255, default=None)  #default=None stops null strings which effectively makes it mandatory
     principle_investigator = models.ForeignKey(User ,related_name='pi')
     application_form = models.ForeignKey(Questionnaire, related_name='application_form', blank=True, null=True)
-    active = models.BooleanField(default=True)
     checklist = models.ForeignKey(Questionnaire, related_name='checklist_questionnaire', blank=True, null=True)
     #TODO test the new checklist attribute
     objects = EthicsApplicationManager()
@@ -161,5 +228,35 @@ class EthicsApplication(models.Model):
                 return False
             
         return True
+    
+    def get_current_state(self):
+        '''
+            This function returns the current state for this application. This will be useful to easily get the 
+            state of a given application in a template
+        '''
+        return get_state(self)
+    
+    def assign_reviewer(self, user):
+        '''
+            This function assigns user to the reviewer role for this application
+        '''
+        if user is None or not isinstance(user, User):
+            raise AttributeError('User specified was invalid')
+        
+        reviewer_code= getattr(settings, 'REVIEWER_ROLE', None)
+        
+        if reviewer_code != None:
+            try:
+                reviewer_role = Role.objects.get(name=reviewer_code)
+                #check to see if the principle investigator is in the local for this role
+                
+                add_local_role(self, user, reviewer_role)
+                    
+                    
+            except ObjectDoesNotExist:
+                raise ImproperlyConfigured('The workflow you specify in REVIEWER_ROLE must actually be configured in the db')
+        else:
+            raise ImproperlyConfigured('You must set REVIEWER_ROLE in the settings file')
+        
         
         

@@ -20,6 +20,6 @@ urlpatterns = patterns('',
                    'next_form_name':'do_checklist',
                     'finished_url':'/',
                     'success_name':'on_success',
-                    }),                  
+                    }),    
       
 )

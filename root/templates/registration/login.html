@@ -1,8 +1,18 @@
+{% extends "ethicsapplication/ea_base.html" %}
 
-<form method="post" action=".">
-{% csrf_token %}
-  {{ form.as_p }}
-
-  <input type="submit" value="Log in" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</form>
+{% block page-header %}
+	<h1><span class="field">Open Ethics</span></h1>
+{% endblock %}
+{% block page-content%}
+	<div id="content-1">
+		{% block content %}
+			<form method="post" action=".">
+			{% csrf_token %}
+			  {{ form.as_p }}
+			
+			  <input type="submit" value="Log in" />
+			  <input type="hidden" name="next" value="{{ next }}" />
+			</form>
+		{% endblock %}
+	</div>
+{% endblock %}

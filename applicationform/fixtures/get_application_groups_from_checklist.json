@@ -385,7 +385,6 @@
     "pk": 1, 
     "model": "ethicsapplication.ethicsapplication", 
     "fields": {
-      "active": true, 
       "checklist": 2, 
       "principle_investigator": 2, 
       "application_form": null, 
