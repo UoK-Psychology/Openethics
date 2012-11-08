@@ -3,6 +3,9 @@ from django.core.urlresolvers import reverse
 from ethicsapplication.models import EthicsApplication
 from django.contrib.auth.models import User
 from mock import patch, MagicMock
+from mock_django.signals import mock_signal_receiver
+from review.signals import application_submitted_for_review,\
+    application_accepted_by_reviewer, application_rejected_by_reviewer
 
 
 class SubmitForReviewTests(TestCase):
@@ -72,23 +75,32 @@ class SubmitForReviewTests(TestCase):
             If all is well and the application can perform the submit_for_review transition then this function
             should call the do_transition function, then it shoudl find the next avaialble reviewer
             using the CommitteeManager.get_next_free_reviewer, assigning this user as a reviewer on the application
-            using the assign_reviewer function and return to the home page
+            using the assign_reviewer function and return to the home page.
+            
+            This function should also dispatch the application_submitted signal
         '''
-        self.client.login(username='test', password='password') 
         
-        has_permission_mock.return_value = True
-        do_transition_mock.return_value = True
-        next_free_reviewer = MagicMock(name='free_reviewer')
-        get_next_free_reviewer_mock.return_value = next_free_reviewer
-        
-        
-        url = reverse('submit_application', kwargs={'ethics_application_id':self.ethicsApplication.id})
-        response = self.client.get(url)
-        self.assertRedirects(response, reverse('index_view'))
-        do_transition_mock.assert_called_once_with(self.ethicsApplication, 'submit_for_review', self.test_user)
-        has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
-        get_next_free_reviewer_mock.assert_called_once_with()
-        assign_reviewer_mock.assert_called_once_with(next_free_reviewer)
+        with mock_signal_receiver(application_submitted_for_review) as submission_receiver:
+            self.client.login(username='test', password='password') 
+            
+            has_permission_mock.return_value = True
+            do_transition_mock.return_value = True
+            next_free_reviewer = MagicMock(name='free_reviewer')
+            get_next_free_reviewer_mock.return_value = next_free_reviewer
+            
+            
+            url = reverse('submit_application', kwargs={'ethics_application_id':self.ethicsApplication.id})
+            response = self.client.get(url)
+            self.assertRedirects(response, reverse('index_view'))
+            do_transition_mock.assert_called_once_with(self.ethicsApplication, 'submit_for_review', self.test_user)
+            has_permission_mock.assert_called_once_with(self.ethicsApplication, self.test_user, 'submit')
+            get_next_free_reviewer_mock.assert_called_once_with()
+            assign_reviewer_mock.assert_called_once_with(next_free_reviewer)
+            
+            submission_receiver.assert_called_once_with(application=self.ethicsApplication,
+                                                        reviewer=next_free_reviewer,
+                                                        sender=None,
+                                                        signal=application_submitted_for_review)
 
 class EvaluateApplicationFormTests(TestCase):
     
@@ -128,7 +140,7 @@ class EvaluateApplicationFormTests(TestCase):
         
     
     
-    def shared_asserions(self, url, expected_transition):
+    def shared_asserions(self, url, expected_transition, signal):
         '''
             Depending on what url (accept or reject) is hit with a valid ethics_application_id 
             then the do transition should be called with the requesting user,
@@ -137,21 +149,30 @@ class EvaluateApplicationFormTests(TestCase):
             If this returns False then a 403 forbidden error should be raised
             If this returns True then the request should be redirected to the index
             page.
+            
+            if the transition occures then the singal_receiver should have been called with the
+            correct arguments
         
         '''
         self.client.login(username='test', password='password') 
-        with patch('review.views.do_transition') as do_transition_mock:
-            do_transition_mock.return_value = False
-            
-            response = self.client.get(url)
-            
-            do_transition_mock.assert_called_with(self.test_application, expected_transition, self.test_user)
-            self.assertEqual(response.status_code, 403)
-            
-            do_transition_mock.reset()
-            do_transition_mock.return_value = True
-            response = self.client.get(url)
-            self.assertRedirects(response, reverse('index_view'))
+        with mock_signal_receiver(signal) as signal_receiver:
+            with patch('review.views.do_transition') as do_transition_mock:
+                do_transition_mock.return_value = False
+                
+                response = self.client.get(url)
+                
+                do_transition_mock.assert_called_with(self.test_application, expected_transition, self.test_user)
+                self.assertEqual(response.status_code, 403)
+                self.assertEqual(signal_receiver.call_count , 0)
+                
+                do_transition_mock.reset()
+                do_transition_mock.return_value = True
+                response = self.client.get(url)
+                self.assertRedirects(response, reverse('index_view'))
+                signal_receiver.assert_called_once_with(sender=None,
+                                                        signal=signal,
+                                                        application=self.test_application,
+                                                        reviewer=self.test_user)
             
            
     def test_accept(self):
@@ -159,9 +180,9 @@ class EvaluateApplicationFormTests(TestCase):
             run the shared assertions for the accept url
         '''
         
-        self.shared_asserions(self.valid_accept_url, 'approve')
+        self.shared_asserions(self.valid_accept_url, 'approve', application_accepted_by_reviewer)
     def test_reject(self):
         '''
             run the shared assertions for the rejected url
         '''
-        self.shared_asserions(self.valid_reject_url, 'reject')   
+        self.shared_asserions(self.valid_reject_url, 'reject' , application_rejected_by_reviewer)   

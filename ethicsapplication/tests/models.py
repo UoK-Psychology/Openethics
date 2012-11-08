@@ -3,11 +3,15 @@ from ethicsapplication.models import EthicsApplication, EthicsApplicationManager
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
 from django.conf import settings
-from mock import patch, MagicMock, call
+from mock import patch, MagicMock, call, Mock
 from django.core.exceptions import ImproperlyConfigured
 from workflows.models import Workflow, State
 from questionnaire.models import Questionnaire, QuestionGroup, AnswerSet
 from permissions.models import Role
+from ethicsapplication.signals import application_created
+from django.dispatch.dispatcher import receiver
+from mock_django.signals import mock_signal_receiver
+
 class EthicsApplicationModelTestCase(TestCase):
     
     def setUp(self):
@@ -87,6 +91,27 @@ class EthicsApplicationModelTestCase(TestCase):
         
         patched_function.assert_called_once_with()
         
+    def test_application_created_signal_on_new(self):
+        '''
+            When a new application is created the application_created signal should be
+            dispatched, and this should send the application in a field called application
+        '''     
+        
+        with mock_signal_receiver(application_created) as application_created_receiver:
+        
+            a_user = self.test_user
+            my_application = EthicsApplication(title='test', principle_investigator=a_user)
+            my_application.save()
+            application_created_receiver.assert_called_once_with(application=my_application,
+                                                                 signal=application_created,
+                                                                 sender=my_application)
+        
+        
+            #the signal should not be sent again on an edit:
+            
+            my_application.title = 'changed title'
+            my_application.save()
+            self.assertEqual(application_created_receiver.call_count, 1)# should only be one as we have not called it again
         
     def test_add_to_workflow_setting_absent(self):
         '''
