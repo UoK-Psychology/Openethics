@@ -445,15 +445,24 @@ class EthicsApplicationModelTestCase(TestCase):
             self.ethics_application.assign_reviewer(self.test_user)
             as_local_role_mock.assert_called_once_with(self.ethics_application, self.test_user, Role.objects.get(name=settings.REVIEWER_ROLE))
         
-class EthicsApplicationManagerTestCase(TestCase):
+class GetApplicationsForUserTests(TestCase):
     
     def setUp(self):
         
         self.test_user = User.objects.create_user('test', 'me@home.com', 'password')
         self.ethics_application = EthicsApplication.objects.create(title='test_application', 
                                                                    principle_investigator=self.test_user)
+        self.test_state = State.objects.create(name='test_state', workflow=Workflow.objects.create(name='test'))
         
-    def test_get_active_applications_valid_user_with_applications(self):
+    def test_no_applications(self):
+        '''
+            If the user is valid but has no applications this function will return an empty list
+        '''
+        a_user = User.objects.create_user('a_user', 'email@email.com', 'password')
+        self.assertEqual([], EthicsApplication.objects.get_applications_for_user(a_user)) 
+        
+        
+    def test_with_applications_no_filter(self):
         '''
             If the user is valid and has applications this function should return a list of these applications objects
         '''
@@ -462,32 +471,82 @@ class EthicsApplicationManagerTestCase(TestCase):
         test_application_2 = EthicsApplication(title='test application', principle_investigator=self.test_user)
         test_application_2.save()
         
-        self.assertEqual([self.ethics_application, test_application_2], 
-                         EthicsApplication.objects.get_active_applications(self.test_user)) 
-        
-    def test_get_active_applications_valid_user_no_applications(self):
-        '''
-            If the user is valid but has no applications this function will return an empty list
-        '''
-        a_user = User.objects.create_user('a_user', 'email@email.com', 'password')
-        
-        self.assertEqual([], EthicsApplication.objects.get_active_applications(a_user)) 
-        
-         
-    def test_get_active_applications_valid_user_inactive_applications(self):
-        '''
-            If the user is valid but has some active and also inactive applications, only the active 
-            applications should be returned.
-        '''
-        
-       
-        #create an inactive application
-        EthicsApplication.objects.create(title='test application', principle_investigator=self.test_user,
-                                                               active=False)
+        with patch('ethicsapplication.models.EthicsApplicationManager._filter_applications_on_state') as filter_mock:
+            self.assertEqual([self.ethics_application, test_application_2], 
+                         EthicsApplication.objects.get_applications_for_user(self.test_user)) 
+            self.assertEqual(filter_mock.call_count, 0) #no filter was supplied so no filtering should be done
 
         
-        self.assertEqual([self.ethics_application], 
-                         EthicsApplication.objects.get_active_applications(self.test_user))
+         
+    def test_with_applications_string_filter(self):
+        '''
+            If the user is valid and has some applications, and if the state parameter is specified as 
+            a string then the state that has the same name as this should be looked up, and if it is 
+            in the database it should be used to filter the list of applications owned by the_user.
+            If a state cannot be matched then no filter should be applied.
+        '''
+        
+        with patch('ethicsapplication.models.EthicsApplicationManager._filter_applications_on_state') as filter_mock:
+            
+            #invalid state string first
+            EthicsApplication.objects.get_applications_for_user(self.test_user, state='invalid')
+            self.assertEqual(filter_mock.call_count, 0)
+            
+            #now try again with a valid string
+            EthicsApplication.objects.get_applications_for_user(self.test_user, state='test_state')
+            filter_mock.assert_called_once_with([self.ethics_application],self.test_state)
+        
+    def test_with_applications_state_filter(self):
+        '''
+            If the user is valid and has some applications, and if the state parameter is specified as 
+            a state object and it should be used to filter the list of applications owned by the_user.
+            Only those applications that are in this state will be returned.
+        '''
+        
+        with patch('ethicsapplication.models.EthicsApplicationManager._filter_applications_on_state') as filter_mock:
+            
+            filter_mock.return_value = [1,3]
+            applications = EthicsApplication.objects.get_applications_for_user(self.test_user, state=self.test_state)
+            filter_mock.assert_called_once_with([self.ethics_application],self.test_state)
+            
+            self.assertEqual(applications, [1,3])
+        
+class FilterApplicationsOnStateTests(TestCase):
+    
+    def setUp(self):
+        self.a_workflow = Workflow.objects.create(name='test')
+        self.a_state = State.objects.create(name='test_state', workflow=self.a_workflow)
+                                            
+                                            
+    def test_invalid_parameters(self):
+        '''
+            If the applications parameter is not a list , and the state parameter is not
+            a state object then this function will throw an attribute error
+        '''
+        
+        self.assertRaises(AttributeError, EthicsApplication.objects._filter_applications_on_state, 'a string', self.a_state )
+        self.assertRaises(AttributeError, EthicsApplication.objects._filter_applications_on_state, [], 'not a state' )
+        
+    def test_valid_parameters(self):
+        '''
+            For each object in the list this function will call get_state, and if that state matches the state
+            provided then this object will be included in the list that is returned.
+        '''
+        another_state = State.objects.create(name='another_test_state', workflow=self.a_workflow)
+        
+        with patch('ethicsapplication.models.get_state') as get_state_mock:
+            
+            state_return_values = [another_state,self.a_state,another_state]
+            
+            def sideEffect(*args, **kwargs):
+                return state_return_values.pop(0)#pop from the top
+            
+            get_state_mock.side_effect = sideEffect
+            
+            values = EthicsApplication.objects._filter_applications_on_state([1,2,3], another_state)
+            
+            self.assertEqual(values, [1,3])
+            self.assertEqual(get_state_mock.mock_calls, [call(1),call(2),call(3)])
         
 class GetApplicationsForReviewTests(TestCase):
     
@@ -544,18 +603,18 @@ class GetApplicationsForReviewTests(TestCase):
         util_patch.return_value = [1]
         
         #invalid String
-        with patch('ethicsapplication.models.get_state') as get_state_mock:
+        with patch('ethicsapplication.models.EthicsApplicationManager._filter_applications_on_state') as filter_mock:
             
             #invalid state string first
             EthicsApplication.objects.get_applications_for_reviewer(self.test_user, state='invalid')
-            self.assertEqual(get_state_mock.call_count, 0)
+            self.assertEqual(filter_mock.call_count, 0)
             
             #now try again with a valid string
             EthicsApplication.objects.get_applications_for_reviewer(self.test_user, state='test_state')
-            get_state_mock.assert_called_once_with(1)
+            filter_mock.assert_called_once_with([1],self.test_state)
         
     @patch('ethicsapplication.models.get_object_for_principle_as_role')  
-    def test_statet_specified_as_role(self, util_patch):
+    def test_state_specified_as_role(self, util_patch):
         
         
         settings.REVIEWER_ROLE = 'Reviewer'
@@ -563,20 +622,15 @@ class GetApplicationsForReviewTests(TestCase):
         
         util_patch.return_value = [1,2,3]
         
-        with patch('ethicsapplication.models.get_state') as get_state_mock:
-            get_state_returns = ['a different state', self.test_state, self.test_state]
+        with patch('ethicsapplication.models.EthicsApplicationManager._filter_applications_on_state') as filter_mock:
+            filter_mock.return_value = [2,3]
             
-            def sideEffect(*args, **kwargs):
-                return get_state_returns.pop(0)
-            
-            get_state_mock.side_effect = sideEffect
-            
-            applications = EthicsApplication.objects.get_applications_for_reviewer(self.test_user, state='test_state')
+            applications = EthicsApplication.objects.get_applications_for_reviewer(self.test_user, state=self.test_state)
             
             self.assertEqual(applications,[2,3])
         
             util_patch.assert_called_once_with(principle=self.test_user, principle_role=reviewer_role)
-            self.assertEqual(get_state_mock.mock_calls, [call(1), call(2), call(3)])
+            filter_mock.assert_called_once_with([1,2,3],self.test_state)
             
             
             

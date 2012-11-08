@@ -14,14 +14,43 @@ from workflows.utils import get_state
 
 class EthicsApplicationManager(Manager):
     
-    def get_active_applications(self, the_user):
+    def _filter_applications_on_state(self, applications, state):
+        '''
+            This function will filter the list of applications, returning
+            only those applications that are in the state specified.
+        '''
+        if not isinstance(applications, list) or not isinstance(state, State):
+            raise AttributeError
+        
+        filtered = []
+        for application in applications:
+            if get_state(application) == state:
+                filtered.append(application)
+                
+        return filtered
+    
+    def get_applications_for_user(self, the_user, state=None):
         '''
             Returns the active applications for a user, will return an empty list if there
-            aren't any active users.
+            aren't any active users. You can optionally specify a state filter, if specified then
+            the applications for the_user will be filtered to only include those applications that
+            are in the state specified. If this parameter is omitted or is None then all applications for
+            the_user will be returned.
         
         '''
         
-        return [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user).filter(active=True)]
+        if isinstance(state, str):
+            try:
+                state = State.objects.get(name=state)
+            except ObjectDoesNotExist:
+                state = None
+                
+        applications = [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user).filter(active=True)]
+        
+        if state == None:
+            return applications
+        else:
+            return self._filter_applications_on_state(applications, state)
     
     def get_applications_for_reviewer(self, reviewer, state=None):
         '''
@@ -49,14 +78,8 @@ class EthicsApplicationManager(Manager):
                 
                 if state == None:
                     return applications 
-                
-                filtered_applications = []
-                
-                for application in applications:
-                    if get_state(application) == state:
-                        filtered_applications.append(application)
-                        
-                return filtered_applications
+                else:
+                    return self._filter_applications_on_state(applications, state)
                     
             except ObjectDoesNotExist:
                 raise ImproperlyConfigured('The workflow you specify in REVIEWER_ROLE must actually be configured in the db')
