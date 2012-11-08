@@ -23,11 +23,7 @@ class CommitteeTestCase(TestCase):
 
 class CommitteeManagerTestCase(TestCase):
     
-    def test_get_next_free_reviewer_no_reviewers(self):
-        '''
-            If there are no reviewers in the database then this function should just return None
-        '''
-        self.assertIsNone(Committee.objects.get_next_free_reviewer())
+    
         
     def test_get_next_free_reviewer(self):
         '''
