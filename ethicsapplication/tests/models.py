@@ -111,7 +111,7 @@ class EthicsApplicationModelTestCase(TestCase):
             
             my_application.title = 'changed title'
             my_application.save()
-            self.assertEqual(application_created_receiver.call_count, 1)
+            self.assertEqual(application_created_receiver.call_count, 1)# should only be one as we have not called it again
         
     def test_add_to_workflow_setting_absent(self):
         '''
