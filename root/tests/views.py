@@ -26,7 +26,8 @@ class IndexViewTestCase(TestCase):
     def test_user_is_logged_in_has_active_applications(self):
         '''
             If a user is logged in then the context should include:
-            active_applications : which is a list of application objects which in this test should be empty
+            active_applications : which is a list of application objects that are in the state *with_researcher*
+            which in this test should be empty
             this should be fetched using a call to the get_active_applications manager function 
             which is mocked in this test
         '''
@@ -35,7 +36,7 @@ class IndexViewTestCase(TestCase):
             Below we do a mock up for get_active_applications() and hardwire for it to return what we expect before each call.
             This means it can run as a unit test in isolation of EthicsApplicationManager
         '''
-        with patch('ethicsapplication.models.EthicsApplicationManager.get_active_applications') as manager_mock:
+        with patch('ethicsapplication.models.EthicsApplicationManager.get_applications_for_principle_investigator') as manager_mock:
             
            
             manager_mock.return_value = []      #set what value we want the call the get_active_applicaitons() to return below..
@@ -55,15 +56,16 @@ class IndexViewTestCase(TestCase):
             self.assertTrue('active_applications' in response.context)
             self.assertEqual(response.context['active_applications'], [])
             #assert that manager_mock is called
-            manager_mock.assert_called_with(self.user)
+            manager_mock.assert_called_with(self.user, 'with_researcher')
 
         
     def test_user_is_logged_in_has_applications_for_review(self):
         '''
-            If the user has got applications that they are the reviewer for then they should
+            If the user has got applications that they are the reviewer for, which are in the state
+            '*awaiting approval* then they should
             be listed in the context as applications_for_review
         '''
-        with patch('ethicsapplication.models.EthicsApplicationManager.get_applications_for_review') as manager_mock:
+        with patch('ethicsapplication.models.EthicsApplicationManager.get_applications_for_reviewer') as manager_mock:
             
             application_for_review = EthicsApplication.objects.create(title='test', principle_investigator=self.user)
             manager_mock.return_value = [application_for_review]      #set what value we want the call the get_active_applicaitons() to return below..
@@ -83,6 +85,6 @@ class IndexViewTestCase(TestCase):
             self.assertTrue('applications_for_review' in response.context)
             self.assertEqual(response.context['applications_for_review'], [application_for_review] )
             #assert that manager_mock is called
-            manager_mock.assert_called_with(self.user)
+            manager_mock.assert_called_with(self.user, 'awaiting_approval')
 
     

@@ -459,7 +459,7 @@ class GetApplicationsForUserTests(TestCase):
             If the user is valid but has no applications this function will return an empty list
         '''
         a_user = User.objects.create_user('a_user', 'email@email.com', 'password')
-        self.assertEqual([], EthicsApplication.objects.get_applications_for_user(a_user)) 
+        self.assertEqual([], EthicsApplication.objects.get_applications_for_principle_investigator(a_user)) 
         
         
     def test_with_applications_no_filter(self):
@@ -473,7 +473,7 @@ class GetApplicationsForUserTests(TestCase):
         
         with patch('ethicsapplication.models.EthicsApplicationManager._filter_applications_on_state') as filter_mock:
             self.assertEqual([self.ethics_application, test_application_2], 
-                         EthicsApplication.objects.get_applications_for_user(self.test_user)) 
+                         EthicsApplication.objects.get_applications_for_principle_investigator(self.test_user)) 
             self.assertEqual(filter_mock.call_count, 0) #no filter was supplied so no filtering should be done
 
         
@@ -489,11 +489,11 @@ class GetApplicationsForUserTests(TestCase):
         with patch('ethicsapplication.models.EthicsApplicationManager._filter_applications_on_state') as filter_mock:
             
             #invalid state string first
-            EthicsApplication.objects.get_applications_for_user(self.test_user, state='invalid')
+            EthicsApplication.objects.get_applications_for_principle_investigator(self.test_user, state='invalid')
             self.assertEqual(filter_mock.call_count, 0)
             
             #now try again with a valid string
-            EthicsApplication.objects.get_applications_for_user(self.test_user, state='test_state')
+            EthicsApplication.objects.get_applications_for_principle_investigator(self.test_user, state='test_state')
             filter_mock.assert_called_once_with([self.ethics_application],self.test_state)
         
     def test_with_applications_state_filter(self):
@@ -506,7 +506,7 @@ class GetApplicationsForUserTests(TestCase):
         with patch('ethicsapplication.models.EthicsApplicationManager._filter_applications_on_state') as filter_mock:
             
             filter_mock.return_value = [1,3]
-            applications = EthicsApplication.objects.get_applications_for_user(self.test_user, state=self.test_state)
+            applications = EthicsApplication.objects.get_applications_for_principle_investigator(self.test_user, state=self.test_state)
             filter_mock.assert_called_once_with([self.ethics_application],self.test_state)
             
             self.assertEqual(applications, [1,3])

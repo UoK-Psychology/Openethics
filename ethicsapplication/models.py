@@ -29,10 +29,11 @@ class EthicsApplicationManager(Manager):
                 
         return filtered
     
-    def get_applications_for_user(self, the_user, state=None):
+    def get_applications_for_principle_investigator(self, the_user, state=None):
         '''
-            Returns the active applications for a user, will return an empty list if there
-            aren't any active users. You can optionally specify a state filter, if specified then
+            Returns the applications that the_user is the principle investigator for, 
+            will return an empty list if there aren't any. 
+            You can optionally specify a state filter, if specified then
             the applications for the_user will be filtered to only include those applications that
             are in the state specified. If this parameter is omitted or is None then all applications for
             the_user will be returned.
