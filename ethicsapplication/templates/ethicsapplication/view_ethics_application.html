@@ -1,24 +1,38 @@
+{% extends "ethicsapplication/ea_base.html" %}
 {% load token_tags %}
-<head>
+{% block title %} 
 	<title>View Application: {{application.title}}</title>
-</head>
-<body>
-	<p>
-		<h1>{{application.title}}</h1>
-	</p>
+{% endblock %}
+
+{% block page-header %}
+		<h1><span class="field">Application name:</span><span class="value">{{application.title}}</span></h1>
+{% endblock %}
+
+{% block sidebar %}
+<div id="content-sidebar">
+	{% block sidebar-top %}
+	{% endblock %}
+	{% block sidebar-lower %}
+	{% endblock %}
+</div>
+{% endblock %}
+
+{% block content %}
 	
 	{% if_has_permission_for_object application edit %}
 	
 		{%if application.checklist and application.checklist.get_ordered_groups|first in application.get_answersets %}
-			Checklist done!
+			<p id="checklist">
+				<span class="field">Status:</span><span class="value">checklist completed:</span>
+				<a id="edit" href="{% url start_checklist ethics_application_id=application.id %}">
+					edit
+				</a>
+			</p>
 		{% else %}
 		<p>
 			<a href="{% url start_checklist ethics_application_id=application.id %}">Do Checklist</a>
 		</p>
 		{% endif %}
-	{% end_if_has_permission_for_object %}
-	
-		<!-- keep this outside the permissions checking section during development-->
 		<p>
 			Questionnaire groups:
 		</p>
@@ -36,10 +50,40 @@
 				{% endfor %}	
 			</ol>
 			
+		
+		
+	{% else %}
+	
+		<!-- Show the read only views of the  application section -->	
+		
+		
+		<a href="{% url read_application_form_group ethics_application_id=application.id questionnaire_id=application.checklist.id order_index=0 %}?return_url={% url application_view application_id=application.id%}">View Checklist</a>
+		<h2>Application subsections:</h2>
+		<ol>
+				{% for group in application.application_form.get_ordered_groups %}
+				<li>
+					<a href="{% url read_application_form_group ethics_application_id=application.id questionnaire_id=application.application_form.id order_index=forloop.counter0 %}?return_url={% url application_view application_id=application.id%}">
+						{{group.name}}</a>
+				</li>				
+				{% endfor %}	
+			</ol>
+	{% end_if_has_permission_for_object %}
+	
+		
+	{% if_has_permission_for_object application submit %}
+	<p>
+		{% if application.is_ready_to_submit %}
+			<a href="{%url submit_application ethics_application_id=application.id%}">Submit!</a>
+		{% endif %}
+	</p>
+	
+	{% end_if_has_permission_for_object %}
+	
+	{% if_has_permission_for_object application evaluate %}
 		<p>
-			{% if application.is_ready_to_submit %}
-				<a href="{%url submit_application application_id=application.id%}">Submit!</a>
-			{% endif %}
+			<a href="{%url accept_application ethics_application_id=application.id%}">Accept</a>
+			<a href="{%url reject_application ethics_application_id=application.id%}">Reject</a>
 		</p>
+	{% end_if_has_permission_for_object %}
 
-</body>
+{% endblock %}
