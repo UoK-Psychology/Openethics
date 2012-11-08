@@ -23,7 +23,7 @@ class EthicsApplicationManager(Manager):
         
         return [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user).filter(active=True)]
     
-    def get_applications_for_review(self, reviewer, state=None):
+    def get_applications_for_reviewer(self, reviewer, state=None):
         '''
             Returns the applications that the user is a reviewer for
             

@@ -504,10 +504,10 @@ class GetApplicationsForReviewTests(TestCase):
             does not exist in the database then an ImporperlyConfigured error will be raised
         '''
         del(settings.REVIEWER_ROLE)
-        self.assertRaises(ImproperlyConfigured, EthicsApplication.objects.get_applications_for_review, self.test_user)
+        self.assertRaises(ImproperlyConfigured, EthicsApplication.objects.get_applications_for_reviewer, self.test_user)
         
         settings.REVIEWER_ROLE = 'InvalidRole'
-        self.assertRaises(ImproperlyConfigured, EthicsApplication.objects.get_applications_for_review, self.test_user)
+        self.assertRaises(ImproperlyConfigured, EthicsApplication.objects.get_applications_for_reviewer, self.test_user)
         
         
     @patch('ethicsapplication.models.get_object_for_principle_as_role')
@@ -526,7 +526,7 @@ class GetApplicationsForReviewTests(TestCase):
         
         util_patch.return_value = [1,2,3]
         
-        self.assertEqual(EthicsApplication.objects.get_applications_for_review(self.test_user), 
+        self.assertEqual(EthicsApplication.objects.get_applications_for_reviewer(self.test_user), 
                          [1,2,3])
         
         util_patch.assert_called_once_with(principle=self.test_user, principle_role=reviewer_role)
@@ -547,11 +547,11 @@ class GetApplicationsForReviewTests(TestCase):
         with patch('ethicsapplication.models.get_state') as get_state_mock:
             
             #invalid state string first
-            EthicsApplication.objects.get_applications_for_review(self.test_user, state='invalid')
+            EthicsApplication.objects.get_applications_for_reviewer(self.test_user, state='invalid')
             self.assertEqual(get_state_mock.call_count, 0)
             
             #now try again with a valid string
-            EthicsApplication.objects.get_applications_for_review(self.test_user, state='test_state')
+            EthicsApplication.objects.get_applications_for_reviewer(self.test_user, state='test_state')
             get_state_mock.assert_called_once_with(1)
         
     @patch('ethicsapplication.models.get_object_for_principle_as_role')  
@@ -571,7 +571,7 @@ class GetApplicationsForReviewTests(TestCase):
             
             get_state_mock.side_effect = sideEffect
             
-            applications = EthicsApplication.objects.get_applications_for_review(self.test_user, state='test_state')
+            applications = EthicsApplication.objects.get_applications_for_reviewer(self.test_user, state='test_state')
             
             self.assertEqual(applications,[2,3])
         
