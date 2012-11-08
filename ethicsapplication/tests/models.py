@@ -38,7 +38,6 @@ class EthicsApplicationModelTestCase(TestCase):
         self.assertTrue(ethicsApplication.title == 'test application')
         self.assertTrue(ethicsApplication.principle_investigator == a_user)
         self.assertTrue(ethicsApplication.application_form == None)
-        self.assertTrue(ethicsApplication.active)
 
     def test_invalid_EthicsApplication_creation_no_pi(self):
         '''

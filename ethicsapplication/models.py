@@ -46,7 +46,7 @@ class EthicsApplicationManager(Manager):
             except ObjectDoesNotExist:
                 state = None
                 
-        applications = [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user).filter(active=True)]
+        applications = [x for x in super(EthicsApplicationManager, self).get_query_set().filter(principle_investigator=the_user)]
         
         if state == None:
             return applications
@@ -99,7 +99,6 @@ class EthicsApplication(models.Model):
     title = models.CharField(max_length=255, default=None)  #default=None stops null strings which effectively makes it mandatory
     principle_investigator = models.ForeignKey(User ,related_name='pi')
     application_form = models.ForeignKey(Questionnaire, related_name='application_form', blank=True, null=True)
-    active = models.BooleanField(default=True)
     checklist = models.ForeignKey(Questionnaire, related_name='checklist_questionnaire', blank=True, null=True)
     #TODO test the new checklist attribute
     objects = EthicsApplicationManager()
