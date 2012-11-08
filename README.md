@@ -1,4 +1,4 @@
-![Build Status](https://secure.travis-ci.org/UoK-Psychology/Openethics.png?branch=master)](https://travis-ci.org/UoK-Psychology/Openethics)
+[![Build Status](https://secure.travis-ci.org/UoK-Psychology/Openethics.png?branch=master)](https://travis-ci.org/UoK-Psychology/Openethics)
 ![My image](http://uok-psychology.github.com/Openethics/images/OE4.png)
 
 
