@@ -8,6 +8,7 @@ from django.core.exceptions import PermissionDenied
 from ethicsapplication.models import EthicsApplication
 from review.models import Committee
 from django.contrib.auth.decorators import login_required
+from review.signals import application_submitted_for_review
 
 
 
@@ -28,6 +29,7 @@ def submit_for_review(request, ethics_application_id):
     reviewer = Committee.objects.get_next_free_reviewer()
     ethics_application.assign_reviewer(reviewer)
     
+    application_submitted_for_review.send(None, application=ethics_application, reviewer=reviewer)
     return HttpResponseRedirect(reverse('index_view'))
 
 
