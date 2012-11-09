@@ -138,6 +138,7 @@ INSTALLED_APPS = (
     'checklist',
     'applicationform',
     'workflowutils',
+    'publisher',
     'django_nose',
     'django_jenkins',
     'review',
