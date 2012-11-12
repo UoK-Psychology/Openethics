@@ -123,6 +123,7 @@ class EthicsApplication(models.Model):
             self._add_to_principle_investigator_role()
             self.__original_id = self.id
             
+            
             application_created.send(sender=self, application=self)
             
         if(self.__original_principle_investigator != self.principle_investigator and self.__original_id == self.id ):#if pi has changed but id hasn't
