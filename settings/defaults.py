@@ -1,6 +1,7 @@
-# Django settings for jmtest project.
 import os
-dirname = os.path.dirname(globals()["__file__"])
+
+basepath = os.path.dirname(globals()["__file__"])
+dirname = os.path.abspath(os.path.join(basepath, "..")) #get the directory above this one
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -72,7 +73,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(os.path.dirname(__file__),'media').replace('\\','/'),
+    os.path.join(dirname,'media').replace('\\','/'),
 )
 
 # List of finder classes that know how to find static files in
@@ -139,6 +140,7 @@ INSTALLED_APPS = (
     'applicationform',
     'workflowutils',
     'tastypie',
+    'publisher',
     'django_nose',
     'django_jenkins',
     'review',
@@ -160,6 +162,9 @@ LOGIN_REDIRECT_URL = '/'
 APPLICATION_WORKFLOW = 'Ethics_Application_Approval'
 PRINCIPLE_INVESTIGATOR_ROLE = 'Principle_Investigator'
 REVIEWER_ROLE = 'Reviewer'
+
+AMQP_HOST='localhost'
+PUBLISH_LIFECYCLE = False
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
