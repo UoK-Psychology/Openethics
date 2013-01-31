@@ -4,3 +4,4 @@
 sqlite.db
 
 .coverage
+_build
