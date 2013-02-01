@@ -6,6 +6,4 @@ templatetags Package
 
 .. automodule:: workflowutils.templatetags.token_tags
     :members:
-    :undoc-members:
-    :show-inheritance:
 

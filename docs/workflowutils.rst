@@ -6,8 +6,6 @@ workflowutils Package
 
 .. automodule:: workflowutils.models
     :members:
-    :undoc-members:
-    :show-inheritance:
 
 Subpackages
 -----------

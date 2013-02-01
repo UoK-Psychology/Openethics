@@ -1,11 +1,7 @@
 applicationform Package
 =======================
 
-:mod:`admin` Module
--------------------
 
-.. automodule:: applicationform.admin
-    :members:
 
 :mod:`models` Module
 --------------------
@@ -13,11 +9,6 @@ applicationform Package
 .. automodule:: applicationform.models
     :members:
 
-:mod:`urls` Module
-------------------
-
-.. automodule:: applicationform.urls
-    :members:
 
 :mod:`views` Module
 -------------------
