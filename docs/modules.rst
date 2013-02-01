@@ -7,10 +7,8 @@
    applicationform
    checklist
    ethicsapplication
-   manage
    publisher
    review
    root
    settings
    workflowutils
-   wsgi
