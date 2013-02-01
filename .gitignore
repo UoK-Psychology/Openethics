@@ -5,3 +5,5 @@ sqlite.db
 
 .coverage
 _build
+
+.settings/org.eclipse.core.resources.prefs
