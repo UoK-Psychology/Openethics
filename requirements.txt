@@ -11,7 +11,7 @@ django-nose==1.1
 django-workflows==1.0.2
 docutils==0.9.1
 logilab-astng==0.24.0
-logilab-common==0.58.1
+logilab-common==0.61.0
 mock==1.0b1
 nose==1.2.1
 pylint==0.25.2
